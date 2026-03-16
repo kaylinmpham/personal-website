@@ -1,26 +1,110 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ─────────────────────────────────────────
+   Earthy Design Token System (Tailwind v4)
+───────────────────────────────────────── */
+
+@theme {
+  /* Colors */
+  --color-cream: #F5F0E8;
+  --color-sand: #E5DAC6;
+  --color-sand-dark: #D4C5AC;
+  --color-terracotta: #C4613A;
+  --color-terracotta-light: #D4754E;
+  --color-terracotta-dark: #A8472A;
+  --color-clay: #8B3A21;
+  --color-sage: #6B8C5F;
+  --color-sage-light: #85A678;
+  --color-sage-dark: #4A6741;
+  --color-forest: #344E38;
+  --color-espresso: #2C1810;
+  --color-espresso-light: #4A2E22;
+  --color-warm-gray: #7A7068;
+  --color-warm-gray-light: #9E958A;
+  --color-warm-gray-lighter: #BEB5AA;
+
+  /* Typography */
+  --font-serif: var(--font-dm-serif), "Georgia", serif;
+  --font-sans: var(--font-dm-sans), system-ui, sans-serif;
+
+  /* Fluid section spacing */
+  --spacing-section: 7rem;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* ─────────────────────────────────────────
+   Base Styles
+───────────────────────────────────────── */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-cream);
+  color: var(--color-espresso);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+::selection {
+  background-color: var(--color-terracotta);
+  color: var(--color-cream);
+}
+
+/* ─────────────────────────────────────────
+   Scrollbar
+───────────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-cream);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-sand-dark);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-warm-gray-light);
+}
+
+/* ─────────────────────────────────────────
+   Grain texture overlay
+───────────────────────────────────────── */
+
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  mix-blend-mode: overlay;
+}
+
+/* ─────────────────────────────────────────
+   Spotify now-playing bars animation
+───────────────────────────────────────── */
+
+@keyframes soundbar {
+  0%, 100% { transform: scaleY(0.3); }
+  50%       { transform: scaleY(1); }
+}
+
+.soundbar-bar {
+  display: inline-block;
+  width: 3px;
+  border-radius: 2px;
+  transform-origin: bottom;
+  animation: soundbar 1s ease-in-out infinite;
+  background-color: var(--color-sage);
+}
+
+.soundbar-bar:nth-child(1) { animation-delay: 0s; }
+.soundbar-bar:nth-child(2) { animation-delay: 0.15s; }
+.soundbar-bar:nth-child(3) { animation-delay: 0.3s; }
+.soundbar-bar:nth-child(4) { animation-delay: 0.45s; }
