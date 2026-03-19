@@ -84,17 +84,15 @@ export default function Experience() {
         }
       );
 
-      // Skills chips fall in
+      // Skills chips fade in
       gsap.fromTo(
         ".skill-chip",
-        { opacity: 0, y: 16, scale: 0.92 },
+        { opacity: 0 },
         {
           opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.5,
-          ease: "back.out(1.4)",
-          stagger: 0.05,
+          duration: 0.4,
+          ease: "power2.out",
+          stagger: 0.045,
           scrollTrigger: {
             trigger: ".skills-grid",
             start: "top 85%",

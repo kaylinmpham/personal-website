@@ -75,7 +75,7 @@ export default function Hero() {
 
         {/* Subline — word reveal, delayed */}
         <motion.p
-          className="font-sans text-lg sm:text-xl text-mid max-w-xl leading-relaxed mb-12"
+          className="font-sans text-lg sm:text-xl text-mid max-w-full leading-relaxed mb-12"
           variants={{
             hidden: {},
             visible: {
