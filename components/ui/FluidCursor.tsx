@@ -33,20 +33,20 @@ export default function FluidCursor() {
     <>
       {/* Outer ring */}
       <motion.div
-        style={{ left: springX, top: springY }}
+        style={{ left: springX, top: springY, mixBlendMode: "difference" }}
         className="
           pointer-events-none fixed z-[9998] -translate-x-1/2 -translate-y-1/2
-          w-8 h-8 rounded-full border border-terracotta/40
+          w-8 h-8 rounded-full border border-white
           hidden [@media(pointer:fine)]:block
         "
         aria-hidden="true"
       />
       {/* Inner dot */}
       <motion.div
-        style={{ left: dotX, top: dotY }}
+        style={{ left: dotX, top: dotY, mixBlendMode: "difference" }}
         className="
           pointer-events-none fixed z-[9998] -translate-x-1/2 -translate-y-1/2
-          w-1.5 h-1.5 rounded-full bg-terracotta
+          w-1.5 h-1.5 rounded-full bg-white
           hidden [@media(pointer:fine)]:block
         "
         aria-hidden="true"

@@ -54,8 +54,8 @@ export default function Contact() {
 
   return (
     <section id="contact" className="py-section px-6 max-w-5xl mx-auto">
-      {/* Soft divider */}
-      <div className="w-full h-px bg-sand-dark mb-16" />
+      {/* Divider */}
+      <div className="w-full h-px bg-border mb-16" />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -66,14 +66,14 @@ export default function Contact() {
       >
         {/* Left: headline + CTA */}
         <div className="max-w-md">
-          <p className="font-sans text-xs uppercase tracking-widest text-warm-gray mb-3">
+          <p className="font-sans text-xs uppercase tracking-widest text-mid mb-3">
             04 — Contact
           </p>
-          <h2 className="font-serif text-4xl sm:text-5xl text-espresso tracking-tight leading-tight mb-6">
+          <h2 className="font-display font-bold text-4xl sm:text-5xl text-ink tracking-tight leading-tight mb-6">
             Let&apos;s make{" "}
-            <em className="not-italic text-terracotta">something</em> together.
+            <em className="not-italic text-accent">something</em> together.
           </h2>
-          <p className="font-sans text-sm text-warm-gray leading-relaxed mb-8">
+          <p className="font-sans text-sm text-mid leading-relaxed mb-8">
             I&apos;m open to full-time roles, freelance projects, and
             conversations about design engineering, front-end craft, or building
             great things in general.
@@ -85,10 +85,10 @@ export default function Contact() {
               onClick={handleCopyEmail}
               className="
                 inline-flex items-center gap-2
-                px-6 py-3 rounded-full
-                bg-espresso text-cream
+                px-6 py-3
+                bg-ink text-paper
                 font-sans text-sm font-medium
-                hover:bg-espresso-light
+                hover:bg-ink/80
                 transition-colors duration-300
               "
               whileHover={{ scale: 1.02 }}
@@ -124,10 +124,10 @@ export default function Contact() {
               href={`mailto:${EMAIL}`}
               className="
                 inline-flex items-center gap-1.5
-                px-4 py-3 rounded-full
-                border border-espresso/20 text-warm-gray
+                px-4 py-3
+                border border-ink/20 text-mid
                 font-sans text-sm
-                hover:border-espresso/50 hover:text-espresso
+                hover:border-ink/50 hover:text-ink
                 transition-all duration-300
               "
               aria-label="Send email"
@@ -149,7 +149,7 @@ export default function Contact() {
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 text-warm-gray hover:text-espresso group transition-colors duration-300"
+              className="flex items-center gap-3 text-mid hover:text-ink group transition-colors duration-300"
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -160,7 +160,7 @@ export default function Contact() {
               }}
               whileHover={{ x: 4 }}
             >
-              <span className="text-warm-gray-light group-hover:text-terracotta transition-colors duration-300">
+              <span className="text-dim group-hover:text-accent transition-colors duration-300">
                 {link.icon}
               </span>
               <span className="font-sans text-sm">{link.label}</span>
@@ -185,16 +185,16 @@ export default function Contact() {
 
       {/* Footer */}
       <motion.footer
-        className="mt-20 pt-8 border-t border-sand-dark flex flex-col sm:flex-row items-center justify-between gap-4"
+        className="mt-20 pt-8 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8, delay: 0.3 }}
       >
-        <p className="font-sans text-xs text-warm-gray-lighter">
+        <p className="font-sans text-xs text-dim">
           © {new Date().getFullYear()} Kaylin Pham. Designed &amp; built by me.
         </p>
-        <p className="font-sans text-xs text-warm-gray-lighter">
+        <p className="font-sans text-xs text-dim">
           Next.js · Tailwind CSS · Motion · GSAP
         </p>
       </motion.footer>

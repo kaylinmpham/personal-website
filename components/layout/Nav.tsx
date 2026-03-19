@@ -26,7 +26,7 @@ export default function Nav() {
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
         scrolled
-          ? "bg-cream/90 backdrop-blur-md border-b border-sand-dark/40 py-3"
+          ? "bg-paper/90 backdrop-blur-md border-b border-border/60 py-3"
           : "bg-transparent py-6"
       )}
     >
@@ -34,7 +34,7 @@ export default function Nav() {
         {/* Wordmark */}
         <motion.a
           href="#about"
-          className="font-serif text-lg text-espresso hover:text-terracotta transition-colors duration-300"
+          className="font-display font-bold text-lg text-ink hover:text-accent transition-colors duration-300"
           initial={{ opacity: 0, x: -16 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -57,10 +57,10 @@ export default function Nav() {
             <li key={link.href}>
               <a
                 href={link.href}
-                className="text-sm font-sans text-warm-gray hover:text-espresso transition-colors duration-300 relative group"
+                className="text-sm font-sans text-mid hover:text-ink transition-colors duration-300 relative group"
               >
                 {link.label}
-                <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-terracotta transition-all duration-300 group-hover:w-full" />
+                <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-accent transition-all duration-300 group-hover:w-full" />
               </a>
             </li>
           ))}
@@ -75,19 +75,19 @@ export default function Nav() {
         >
           <span
             className={cn(
-              "w-6 h-0.5 bg-espresso transition-all duration-300 origin-center",
+              "w-6 h-0.5 bg-ink transition-all duration-300 origin-center",
               menuOpen && "rotate-45 translate-y-2"
             )}
           />
           <span
             className={cn(
-              "w-6 h-0.5 bg-espresso transition-all duration-300",
+              "w-6 h-0.5 bg-ink transition-all duration-300",
               menuOpen && "opacity-0"
             )}
           />
           <span
             className={cn(
-              "w-6 h-0.5 bg-espresso transition-all duration-300 origin-center",
+              "w-6 h-0.5 bg-ink transition-all duration-300 origin-center",
               menuOpen && "-rotate-45 -translate-y-2"
             )}
           />
@@ -102,7 +102,7 @@ export default function Nav() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="md:hidden overflow-hidden bg-cream/95 backdrop-blur-md border-b border-sand-dark/40"
+            className="md:hidden overflow-hidden bg-paper/95 backdrop-blur-md border-b border-border/60"
           >
             <ul className="flex flex-col px-6 py-4 gap-4">
               {navLinks.map((link, i) => (
@@ -114,7 +114,7 @@ export default function Nav() {
                 >
                   <a
                     href={link.href}
-                    className="text-base font-sans text-espresso hover:text-terracotta transition-colors"
+                    className="text-base font-sans text-ink hover:text-accent transition-colors"
                     onClick={() => setMenuOpen(false)}
                   >
                     {link.label}

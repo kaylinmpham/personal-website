@@ -120,10 +120,10 @@ export default function Experience() {
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
-        <p className="font-sans text-xs uppercase tracking-widest text-warm-gray mb-3">
+        <p className="font-sans text-xs uppercase tracking-widest text-mid mb-3">
           02 — Work
         </p>
-        <h2 className="font-serif text-4xl sm:text-5xl text-espresso tracking-tight">
+        <h2 className="font-display font-bold text-4xl sm:text-5xl text-ink tracking-tight">
           Experience
         </h2>
       </motion.div>
@@ -131,28 +131,28 @@ export default function Experience() {
       {/* Timeline */}
       <div className="exp-list relative">
         {/* Vertical line */}
-        <div className="absolute left-0 top-2 bottom-2 w-px bg-sand-dark hidden sm:block" />
+        <div className="absolute left-0 top-2 bottom-2 w-px bg-border hidden sm:block" />
 
         <div className="flex flex-col gap-2">
           {EXPERIENCE.map((item, i) => (
             <div key={i} className="exp-item sm:pl-10 relative">
               {/* Dot */}
-              <div className="absolute left-0 top-5 w-2 h-2 rounded-full bg-terracotta -translate-x-[3px] hidden sm:block" />
+              <div className="absolute left-0 top-5 w-2 h-2 rounded-full bg-accent -translate-x-[3px] hidden sm:block" />
 
               <Disclosure>
                 {({ open }) => (
                   <div
                     className={cn(
-                      "rounded-2xl border transition-all duration-300",
+                      "border transition-all duration-300",
                       open
-                        ? "border-sand-dark bg-sand/40"
-                        : "border-transparent hover:border-sand-dark/60 hover:bg-sand/20"
+                        ? "border-border bg-border/20"
+                        : "border-transparent hover:border-border/80 hover:bg-border/10"
                     )}
                   >
                     <DisclosureButton className="w-full text-left px-6 py-5 flex items-start justify-between gap-4 group">
                       <div className="flex-1 min-w-0">
                         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-1">
-                          <h3 className="font-serif text-xl text-espresso">
+                          <h3 className="font-display font-semibold text-xl text-ink">
                             {item.role}
                           </h3>
                           {item.link ? (
@@ -160,18 +160,18 @@ export default function Experience() {
                               href={item.link}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="font-sans text-sm text-terracotta hover:text-terracotta-dark transition-colors"
+                              className="font-sans text-sm text-accent hover:text-accent-dark transition-colors"
                               onClick={(e) => e.stopPropagation()}
                             >
                               {item.company} ↗
                             </a>
                           ) : (
-                            <span className="font-sans text-sm text-terracotta">
+                            <span className="font-sans text-sm text-accent">
                               {item.company}
                             </span>
                           )}
                         </div>
-                        <p className="font-sans text-xs text-warm-gray-light">
+                        <p className="font-sans text-xs text-dim">
                           {item.period} · {item.location}
                         </p>
                       </div>
@@ -180,7 +180,7 @@ export default function Experience() {
                       <motion.span
                         animate={{ rotate: open ? 180 : 0 }}
                         transition={{ duration: 0.3 }}
-                        className="text-warm-gray mt-1 flex-shrink-0"
+                          className="text-mid mt-1 flex-shrink-0"
                         aria-hidden="true"
                       >
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -206,9 +206,9 @@ export default function Experience() {
                           {item.bullets.map((bullet, j) => (
                             <li
                               key={j}
-                              className="font-sans text-sm text-espresso-light leading-relaxed flex gap-3"
+                              className="font-sans text-sm text-ink/80 leading-relaxed flex gap-3"
                             >
-                              <span className="text-terracotta mt-1.5 flex-shrink-0 text-xs">
+                              <span className="text-accent mt-1.5 flex-shrink-0 text-xs">
                                 ●
                               </span>
                               {bullet}
@@ -219,7 +219,7 @@ export default function Experience() {
                           {item.tags.map((tag) => (
                             <span
                               key={tag}
-                              className="font-sans text-xs px-3 py-1 rounded-full bg-cream border border-sand-dark text-warm-gray"
+                              className="font-sans text-xs px-3 py-1 border border-border text-mid"
                             >
                               {tag}
                             </span>
@@ -238,7 +238,7 @@ export default function Experience() {
       {/* Skills */}
       <div className="mt-20">
         <motion.p
-          className="font-sans text-xs uppercase tracking-widest text-warm-gray mb-6"
+          className="font-sans text-xs uppercase tracking-widest text-mid mb-6"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -250,7 +250,7 @@ export default function Experience() {
           {SKILLS.map((skill) => (
             <motion.span
               key={skill}
-              className="skill-chip font-sans text-sm px-4 py-2 rounded-full border border-sand-dark text-espresso-light bg-sand/30 hover:bg-sand/60 hover:border-terracotta/40 hover:text-terracotta transition-all duration-300 cursor-default"
+              className="skill-chip font-sans text-sm px-4 py-2 border border-border text-mid bg-transparent hover:bg-border/30 hover:border-accent/50 hover:text-accent transition-all duration-300 cursor-default"
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
             >

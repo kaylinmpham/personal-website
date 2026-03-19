@@ -1,18 +1,17 @@
 import type { Metadata } from "next";
-import { DM_Serif_Display, DM_Sans } from "next/font/google";
+import { Syne, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/layout/Nav";
 import FluidCursor from "@/components/ui/FluidCursor";
 
-const dmSerif = DM_Serif_Display({
-  variable: "--font-dm-serif",
+const syne = Syne({
+  variable: "--font-syne",
   subsets: ["latin"],
-  weight: "400",
-  style: ["normal", "italic"],
+  weight: ["400", "600", "700", "800"],
 });
 
-const dmSans = DM_Sans({
-  variable: "--font-dm-sans",
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
 });
@@ -37,7 +36,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${dmSerif.variable} ${dmSans.variable} font-sans antialiased`}
+        className={`${syne.variable} ${spaceGrotesk.variable} font-sans antialiased`}
       >
         {/* Grain texture overlay for tactile depth */}
         <div className="grain-overlay" aria-hidden="true" />
