@@ -135,7 +135,7 @@ export default function Experience() {
           {EXPERIENCE.map((item, i) => (
             <div key={i} className="exp-item sm:pl-10 relative">
               {/* Dot */}
-              <div className="absolute left-0 top-5 w-2 h-2 rounded-full bg-accent -translate-x-[3px] hidden sm:block" />
+              <div className="absolute left-0 top-5 w-2 h-2 rounded-full bg-accent -translate-x-0.75 hidden sm:block" />
 
               <Disclosure>
                 {({ open }) => (
@@ -178,7 +178,7 @@ export default function Experience() {
                       <motion.span
                         animate={{ rotate: open ? 180 : 0 }}
                         transition={{ duration: 0.3 }}
-                          className="text-mid mt-1 flex-shrink-0"
+                          className="text-mid mt-1 shrink-0"
                         aria-hidden="true"
                       >
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -206,7 +206,7 @@ export default function Experience() {
                               key={j}
                               className="font-sans text-sm text-ink/80 leading-relaxed flex gap-3"
                             >
-                              <span className="text-accent mt-1.5 flex-shrink-0 text-xs">
+                              <span className="text-accent mt-1.5 shrink-0 text-xs">
                                 ●
                               </span>
                               {bullet}

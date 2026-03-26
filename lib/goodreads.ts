@@ -65,11 +65,26 @@ async function parseShelf(shelf: string): Promise<Book[]> {
   if (!USER_ID) return [];
 
   try {
-    const res = await fetch(rssUrl(shelf), { next: { revalidate: 3600 } });
-    if (!res.ok) return [];
+    const res = await fetch(rssUrl(shelf), {
+      next: { revalidate: 3600 },
+      headers: {
+        // Workaround for Goodreads RSS feed blocking requests with non-browser user agents.
+        "User-Agent":
+          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+        Accept: "application/rss+xml, application/xml, text/xml, */*",
+        "Accept-Language": "en-US,en;q=0.9",
+      },
+    });
+    if (!res.ok) {
+      console.error(`[goodreads] ${shelf} shelf returned HTTP ${res.status}`);
+      return [];
+    }
 
     const xml = await res.text();
-    const parser = new XMLParser({ ignoreAttributes: false });
+    const parser = new XMLParser({
+      ignoreAttributes: false,
+      parseTagValue: false,
+    });
     const parsed = parser.parse(xml);
 
     const items: RssItem[] = parsed?.rss?.channel?.item ?? [];
@@ -96,7 +111,8 @@ async function parseShelf(shelf: string): Promise<Book[]> {
         } satisfies Book;
       })
     );
-  } catch {
+  } catch (err) {
+    console.error(`[goodreads] Failed to parse ${shelf} shelf:`, err);
     return [];
   }
 }

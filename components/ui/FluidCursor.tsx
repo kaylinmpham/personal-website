@@ -35,9 +35,9 @@ export default function FluidCursor() {
       <motion.div
         style={{ left: springX, top: springY, mixBlendMode: "difference" }}
         className="
-          pointer-events-none fixed z-[9998] -translate-x-1/2 -translate-y-1/2
+          pointer-events-none fixed z-9998 -translate-x-1/2 -translate-y-1/2
           w-8 h-8 rounded-full border border-white
-          hidden [@media(pointer:fine)]:block
+          hidden pointer-fine:block
         "
         aria-hidden="true"
       />
@@ -45,9 +45,9 @@ export default function FluidCursor() {
       <motion.div
         style={{ left: dotX, top: dotY, mixBlendMode: "difference" }}
         className="
-          pointer-events-none fixed z-[9998] -translate-x-1/2 -translate-y-1/2
+          pointer-events-none fixed z-9998 -translate-x-1/2 -translate-y-1/2
           w-1.5 h-1.5 rounded-full bg-white
-          hidden [@media(pointer:fine)]:block
+          hidden pointer-fine:block
         "
         aria-hidden="true"
       />

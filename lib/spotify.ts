@@ -1,18 +1,3 @@
-/**
- * Spotify OAuth helpers — server-side only.
- *
- * Env vars required (set in .env.local / Vercel dashboard):
- *   SPOTIFY_CLIENT_ID
- *   SPOTIFY_CLIENT_SECRET
- *   SPOTIFY_REFRESH_TOKEN
- *
- * One-time setup:
- *  1. Create a Spotify app at https://developer.spotify.com/dashboard
- *  2. Add http://localhost:3000/api/spotify/callback as a redirect URI
- *  3. Run the auth flow once to obtain your refresh token
- *  4. Store the refresh token in SPOTIFY_REFRESH_TOKEN env var
- */
-
 const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID!;
 const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET!;
 const REFRESH_TOKEN = process.env.SPOTIFY_REFRESH_TOKEN!;
@@ -22,6 +7,10 @@ const NOW_PLAYING_ENDPOINT =
   "https://api.spotify.com/v1/me/player/currently-playing";
 const RECENTLY_PLAYED_ENDPOINT =
   "https://api.spotify.com/v1/me/player/recently-played?limit=1";
+const TOP_TRACKS_ENDPOINT =
+  "https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=5";
+const TOP_ARTISTS_ENDPOINT =
+  "https://api.spotify.com/v1/me/top/artists?time_range=short_term&limit=5";
 
 async function getAccessToken(): Promise<string> {
   const basicAuth = Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString(
@@ -47,12 +36,10 @@ async function getAccessToken(): Promise<string> {
 export async function getNowPlaying() {
   const accessToken = await getAccessToken();
 
-  // Try currently playing first
   const nowPlayingRes = await fetch(NOW_PLAYING_ENDPOINT, {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
 
-  // 204 = nothing playing, 200 = active track
   if (nowPlayingRes.status === 200) {
     const data = await nowPlayingRes.json();
     if (data.item) {
@@ -66,16 +53,33 @@ export async function getNowPlaying() {
     }
   }
 
-  // Fall back to most recently played
   const recentRes = await fetch(RECENTLY_PLAYED_ENDPOINT, {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
 
   if (recentRes.status === 200) {
     const recentData = await recentRes.json();
-    const recentTrack = recentData.items?.[0]?.track ?? null;
-    return { isPlaying: false, track: recentTrack };
+    return { isPlaying: false, track: recentData.items?.[0]?.track ?? null };
   }
 
   return { isPlaying: false, track: null };
+}
+
+export async function getTopItems() {
+  const accessToken = await getAccessToken();
+
+  const [tracksRes, artistsRes] = await Promise.all([
+    fetch(TOP_TRACKS_ENDPOINT, { headers: { Authorization: `Bearer ${accessToken}` } }),
+    fetch(TOP_ARTISTS_ENDPOINT, { headers: { Authorization: `Bearer ${accessToken}` } }),
+  ]);
+
+  const [tracksData, artistsData] = await Promise.all([
+    tracksRes.ok ? tracksRes.json() : Promise.resolve({ items: [] }),
+    artistsRes.ok ? artistsRes.json() : Promise.resolve({ items: [] }),
+  ]);
+
+  return {
+    tracks: tracksData.items ?? [],
+    artists: artistsData.items ?? [],
+  };
 }

@@ -29,6 +29,21 @@ export interface NowPlayingResponse {
   progress?: number;
 }
 
+export interface SpotifyArtistFull {
+  name: string;
+  images: { url: string; width: number; height: number }[];
+  external_urls: { spotify: string };
+  genres: string[];
+}
+
+export interface TopTracksResponse {
+  tracks: SpotifyTrack[];
+}
+
+export interface TopArtistsResponse {
+  artists: SpotifyArtistFull[];
+}
+
 // ─────────────────────────────────────────
 // Goodreads / Books
 // ─────────────────────────────────────────
