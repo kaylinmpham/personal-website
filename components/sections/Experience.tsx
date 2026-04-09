@@ -135,13 +135,15 @@ export default function Experience() {
           {EXPERIENCE.map((item, i) => (
             <div key={i} className="exp-item sm:pl-10 relative">
               {/* Dot */}
-              <div className="absolute left-0 top-5 w-2 h-2 rounded-full bg-accent -translate-x-0.75 hidden sm:block" />
+              <div className="absolute left-0 top-7 -translate-x-1/2 hidden sm:flex text-accent text-xs leading-none bg-paper pt-0.5 pb-1">
+                ꩜
+              </div>
 
               <Disclosure>
                 {({ open }) => (
                   <div
                     className={cn(
-                      "border transition-all duration-300",
+                      "border transition-all duration-300 rounded-sm",
                       open
                         ? "border-border bg-border/20"
                         : "border-transparent hover:border-border/80 hover:bg-border/10"
@@ -204,10 +206,10 @@ export default function Experience() {
                           {item.bullets.map((bullet, j) => (
                             <li
                               key={j}
-                              className="font-sans text-sm text-ink/80 leading-relaxed flex gap-3"
+                              className="font-sans text-sm text-ink/80 leading-relaxed flex gap-2"
                             >
-                              <span className="text-accent mt-1.5 shrink-0 text-xs">
-                                ●
+                              <span className="text-accent mt-0.5 shrink-0 text-sm">
+                                ⤳
                               </span>
                               {bullet}
                             </li>
