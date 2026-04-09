@@ -119,7 +119,7 @@ export default function Experience() {
         transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
         <p className="font-sans text-xs uppercase tracking-widest text-mid mb-3">
-          02 — Work
+          Work
         </p>
         <h2 className="font-display font-bold text-4xl sm:text-5xl text-ink tracking-tight">
           Experience

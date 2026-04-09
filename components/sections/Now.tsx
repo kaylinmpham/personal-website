@@ -285,13 +285,13 @@ export default function Now() {
         transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
         <p className="font-sans text-xs uppercase tracking-widest text-mid mb-3">
-          03 — Now
+          Now
         </p>
         <h2 className="font-display font-bold text-4xl sm:text-5xl text-ink tracking-tight">
-          What I&apos;m into
+          What I&apos;m up to
         </h2>
         <p className="font-sans text-sm text-mid mt-3 max-w-md">
-          A live snapshot of what&apos;s playing and what I&apos;m reading.
+          A snapshot of what I&apos;m listening to and what I&apos;m reading.
         </p>
       </motion.div>
 

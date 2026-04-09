@@ -25,7 +25,7 @@ const SOCIAL_LINKS = [
     ),
   },
   {
-    label: "Resume.cv",
+    label: "Resumé",
     href: "/resume.pdf",
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -67,16 +67,14 @@ export default function Contact() {
         {/* Left: headline + CTA */}
         <div className="max-w-md">
           <p className="font-sans text-xs uppercase tracking-widest text-mid mb-3">
-            04 — Contact
+            Contact
           </p>
           <h2 className="font-display font-bold text-4xl sm:text-5xl text-ink tracking-tight leading-tight mb-6">
             Let&apos;s make{" "}
-            <em className="not-italic text-accent">something</em> together.
+            something <em className="not-italic text-accent">together</em>.
           </h2>
           <p className="font-sans text-sm text-mid leading-relaxed mb-8">
-            I&apos;m open to full-time roles, freelance projects, and
-            conversations about design engineering, front-end craft, or building
-            great things in general.
+            Open to full-time roles, freelance projects, and coffee chats :)
           </p>
 
           {/* Email CTA */}
@@ -95,29 +93,34 @@ export default function Contact() {
               whileTap={{ scale: 0.97 }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
             >
-              <AnimatePresence mode="wait">
-                {copied ? (
-                  <motion.span
-                    key="copied"
-                    initial={{ opacity: 0, y: 4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -4 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    ✓ Copied!
-                  </motion.span>
-                ) : (
-                  <motion.span
-                    key="email"
-                    initial={{ opacity: 0, y: 4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -4 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    {EMAIL}
-                  </motion.span>
-                )}
-              </AnimatePresence>
+              <span className="grid">
+                <span className="invisible col-start-1 row-start-1 justify-start" aria-hidden="true">{EMAIL}</span>
+                <AnimatePresence mode="wait">
+                  {copied ? (
+                    <motion.span
+                      key="copied"
+                      className="col-start-1 row-start-1 flex"
+                      initial={{ opacity: 0, y: 4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -4 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      Copied!
+                    </motion.span>
+                  ) : (
+                    <motion.span
+                      key="email"
+                      className="col-start-1 row-start-1 flex"
+                      initial={{ opacity: 0, y: 4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -4 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      {EMAIL}
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </span>
             </motion.button>
 
             <a

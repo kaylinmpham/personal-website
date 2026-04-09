@@ -14,11 +14,26 @@ const navLinks = [
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("about");
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const observers = navLinks.map(({ href }) => {
+      const el = document.getElementById(href.slice(1));
+      if (!el) return null;
+      const observer = new IntersectionObserver(
+        ([entry]) => { if (entry.isIntersecting) setActiveSection(href.slice(1)); },
+        { rootMargin: "-40% 0px -55% 0px", threshold: 0 }
+      );
+      observer.observe(el);
+      return observer;
+    });
+    return () => observers.forEach((o) => o?.disconnect());
   }, []);
 
   return (
@@ -31,17 +46,6 @@ export default function Nav() {
       )}
     >
       <nav className="max-w-5xl mx-auto px-6 flex items-center justify-between">
-        {/* Wordmark */}
-        <motion.a
-          href="#about"
-          className="font-display font-bold text-lg text-ink hover:text-accent transition-colors duration-300"
-          initial={{ opacity: 0, x: -16 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-        >
-          kp.
-        </motion.a>
-
         {/* Desktop links */}
         <motion.ul
           className="hidden md:flex items-center gap-8"
@@ -53,18 +57,42 @@ export default function Nav() {
             ease: [0.25, 0.46, 0.45, 0.94],
           }}
         >
-          {navLinks.map((link) => (
-            <li key={link.href}>
-              <a
-                href={link.href}
-                className="text-sm font-sans text-mid hover:text-ink transition-colors duration-300 relative group"
-              >
-                {link.label}
-                <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-accent transition-all duration-300 group-hover:w-full" />
-              </a>
-            </li>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = activeSection === link.href.slice(1);
+            return (
+              <li key={link.href} className="relative">
+                {isActive && (
+                  <motion.span
+                    layoutId="nav-pill"
+                    className="absolute inset-y-0 -inset-x-3 rounded-full bg-ink/[0.07]"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
+                <a
+                  href={link.href}
+                  className={cn(
+                    "text-sm font-sans transition-colors duration-300 relative group",
+                    isActive ? "text-ink" : "text-mid hover:text-ink"
+                  )}
+                >
+                  {link.label}
+                  <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-accent transition-all duration-300 group-hover:w-full" />
+                </a>
+              </li>
+            );
+          })}
         </motion.ul>
+
+        {/* Wordmark */}
+        <motion.a
+          href="#about"
+          className="font-display font-bold text-lg text-ink hover:text-accent transition-colors duration-300"
+          initial={{ opacity: 0, x: -16 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+        >
+          kp.
+        </motion.a>
 
         {/* Mobile hamburger */}
         <button
