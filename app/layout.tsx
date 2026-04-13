@@ -3,6 +3,7 @@ import { Syne, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/layout/Nav";
 import FluidCursor from "@/components/ui/FluidCursor";
+import { Analytics } from "@vercel/analytics/next";
 
 const syne = Syne({
   variable: "--font-syne",
@@ -43,6 +44,7 @@ export default function RootLayout({
         <FluidCursor />
         <Nav />
         {children}
+        <Analytics />
       </body>
     </html>
   );
