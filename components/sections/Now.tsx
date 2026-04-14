@@ -85,7 +85,7 @@ function SpotifyWidget() {
             <p className="font-sans text-xs text-dim mb-0.5">
               {nowPlaying.isPlaying ? "Now playing" : "Recently played"}
             </p>
-            <p className="font-sans text-sm font-medium text-ink truncate group-hover:text-accent transition-colors">
+            <p className="font-sans text-xs font-medium text-ink truncate group-hover:text-accent transition-colors">
               {nowPlaying.track.name}
             </p>
             <p className="font-sans text-xs text-mid truncate">
@@ -95,7 +95,9 @@ function SpotifyWidget() {
           {nowPlaying?.isPlaying && <SoundBars />}
         </a>
       ) : (
-        <p className="font-sans text-sm text-dim italic">Nothing playing right now.</p>
+        <p className="font-sans text-xs text-dim italic">
+          Nothing playing right now.
+        </p>
       )}
 
       <div className="border-t border-border" />
@@ -137,8 +139,10 @@ function SpotifyWidget() {
                   />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-sans text-xs text-dim mb-0.5">Top song this month</p>
-                  <p className="font-sans text-sm font-medium text-ink truncate group-hover:text-accent transition-colors">
+                  <p className="font-sans text-xs text-dim mb-0.5">
+                    Top song this month
+                  </p>
+                  <p className="font-sans text-xs font-medium text-ink truncate group-hover:text-accent transition-colors">
                     {topTrack.name}
                   </p>
                   <p className="font-sans text-xs text-mid truncate">
@@ -166,8 +170,10 @@ function SpotifyWidget() {
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-sans text-xs text-dim mb-0.5">Top artist this month</p>
-                  <p className="font-sans text-sm font-medium text-ink truncate group-hover:text-accent transition-colors">
+                  <p className="font-sans text-xs text-dim mb-0.5">
+                    Top artist this month
+                  </p>
+                  <p className="font-sans text-xs font-medium text-ink truncate group-hover:text-accent transition-colors">
                     {topArtist.name}
                   </p>
                   <p className="font-sans text-xs text-mid truncate">
@@ -197,7 +203,11 @@ function ReadingWidget() {
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.6, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
+      transition={{
+        duration: 0.6,
+        delay: 0.15,
+        ease: [0.25, 0.46, 0.45, 0.94],
+      }}
     >
       <div className="flex items-center gap-2">
         <svg
@@ -216,7 +226,9 @@ function ReadingWidget() {
           <path d="M9 5a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -14" />
           <path d="M5 8h4" />
           <path d="M9 16h4" />
-          <path d="M13.803 4.56l2.184 -.53c.562 -.135 1.133 .19 1.282 .732l3.695 13.418a1.02 1.02 0 0 1 -.634 1.219l-.133 .041l-2.184 .53c-.562 .135 -1.133 -.19 -1.282 -.732l-3.695 -13.418a1.02 1.02 0 0 1 .634 -1.219l.133 -.041" /><path d="M14 9l4 -1" /><path d="M16 16l3.923 -.98" />
+          <path d="M13.803 4.56l2.184 -.53c.562 -.135 1.133 .19 1.282 .732l3.695 13.418a1.02 1.02 0 0 1 -.634 1.219l-.133 .041l-2.184 .53c-.562 .135 -1.133 -.19 -1.282 -.732l-3.695 -13.418a1.02 1.02 0 0 1 .634 -1.219l.133 -.041" />
+          <path d="M14 9l4 -1" />
+          <path d="M16 16l3.923 -.98" />
         </svg>
         <span className="font-sans text-xs uppercase tracking-widest text-mid">
           Reading
@@ -258,9 +270,11 @@ function ReadingWidget() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-sans text-xs text-dim mb-0.5">
-                    {book.shelf === "currently-reading" ? "Currently reading" : "Just finished"}
+                    {book.shelf === "currently-reading"
+                      ? "Currently reading"
+                      : "Just finished"}
                   </p>
-                  <p className="font-sans text-sm font-medium text-ink truncate group-hover:text-accent transition-colors">
+                  <p className="font-sans text-xs font-medium text-ink truncate group-hover:text-accent transition-colors">
                     {book.title}
                   </p>
                   <p className="font-sans text-xs text-mid truncate">
@@ -295,7 +309,7 @@ export default function Now() {
         <p className="font-sans text-xs uppercase tracking-widest text-mid mb-3">
           Now
         </p>
-        <h2 className="font-display font-bold text-4xl sm:text-5xl text-ink tracking-tight">
+        <h2 className="font-display font-bold text-3xl sm:text-4xl text-ink tracking-tight">
           What I&apos;m up to
         </h2>
         <p className="font-sans text-sm text-mid mt-3 max-w-md">

@@ -2,9 +2,11 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
+import { Button } from "../ui/Button";
 
-const HEADLINE = "Design Engineer.";
-const SUBLINE = "Creative Engineer bridging aesthetic design and technical feasibility. Experienced in architecting high-fidelity prototypes and scalable interfaces with TypeScript and Remix. Focused on translating complex requirements into accessible component libraries to optimize design-to-development workflows.";
+const HEADLINE = "Design Engineer";
+const SUBLINE =
+  "Creative Engineer bridging aesthetic design and technical feasibility. Experienced in architecting high-fidelity figma prototypes and scalable interfaces with TypeScript and Remix. Focused on translating complex requirements into accessible component libraries to optimize design-to-development workflows.";
 
 /** Stagger each word up through an overflow-hidden mask */
 const containerVariants = {
@@ -48,7 +50,7 @@ export default function Hero() {
       <motion.div style={{ opacity }}>
         {/* Eyebrow */}
         <motion.p
-          className="font-sans text-sm uppercase tracking-widest text-mid mb-6"
+          className="font-sans text-xs uppercase tracking-widest text-subtle mb-6"
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
@@ -58,14 +60,17 @@ export default function Hero() {
 
         {/* Primary headline — word reveal */}
         <motion.h1
-          className="font-display align-middle font-bold text-5xl sm:text-7xl lg:text-8xl text-ink leading-[1.05] tracking-tight mb-8"
+          className="font-sligoil align-middle font-bold text-4xl sm:text-6xl lg:text-7xl text-ink leading-[1.05] tracking-tight mb-8"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
           aria-label={HEADLINE}
         >
           {headlineWords.map((word, i) => (
-            <span key={i} className="inline-block overflow-hidden mr-[0.25em] pb-[0.15em] -mb-[0.15em]">
+            <span
+              key={i}
+              className="inline-block overflow-hidden mr-[0.25em] pb-[0.15em] -mb-[0.15em]"
+            >
               <motion.span variants={wordVariants} className="inline-block">
                 {word}
               </motion.span>
@@ -75,7 +80,7 @@ export default function Hero() {
 
         {/* Subline — word reveal, delayed */}
         <motion.p
-          className="font-sans text-lg sm:text-xl text-mid max-w-full leading-relaxed mb-12"
+          className="font-sans text-base text-subtle max-w-full leading-relaxed mb-12"
           variants={{
             hidden: {},
             visible: {
@@ -87,7 +92,10 @@ export default function Hero() {
           aria-label={SUBLINE}
         >
           {sublineWords.map((word, i) => (
-            <span key={i} className="inline-block overflow-hidden mr-[0.25em] pb-[0.1em] -mb-[0.1em]">
+            <span
+              key={i}
+              className="inline-block overflow-hidden mr-[0.25em] pb-[0.1em] -mb-[0.1em]"
+            >
               <motion.span variants={wordVariants} className="inline-block">
                 {word}
               </motion.span>
@@ -102,32 +110,12 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.4 }}
         >
-          <a
-            href="#experience"
-            className="
-              inline-flex items-center gap-2
-              px-6 py-3
-              bg-accent text-paper
-              font-sans text-sm font-medium
-              hover:bg-accent-dark
-              transition-colors duration-300
-            "
-          >
-            Jump to experience
-          </a>
-          <a
-            href="#contact"
-            className="
-              inline-flex items-center gap-2
-              px-6 py-3
-              border border-ink/20 text-ink
-              font-sans text-sm font-medium
-              hover:border-ink/50
-              transition-colors duration-300
-            "
-          >
-            Get in touch
-          </a>
+          <Button variant="accent" asChild>
+            <a href="#experience">Jump to experience</a>
+          </Button>
+          <Button variant="highlight" asChild>
+            <a href="#contact">Get in touch</a>
+          </Button>
         </motion.div>
       </motion.div>
 
@@ -139,11 +127,11 @@ export default function Hero() {
         transition={{ delay: 2.0, duration: 0.8 }}
         aria-hidden="true"
       >
-        <span className="font-sans text-xs uppercase tracking-widest text-dim">
+        <span className="font-sans text-xs uppercase tracking-widest text-muted">
           scroll
         </span>
         <motion.div
-          className="w-px h-8 bg-dim origin-top"
+          className="w-px h-8 bg-muted origin-top"
           animate={{ scaleY: [0.4, 1, 0.4] }}
           transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
         />

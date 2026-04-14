@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { Button } from "@/components/ui/Button";
 
 const EMAIL = "kaylin.renee.pham@gmail.com";
 
@@ -28,7 +29,16 @@ const SOCIAL_LINKS = [
     label: "Resumé",
     href: "/resume.pdf",
     icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
         <polyline points="14,2 14,8 20,8" />
         <line x1="16" y1="13" x2="8" y2="13" />
@@ -66,35 +76,28 @@ export default function Contact() {
       >
         {/* Left: headline + CTA */}
         <div className="max-w-md">
-          <p className="font-sans text-xs uppercase tracking-widest text-mid mb-3">
+          <p className="font-sans text-xs uppercase tracking-widest text-subtle mb-3">
             Contact
           </p>
-          <h2 className="font-display font-bold text-4xl sm:text-5xl text-ink tracking-tight leading-tight mb-6">
-            Let&apos;s make{" "}
-            something <em className="not-italic text-accent">together</em>.
+          <h2 className="font-display font-bold text-3xl sm:text-4xl text-ink tracking-tight leading-tight mb-6">
+            Let&apos;s make
+            <br />
+            something <em className="not-italic text-accent">together.</em>
           </h2>
-          <p className="font-sans text-sm text-mid leading-relaxed mb-8">
-            Open to full-time roles, freelance projects, and coffee chats :)
+          <p className="font-sans text-xs text-subtle leading-relaxed mb-8">
+            Open to full-time roles, freelance projects, &amp; coffee chats :)
           </p>
 
           {/* Email CTA */}
           <div className="flex items-center gap-3">
-            <motion.button
-              onClick={handleCopyEmail}
-              className="
-                inline-flex items-center gap-2
-                px-6 py-3
-                bg-ink text-paper
-                font-sans text-sm font-medium
-                hover:bg-ink/80
-                transition-colors duration-300
-              "
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.97 }}
-              transition={{ type: "spring", stiffness: 400, damping: 17 }}
-            >
+            <Button variant="solid" size="sm" onClick={handleCopyEmail}>
               <span className="grid">
-                <span className="invisible col-start-1 row-start-1 justify-start" aria-hidden="true">{EMAIL}</span>
+                <span
+                  className="invisible col-start-1 row-start-1 justify-start"
+                  aria-hidden="true"
+                >
+                  {EMAIL}
+                </span>
                 <AnimatePresence mode="wait">
                   {copied ? (
                     <motion.span
@@ -121,26 +124,26 @@ export default function Contact() {
                   )}
                 </AnimatePresence>
               </span>
-            </motion.button>
+            </Button>
 
-            <a
-              href={`mailto:${EMAIL}`}
-              className="
-                inline-flex items-center gap-1.5
-                px-4 py-3
-                border border-ink/20 text-mid
-                font-sans text-sm
-                hover:border-ink/50 hover:text-ink
-                transition-all duration-300
-              "
-              aria-label="Send email"
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                <polyline points="22,6 12,13 2,6"/>
-              </svg>
-              Open mail
-            </a>
+            <Button variant="highlight" size="sm" asChild noMotion>
+              <a href={`mailto:${EMAIL}`} aria-label="Send email">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                  <polyline points="22,6 12,13 2,6" />
+                </svg>
+                Open mail
+              </a>
+            </Button>
           </div>
         </div>
 
@@ -152,7 +155,7 @@ export default function Contact() {
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 text-mid hover:text-ink group transition-colors duration-300"
+              className="flex items-center gap-3 text-subtle hover:text-ink group transition-colors duration-300"
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -163,10 +166,10 @@ export default function Contact() {
               }}
               whileHover={{ x: 4 }}
             >
-              <span className="text-dim group-hover:text-accent transition-colors duration-300">
+              <span className="text-muted group-hover:text-accent transition-colors duration-300">
                 {link.icon}
               </span>
-              <span className="font-sans text-sm">{link.label}</span>
+              <span className="font-sans text-xs">{link.label}</span>
               <svg
                 width="12"
                 height="12"
@@ -178,8 +181,8 @@ export default function Contact() {
                 strokeLinejoin="round"
                 className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 -translate-x-1 group-hover:translate-x-0"
               >
-                <line x1="7" y1="17" x2="17" y2="7"/>
-                <polyline points="7 7 17 7 17 17"/>
+                <line x1="7" y1="17" x2="17" y2="7" />
+                <polyline points="7 7 17 7 17 17" />
               </svg>
             </motion.a>
           ))}
@@ -194,10 +197,10 @@ export default function Contact() {
         viewport={{ once: true }}
         transition={{ duration: 0.8, delay: 0.3 }}
       >
-        <p className="font-sans text-xs text-dim">
+        <p className="font-sans text-xs text-muted">
           © {new Date().getFullYear()} Kaylin Pham. Designed &amp; built by me.
         </p>
-        <p className="font-sans text-xs text-dim">
+        <p className="font-sans text-xs text-muted">
           Next.js · Tailwind CSS · Motion · GSAP
         </p>
       </motion.footer>

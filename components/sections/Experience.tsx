@@ -1,7 +1,11 @@
 "use client";
 
 import { useRef } from "react";
-import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react";
+import {
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+} from "@headlessui/react";
 import { motion } from "motion/react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -34,7 +38,6 @@ const EXPERIENCE: ExperienceItem[] = [
     bullets: [
       "Maintained satellite software reliability by adapting C++ and Python patterns to support new functional requirements for system repositories.",
       "Accelerated testing workflows by implementing unit and integration tests using Git, Docker, and Jenkins in an Agile environment.",
-
     ],
     tags: ["C++", "Python", "Git", "Docker", "Jenkins", "Agile"],
     link: "https://www.jacobs.com",
@@ -55,9 +58,18 @@ const EXPERIENCE: ExperienceItem[] = [
 
 // ─── Skills grid data ─────────────────────────────────────────────────────────
 const SKILLS = [
-  "React", "Next.js", "TypeScript", "Tailwind CSS",
-  "Motion", "GSAP", "Figma", "Accessibility",
-  "Design Systems", "CSS / SVG Animation", "Node.js", "REST APIs",
+  "React",
+  "Next.js",
+  "TypeScript",
+  "Tailwind CSS",
+  "Motion",
+  "GSAP",
+  "Figma",
+  "Aria Accessibility",
+  "Design Systems",
+  "CSS / SVG Animation",
+  "Node.js",
+  "REST APIs",
 ];
 
 export default function Experience() {
@@ -81,7 +93,7 @@ export default function Experience() {
             end: "bottom 20%",
             toggleActions: "play none none none",
           },
-        }
+        },
       );
 
       // Skills chips fade in
@@ -98,10 +110,10 @@ export default function Experience() {
             start: "top 85%",
             toggleActions: "play none none none",
           },
-        }
+        },
       );
     },
-    { scope: containerRef }
+    { scope: containerRef },
   );
 
   return (
@@ -118,10 +130,10 @@ export default function Experience() {
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
-        <p className="font-sans text-xs uppercase tracking-widest text-mid mb-3">
+        <p className="font-sans text-xs uppercase tracking-widest text-subtle mb-3">
           Work
         </p>
-        <h2 className="font-display font-bold text-4xl sm:text-5xl text-ink tracking-tight">
+        <h2 className="font-display font-bold text-3xl sm:text-4xl text-ink tracking-tight">
           Experience
         </h2>
       </motion.div>
@@ -146,13 +158,13 @@ export default function Experience() {
                       "border transition-all duration-300 rounded-sm",
                       open
                         ? "border-border bg-border/20"
-                        : "border-transparent hover:border-border/80 hover:bg-border/10"
+                        : "border-transparent hover:border-border/80 hover:bg-border/10",
                     )}
                   >
                     <DisclosureButton className="w-full text-left px-6 py-5 flex items-start justify-between gap-4 group">
                       <div className="flex-1 min-w-0">
                         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-1">
-                          <h3 className="font-display font-semibold text-xl text-ink">
+                          <h3 className="font-display font-semibold text-lg text-ink">
                             {item.role}
                           </h3>
                           {item.link ? (
@@ -160,55 +172,48 @@ export default function Experience() {
                               href={item.link}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="font-sans text-sm text-accent hover:text-accent-dark transition-colors"
+                              className="font-sans text-xs text-accent hover:text-accent-hover transition-colors"
                               onClick={(e) => e.stopPropagation()}
                             >
                               {item.company} ↗
                             </a>
                           ) : (
-                            <span className="font-sans text-sm text-accent">
+                            <span className="font-sans text-xs text-accent">
                               {item.company}
                             </span>
                           )}
                         </div>
-                        <p className="font-sans text-xs text-dim">
+                        <p className="font-sans text-xs text-muted">
                           {item.period} · {item.location}
                         </p>
                       </div>
 
-                      {/* Expand chevron */}
-                      <motion.span
-                        animate={{ rotate: open ? 180 : 0 }}
-                        transition={{ duration: 0.3 }}
-                          className="text-mid mt-1 shrink-0"
+                      {/* Expand toggle */}
+                      <span
+                        className="font-mono text-sm text-subtle shrink-0 mt-1 select-none"
                         aria-hidden="true"
                       >
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                          <path
-                            d="M4 6l4 4 4-4"
-                            stroke="currentColor"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </motion.span>
+                        {open ? "[-]" : "[+]"}
+                      </span>
                     </DisclosureButton>
 
                     <DisclosurePanel>
                       <motion.div
                         initial={{ opacity: 0, y: -8 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+                        transition={{
+                          duration: 0.3,
+                          ease: [0.25, 0.46, 0.45, 0.94],
+                        }}
                         className="px-6 pb-6"
                       >
                         <ul className="space-y-2 mb-5">
                           {item.bullets.map((bullet, j) => (
                             <li
                               key={j}
-                              className="font-sans text-sm text-ink/80 leading-relaxed flex gap-2"
+                              className="font-sans text-xs text-ink/80 leading-relaxed flex gap-2"
                             >
-                              <span className="text-accent mt-0.5 shrink-0 text-sm">
+                              <span className="text-accent mt-0.5 shrink-0 text-xs">
                                 ⤳
                               </span>
                               {bullet}
@@ -219,7 +224,7 @@ export default function Experience() {
                           {item.tags.map((tag) => (
                             <span
                               key={tag}
-                              className="font-sans text-xs px-3 py-1 border border-border text-mid"
+                              className="font-sans text-xs px-3 py-1 border border-border text-subtle"
                             >
                               {tag}
                             </span>
@@ -238,7 +243,7 @@ export default function Experience() {
       {/* Skills */}
       <div className="mt-20">
         <motion.p
-          className="font-sans text-xs uppercase tracking-widest text-mid mb-6"
+          className="font-sans text-xs uppercase tracking-widest text-subtle mb-6"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -250,7 +255,7 @@ export default function Experience() {
           {SKILLS.map((skill) => (
             <motion.span
               key={skill}
-              className="skill-chip font-sans text-sm px-4 py-2 border border-border text-mid bg-transparent hover:bg-border/30 hover:border-accent/50 hover:text-accent transition-all duration-300 cursor-default"
+              className="skill-chip font-sans text-sm px-4 py-2 border border-border text-subtle hover:bg-border/30 hover:border-accent/50 hover:text-accent transition-all duration-300 cursor-default"
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
             >

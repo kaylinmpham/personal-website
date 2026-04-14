@@ -1,8 +1,9 @@
-import type { Metadata } from "next";
-import { Syne, Space_Grotesk } from "next/font/google";
 import "./globals.css";
+import type { Metadata } from "next";
+import { Syne, Chivo_Mono } from "next/font/google";
 import Nav from "@/components/layout/Nav";
 import FluidCursor from "@/components/ui/FluidCursor";
+import { ThemeProvider } from "@/components/ui/ThemeProvider";
 
 const syne = Syne({
   variable: "--font-syne",
@@ -10,10 +11,10 @@ const syne = Syne({
   weight: ["400", "600", "700", "800"],
 });
 
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
+const chivoMono = Chivo_Mono({
+  variable: "--font-chivo-mono",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: ["300", "400", "500"],
 });
 
 export const metadata: Metadata = {
@@ -34,15 +35,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Anti-flash: apply stored theme before first paint */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var t=localStorage.getItem('cyano-theme');if(t)document.documentElement.setAttribute('data-theme',t);})();`,
+          }}
+        />
+      </head>
       <body
-        className={`${syne.variable} ${spaceGrotesk.variable} font-sans antialiased`}
+        className={`${syne.variable} ${chivoMono.variable} antialiased`}
       >
-        {/* Grain texture overlay for tactile depth */}
-        <div className="grain-overlay" aria-hidden="true" />
-        <FluidCursor />
-        <Nav />
-        {children}
+        <ThemeProvider>
+          <div className="grain-overlay" aria-hidden="true" />
+          <FluidCursor />
+          <Nav />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

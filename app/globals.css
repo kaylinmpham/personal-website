@@ -1,25 +1,71 @@
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────
+   Custom Fonts
+───────────────────────────────────────── */
+
+@font-face {
+  font-family: "Sligoil";
+  src: url("/fonts/Sligoil-Micro.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Sligoil";
+  src: url("/fonts/Sligoil-MicroMedium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Sligoil";
+  src: url("/fonts/Sligoil-MicroBold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─────────────────────────────────────────
    Design Token System (Tailwind v4)
 ───────────────────────────────────────── */
 
 @theme {
-  /* Colors */
-  --color-paper: #F2EFE9;
-  --color-ink: #111111;
-  --color-mid: #555555;
-  --color-dim: #999999;
-  --color-border: #DDDDDD;
-  --color-accent: #8B1E34;
-  --color-accent-dark: #5A1020;
+  /* Colors — light mode
+  --color-white: #fdfdfd;        /* text/icons on always-dark filled surfaces (buttons, cursor) */
+  --color-highlight: #f7f8ae; /* highlight chip background — marker/annotation emphasis */
+  --color-highlight-fg: #335982; /* text inside highlight chips */
+  --color-paper: #faf9ee; /* page and section background */
+  --color-ink: #141e2d; /* primary text, headings, high-contrast UI */
+  --color-subtle: #335982; /* secondary text — labels, eyebrows, body supporting copy */
+  --color-muted: #84a4bc; /* tertiary text — captions, timestamps, decorative labels */
+  --color-border: #c2d4df; /* dividers, card edges, input outlines */
+  --color-accent: #1956a0; /* interactive — CTAs, links, active states */
+  --color-accent-hover: #0d3870; /* interactive hover and pressed state */
 
   /* Typography */
   --font-display: var(--font-syne), sans-serif;
-  --font-sans: var(--font-space-grotesk), system-ui, sans-serif;
+  --font-sans: var(--font-chivo-mono), monospace, system-ui;
+  --font-mono: var(--font-sligoil), monospace;
+  --font-sligoil: "Sligoil", monospace;
 
   /* Fluid section spacing */
   --spacing-section: 7rem;
+}
+
+/* Dark mode */
+[data-theme="dark"] {
+  --color-paper: #0c1924; /* page and section background */
+  --color-ink: #eef1e0; /* primary text, headings, high-contrast UI */
+  --color-subtle: #82b7db; /* secondary text — labels, eyebrows, body supporting copy */
+  --color-muted: #527491; /* tertiary text — captions, timestamps, decorative labels */
+  --color-border: #183048; /* dividers, card edges, input outlines */
+  --color-accent: #4e96c4; /* interactive — CTAs, links, active states */
+  --color-accent-hover: #72b4d8; /* interactive hover and pressed state */
+  --color-highlight: #716723; /* highlight chip background — marker/annotation emphasis */
+  --color-highlight-fg: #eef1e0; /* text inside highlight chips */
 }
 
 /* ─────────────────────────────────────────
@@ -33,9 +79,30 @@ html {
 body {
   background-color: var(--color-paper);
   color: var(--color-ink);
-  font-family: var(--font-sans);
+  font-family: var(--font-chivo-mono), monospace;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─────────────────────────────────────────
+   Grain texture overlay
+───────────────────────────────────────── */
+
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background-image: url("/Grain.webp");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+  opacity: 0.25;
+  mix-blend-mode: multiply;
+}
+
+[data-theme="dark"] .grain-overlay {
+  opacity: 0.15;
+  mix-blend-mode: screen;
 }
 
 ::selection {
@@ -58,23 +125,7 @@ body {
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-dim);
-}
-
-/* ─────────────────────────────────────────
-   Grain texture overlay
-───────────────────────────────────────── */
-
-.grain-overlay {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9999;
-  opacity: 0.05;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 200px 200px;
-  mix-blend-mode: overlay;
+  background: var(--color-muted);
 }
 
 /* ─────────────────────────────────────────
@@ -82,8 +133,13 @@ body {
 ───────────────────────────────────────── */
 
 @keyframes soundbar {
-  0%, 100% { transform: scaleY(0.3); }
-  50%       { transform: scaleY(1); }
+  0%,
+  100% {
+    transform: scaleY(0.3);
+  }
+  50% {
+    transform: scaleY(1);
+  }
 }
 
 .soundbar-bar {
@@ -95,18 +151,30 @@ body {
   background-color: var(--color-accent);
 }
 
-.soundbar-bar:nth-child(1) { animation-delay: 0s; }
-.soundbar-bar:nth-child(2) { animation-delay: 0.15s; }
-.soundbar-bar:nth-child(3) { animation-delay: 0.3s; }
-.soundbar-bar:nth-child(4) { animation-delay: 0.45s; }
+.soundbar-bar:nth-child(1) {
+  animation-delay: 0s;
+}
+.soundbar-bar:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.soundbar-bar:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.soundbar-bar:nth-child(4) {
+  animation-delay: 0.45s;
+}
 
 /* ─────────────────────────────────────────
    Marquee ticker
 ───────────────────────────────────────── */
 
 @keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 .marquee-track {

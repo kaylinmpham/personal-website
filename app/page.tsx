@@ -9,7 +9,7 @@ const TICKER_ITEMS = [
   "Motion",
   "TypeScript",
   "Remix",
-  "Accessibility",
+  "Aria Accessibility",
   "Systems Thinking",
   "Component Libraries",
   "Design Systems",
@@ -24,12 +24,15 @@ export default function Home() {
       <Hero />
 
       {/* Marquee ticker strip */}
-      <div className="w-full overflow-hidden border-y border-border py-3 select-none" aria-hidden="true">
+      <div
+        className="w-full overflow-hidden border-y border-border py-3 select-none"
+        aria-hidden="true"
+      >
         <div className="marquee-track">
           {[tickerText, tickerText].map((chunk, i) => (
             <span
               key={i}
-              className="font-sans text-xs uppercase tracking-widest text-mid whitespace-nowrap px-4"
+              className="font-sans text-xs uppercase tracking-widest text-subtle whitespace-nowrap px-4"
             >
               {chunk}
             </span>

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
+import { useTheme } from "@/components/ui/ThemeProvider";
 
 const navLinks = [
   { label: "About", href: "#about" },
@@ -15,6 +16,7 @@ export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("about");
+  const { theme, toggle } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
@@ -27,8 +29,10 @@ export default function Nav() {
       const el = document.getElementById(href.slice(1));
       if (!el) return null;
       const observer = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) setActiveSection(href.slice(1)); },
-        { rootMargin: "-40% 0px -55% 0px", threshold: 0 }
+        ([entry]) => {
+          if (entry.isIntersecting) setActiveSection(href.slice(1));
+        },
+        { rootMargin: "-40% 0px -55% 0px", threshold: 0 },
       );
       observer.observe(el);
       return observer;
@@ -42,7 +46,7 @@ export default function Nav() {
         "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
         scrolled
           ? "bg-paper/90 backdrop-blur-md border-b border-border/60 py-3"
-          : "bg-transparent py-6"
+          : "bg-transparent py-6",
       )}
     >
       <nav className="max-w-5xl mx-auto px-6 flex items-center justify-between">
@@ -71,8 +75,8 @@ export default function Nav() {
                 <a
                   href={link.href}
                   className={cn(
-                    "text-sm font-sans transition-colors duration-300 relative group",
-                    isActive ? "text-ink" : "text-mid hover:text-ink"
+                    "text-xs font-sans transition-colors duration-300 relative group",
+                    isActive ? "text-ink" : "text-subtle hover:text-ink",
                   )}
                 >
                   {link.label}
@@ -83,16 +87,19 @@ export default function Nav() {
           })}
         </motion.ul>
 
-        {/* Wordmark */}
-        <motion.a
-          href="#about"
-          className="font-display font-bold text-lg text-ink hover:text-accent transition-colors duration-300"
+        {/* Wordmark — secret theme toggle */}
+        <motion.button
+          onClick={toggle}
+          className="font-display font-bold text-base text-ink hover:text-accent transition-colors duration-300 cursor-pointer select-none"
           initial={{ opacity: 0, x: -16 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+          whileTap={{ scale: 0.88, rotate: theme === "light" ? -8 : 8 }}
+          title={theme === "light" ? "enter the darkroom" : "back to daylight"}
+          aria-label="Toggle theme"
         >
           kp.
-        </motion.a>
+        </motion.button>
 
         {/* Mobile hamburger */}
         <button
@@ -104,19 +111,19 @@ export default function Nav() {
           <span
             className={cn(
               "w-6 h-0.5 bg-ink transition-all duration-300 origin-center",
-              menuOpen && "rotate-45 translate-y-2"
+              menuOpen && "rotate-45 translate-y-2",
             )}
           />
           <span
             className={cn(
               "w-6 h-0.5 bg-ink transition-all duration-300",
-              menuOpen && "opacity-0"
+              menuOpen && "opacity-0",
             )}
           />
           <span
             className={cn(
               "w-6 h-0.5 bg-ink transition-all duration-300 origin-center",
-              menuOpen && "-rotate-45 -translate-y-2"
+              menuOpen && "-rotate-45 -translate-y-2",
             )}
           />
         </button>
@@ -142,7 +149,7 @@ export default function Nav() {
                 >
                   <a
                     href={link.href}
-                    className="text-base font-sans text-ink hover:text-accent transition-colors"
+                    className="text-sm font-sans text-ink hover:text-accent transition-colors"
                     onClick={() => setMenuOpen(false)}
                   >
                     {link.label}
