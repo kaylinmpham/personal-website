@@ -8,6 +8,7 @@ import { useTheme } from "@/components/ui/ThemeProvider";
 const navLinks = [
   { label: "About", href: "#about" },
   { label: "Experience", href: "#experience" },
+  { label: "Projects", href: "#projects" },
   { label: "Now", href: "#now" },
   { label: "Contact", href: "#contact" },
 ];

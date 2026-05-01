@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Overview Panel Options</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper:  #faf9ee;
+      --ink:    #141e2d;
+      --subtle: #335982;
+      --muted:  #84a4bc;
+      --border: #c2d4df;
+      --accent: #1956a0;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #e8e8e0;
+      font-family: 'Chivo Mono', monospace;
+      color: var(--ink);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+    }
+
+    /* ── Shared chrome ── */
+    .chrome {
+      background: var(--paper);
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(0,0,0,.1);
+    }
+
+    .chrome-header {
+      padding: 1.25rem 2rem .75rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+
+    .eyebrow {
+      font-size: .65rem;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--subtle);
+      margin-bottom: .25rem;
+    }
+
+    .title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -.01em;
+    }
+
+    .chrome-tag {
+      font-size: .65rem;
+      padding: .2rem .6rem;
+      border: 1px solid var(--border);
+      color: var(--subtle);
+    }
+
+    .panel-label {
+      font-size: .6rem;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      color: var(--subtle);
+      margin-bottom: 1.25rem;
+    }
+
+    .panel-body {
+      padding: 1.5rem 2rem 2rem;
+    }
+
+    /* ── Footer nav ── */
+    .chrome-footer {
+      padding: .75rem 2rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .nav-btn {
+      font-family: inherit;
+      font-size: .65rem;
+      color: var(--ink);
+      border: 1px solid var(--border);
+      padding: .2rem .5rem;
+      background: none;
+      cursor: pointer;
+    }
+
+    .progress-bar {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+      position: relative;
+    }
+
+    .progress-fill {
+      position: absolute;
+      inset-y: 0;
+      left: 0;
+      background: var(--accent);
+    }
+
+    .counter {
+      font-size: .65rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    /* ── Option label ── */
+    .option-label {
+      font-family: 'Chivo Mono', monospace;
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: #555;
+      margin-bottom: .5rem;
+    }
+
+    /* ── Typography helpers ── */
+    .text-sm   { font-size: .75rem; line-height: 1.65; color: var(--ink); opacity: .8; }
+    .text-xs   { font-size: .65rem; line-height: 1.6;  color: var(--ink); opacity: .75; }
+    .text-acc  { color: var(--accent); }
+    .text-sub  { color: var(--subtle); }
+    .text-mut  { color: var(--muted); }
+    .label-xs  { font-size: .6rem; text-transform: uppercase; letter-spacing: .12em; color: var(--subtle); }
+    .fw-med    { font-weight: 500; color: var(--ink); opacity: 1; }
+
+    /* chips */
+    .chips { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .chip  { font-size: .6rem; padding: .2rem .55rem; border: 1px solid var(--border); color: var(--subtle); }
+
+    /* goals list */
+    .goals { list-style: none; display: flex; flex-direction: column; gap: .6rem; }
+    .goals li { display: flex; gap: .5rem; font-size: .65rem; line-height: 1.6; opacity: .8; }
+    .goals li span { color: var(--accent); flex-shrink: 0; }
+
+    /* grid */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+
+    /* divider */
+    hr { border: none; border-top: 1px solid var(--border); margin: 1rem 0; }
+
+    /* stat card */
+    .stat { border: 1px solid var(--border); padding: .75rem 1rem; }
+    .stat-num { font-size: 1.4rem; font-weight: 700; color: var(--accent); line-height: 1; margin-bottom: .2rem; }
+    .stat-lbl { font-size: .6rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
+
+    /* flow step */
+    .flow { display: flex; align-items: flex-start; gap: 0; }
+    .flow-step { flex: 1; padding: .75rem 1rem; border: 1px solid var(--border); }
+    .flow-step + .flow-step { border-left: none; }
+    .flow-arrow { width: 1.2rem; display: flex; align-items: center; justify-content: center;
+                  font-size: .6rem; color: var(--muted); flex-shrink: 0; }
+    .flow-step-label { font-size: .55rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: .25rem; }
+    .flow-step-title { font-size: .7rem; font-weight: 500; color: var(--ink); }
+
+    /* problem / solution blocks */
+    .ps-block { padding: 1rem; background: var(--border); background: color-mix(in srgb, var(--border) 20%, transparent); border: 1px solid var(--border); }
+    .ps-label  { font-size: .55rem; text-transform: uppercase; letter-spacing: .12em; color: var(--muted); margin-bottom: .4rem; }
+    .ps-text   { font-size: .7rem; line-height: 1.65; opacity: .8; }
+
+    /* big hero quote */
+    .hero-quote { font-size: 2rem; font-weight: 700; letter-spacing: -.02em; line-height: 1.1; color: var(--ink); }
+    .hero-sub   { font-size: .7rem; line-height: 1.65; opacity: .75; max-width: 36ch; }
+  </style>
+</head>
+<body>
+
+  <!-- ─── Option A: Stats Bar ─────────────────────────────────────── -->
+  <div>
+    <p class="option-label">A — Project Stats Bar</p>
+    <div class="chrome">
+      <div class="chrome-header">
+        <div><p class="eyebrow">Selected Work</p><p class="title">Mint Condition</p></div>
+        <div style="display:flex;gap:.75rem;align-items:center">
+          <span class="chrome-tag">Chrome Extension</span>
+          <span class="text-xs text-acc">GitHub ↗</span>
+        </div>
+      </div>
+      <div class="panel-body">
+        <p class="panel-label">00 — Overview</p>
+        <div class="grid-2" style="margin-bottom:1.5rem">
+          <p class="text-sm">Google Chrome Web Extension that intercepts online shopping sessions and surfaces secondhand eBay alternatives in real time. Built with Vanilla JS and Cloudflare Workers — no frameworks, no new tabs, no friction.</p>
+          <div>
+            <p class="label-xs" style="margin-bottom:.75rem">Design Goals</p>
+            <ul class="goals">
+              <li><span>⤳</span> Easy-to-use solution that intercepts fashion browsing without disrupting the user's existing flow.</li>
+              <li><span>⤳</span> Scalable architecture: new listing sources are a data-layer change, not an extension change.</li>
+              <li><span>⤳</span> Seamless browser integration with no new-tab friction at the moment of purchase decision.</li>
+              <li><span>⤳</span> Design system built on semantic tokens so visual reskins don't require touching component logic.</li>
+            </ul>
+          </div>
+        </div>
+        <!-- Stats row -->
+        <hr />
+        <div class="grid-3" style="margin-top:1rem">
+          <div class="stat"><p class="stat-num">450+</p><p class="stat-lbl">Brands indexed</p></div>
+          <div class="stat"><p class="stat-num">0</p><p class="stat-lbl">New tabs opened</p></div>
+          <div class="stat"><p class="stat-num">3</p><p class="stat-lbl">Architecture layers</p></div>
+        </div>
+      </div>
+      <div class="chrome-footer">
+        <button class="nav-btn">← prev</button>
+        <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+        <span class="counter">01 / 09</span>
+        <div class="progress-bar"><div class="progress-fill" style="width:100%;left:auto;right:0"></div></div>
+        <button class="nav-btn">next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Option B: How it works flow ─────────────────────────────── -->
+  <div>
+    <p class="option-label">B — "How it works" Mini-Flow</p>
+    <div class="chrome">
+      <div class="chrome-header">
+        <div><p class="eyebrow">Selected Work</p><p class="title">Mint Condition</p></div>
+        <div style="display:flex;gap:.75rem;align-items:center">
+          <span class="chrome-tag">Chrome Extension</span>
+          <span class="text-xs text-acc">GitHub ↗</span>
+        </div>
+      </div>
+      <div class="panel-body">
+        <p class="panel-label">00 — Overview</p>
+        <div class="grid-2" style="margin-bottom:1.5rem">
+          <p class="text-sm">Google Chrome Web Extension that intercepts online shopping sessions and surfaces secondhand eBay alternatives in real time. Built with Vanilla JS and Cloudflare Workers — no frameworks, no new tabs, no friction.</p>
+          <div>
+            <p class="label-xs" style="margin-bottom:.75rem">Design Goals</p>
+            <ul class="goals">
+              <li><span>⤳</span> Easy-to-use solution that intercepts fashion browsing without disrupting the user's existing flow.</li>
+              <li><span>⤳</span> Scalable architecture: new listing sources are a data-layer change, not an extension change.</li>
+              <li><span>⤳</span> Seamless browser integration with no new-tab friction at the moment of purchase decision.</li>
+              <li><span>⤳</span> Design system built on semantic tokens so visual reskins don't require touching component logic.</li>
+            </ul>
+          </div>
+        </div>
+        <!-- Flow -->
+        <hr />
+        <div class="flow" style="margin-top:1rem">
+          <div class="flow-step">
+            <p class="flow-step-label">01</p>
+            <p class="flow-step-title">Browse</p>
+            <p class="text-xs" style="margin-top:.3rem">User visits a fast-fashion product page</p>
+          </div>
+          <div class="flow-step">
+            <p class="flow-step-label">02</p>
+            <p class="flow-step-title">Detect</p>
+            <p class="text-xs" style="margin-top:.3rem">Content script identifies the brand via DOM</p>
+          </div>
+          <div class="flow-step">
+            <p class="flow-step-label">03</p>
+            <p class="flow-step-title">Fetch</p>
+            <p class="text-xs" style="margin-top:.3rem">Cloudflare Worker pulls score + eBay listings</p>
+          </div>
+          <div class="flow-step">
+            <p class="flow-step-label">04</p>
+            <p class="flow-step-title">Surface</p>
+            <p class="text-xs" style="margin-top:.3rem">Side panel renders alternatives in-context</p>
+          </div>
+        </div>
+      </div>
+      <div class="chrome-footer">
+        <button class="nav-btn">← prev</button>
+        <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+        <span class="counter">01 / 09</span>
+        <div class="progress-bar"><div class="progress-fill" style="width:100%;left:auto;right:0"></div></div>
+        <button class="nav-btn">next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Option C: Problem / Solution ────────────────────────────── -->
+  <div>
+    <p class="option-label">C — Problem / Solution Split</p>
+    <div class="chrome">
+      <div class="chrome-header">
+        <div><p class="eyebrow">Selected Work</p><p class="title">Mint Condition</p></div>
+        <div style="display:flex;gap:.75rem;align-items:center">
+          <span class="chrome-tag">Chrome Extension</span>
+          <span class="text-xs text-acc">GitHub ↗</span>
+        </div>
+      </div>
+      <div class="panel-body">
+        <p class="panel-label">00 — Overview</p>
+        <div class="grid-2">
+          <!-- Left: problem + solution stacked -->
+          <div style="display:flex;flex-direction:column;gap:.75rem">
+            <div class="ps-block">
+              <p class="ps-label">The Problem</p>
+              <p class="ps-text">Shoppers who want to buy secondhand must open a new tab, search manually, and context-switch mid-decision — causing them to abandon sustainable intent at the peak of interest.</p>
+            </div>
+            <div class="ps-block" style="border-color:var(--accent);background:color-mix(in srgb, var(--accent) 5%, transparent)">
+              <p class="ps-label" style="color:var(--accent)">The Solution</p>
+              <p class="ps-text">Mint Condition intercepts the browsing session and surfaces secondhand eBay alternatives inside a Chrome side panel — no new tabs, no friction, no lost intent.</p>
+            </div>
+            <div class="chips" style="margin-top:.25rem">
+              <span class="chip">Chrome MV3</span>
+              <span class="chip">Vanilla JS</span>
+              <span class="chip">Cloudflare Workers</span>
+              <span class="chip">eBay API</span>
+            </div>
+          </div>
+          <!-- Right: goals -->
+          <div>
+            <p class="label-xs" style="margin-bottom:.75rem">Design Goals</p>
+            <ul class="goals">
+              <li><span>⤳</span> Easy-to-use solution that intercepts fashion browsing without disrupting the user's existing flow.</li>
+              <li><span>⤳</span> Scalable architecture: new listing sources are a data-layer change, not an extension change.</li>
+              <li><span>⤳</span> Seamless browser integration with no new-tab friction at the moment of purchase decision.</li>
+              <li><span>⤳</span> Design system built on semantic tokens so visual reskins don't require touching component logic.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="chrome-footer">
+        <button class="nav-btn">← prev</button>
+        <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+        <span class="counter">01 / 09</span>
+        <div class="progress-bar"><div class="progress-fill" style="width:100%;left:auto;right:0"></div></div>
+        <button class="nav-btn">next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Option C + A: Recommended combo ─────────────────────────── -->
+  <div>
+    <p class="option-label">C + A — Recommended: Problem/Solution + Stats</p>
+    <div class="chrome">
+      <div class="chrome-header">
+        <div><p class="eyebrow">Selected Work</p><p class="title">Mint Condition</p></div>
+        <div style="display:flex;gap:.75rem;align-items:center">
+          <span class="chrome-tag">Chrome Extension</span>
+          <span class="text-xs text-acc">GitHub ↗</span>
+        </div>
+      </div>
+      <div class="panel-body">
+        <p class="panel-label">00 — Overview</p>
+        <div class="grid-2" style="margin-bottom:1.25rem">
+          <div style="display:flex;flex-direction:column;gap:.75rem">
+            <div class="ps-block">
+              <p class="ps-label">The Problem</p>
+              <p class="ps-text">Shoppers who want to buy secondhand must open a new tab, search manually, and context-switch mid-decision — causing them to abandon sustainable intent at the peak of interest.</p>
+            </div>
+            <div class="ps-block" style="border-color:var(--accent);background:color-mix(in srgb, var(--accent) 5%, transparent)">
+              <p class="ps-label" style="color:var(--accent)">The Solution</p>
+              <p class="ps-text">Mint Condition intercepts the browsing session and surfaces secondhand eBay alternatives inside a Chrome side panel — no new tabs, no friction, no lost intent.</p>
+            </div>
+            <div class="chips" style="margin-top:.1rem">
+              <span class="chip">Chrome MV3</span>
+              <span class="chip">Vanilla JS</span>
+              <span class="chip">Cloudflare Workers</span>
+              <span class="chip">eBay API</span>
+            </div>
+          </div>
+          <div>
+            <p class="label-xs" style="margin-bottom:.75rem">Design Goals</p>
+            <ul class="goals">
+              <li><span>⤳</span> Easy-to-use solution that intercepts fashion browsing without disrupting the user's existing flow.</li>
+              <li><span>⤳</span> Scalable architecture: new listing sources are a data-layer change, not an extension change.</li>
+              <li><span>⤳</span> Seamless browser integration with no new-tab friction at the moment of purchase decision.</li>
+              <li><span>⤳</span> Design system built on semantic tokens so visual reskins don't require touching component logic.</li>
+            </ul>
+          </div>
+        </div>
+        <hr />
+        <div class="grid-3" style="margin-top:1rem">
+          <div class="stat"><p class="stat-num">450+</p><p class="stat-lbl">Brands indexed</p></div>
+          <div class="stat"><p class="stat-num">0</p><p class="stat-lbl">New tabs opened</p></div>
+          <div class="stat"><p class="stat-num">3</p><p class="stat-lbl">Architecture layers</p></div>
+        </div>
+      </div>
+      <div class="chrome-footer">
+        <button class="nav-btn">← prev</button>
+        <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+        <span class="counter">01 / 09</span>
+        <div class="progress-bar"><div class="progress-fill" style="width:100%;left:auto;right:0"></div></div>
+        <button class="nav-btn">next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Option E: Hero statement ────────────────────────────────── -->
+  <div>
+    <p class="option-label">E — Big Hero Statement</p>
+    <div class="chrome">
+      <div class="chrome-header">
+        <div><p class="eyebrow">Selected Work</p><p class="title">Mint Condition</p></div>
+        <div style="display:flex;gap:.75rem;align-items:center">
+          <span class="chrome-tag">Chrome Extension</span>
+          <span class="text-xs text-acc">GitHub ↗</span>
+        </div>
+      </div>
+      <div class="panel-body">
+        <p class="panel-label">00 — Overview</p>
+        <div style="max-width:36rem;margin-bottom:2rem">
+          <p class="hero-quote" style="margin-bottom:.75rem">"Find it in<br><em>mint</em> condition."</p>
+          <p class="hero-sub">A Chrome extension that intercepts fashion browsing and surfaces secondhand eBay alternatives in real time — no new tabs, no friction.</p>
+        </div>
+        <hr style="margin-bottom:1.25rem"/>
+        <div class="grid-2" style="max-width:40rem">
+          <div>
+            <p class="label-xs" style="margin-bottom:.75rem">Design Goals</p>
+            <ul class="goals">
+              <li><span>⤳</span> Frictionless intervention — zero tab switching.</li>
+              <li><span>⤳</span> Scalable data layer, not an extension update.</li>
+              <li><span>⤳</span> Minimal permissions, no host-page UI injection.</li>
+              <li><span>⤳</span> Semantic token design system.</li>
+            </ul>
+          </div>
+          <div>
+            <p class="label-xs" style="margin-bottom:.75rem">Stack</p>
+            <div class="chips">
+              <span class="chip">Chrome MV3</span>
+              <span class="chip">Vanilla JS</span>
+              <span class="chip">Cloudflare Workers</span>
+              <span class="chip">eBay API</span>
+              <span class="chip">WikiRate API</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="chrome-footer">
+        <button class="nav-btn">← prev</button>
+        <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+        <span class="counter">01 / 09</span>
+        <div class="progress-bar"><div class="progress-fill" style="width:100%;left:auto;right:0"></div></div>
+        <button class="nav-btn">next →</button>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

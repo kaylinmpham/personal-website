@@ -1,5 +1,6 @@
 import Hero from "@/components/sections/Hero";
 import Experience from "@/components/sections/Experience";
+import Projects from "@/components/sections/Projects";
 import Now from "@/components/sections/Now";
 import Contact from "@/components/sections/Contact";
 
@@ -41,6 +42,7 @@ export default function Home() {
       </div>
 
       <Experience />
+      <Projects />
       <Now />
       <Contact />
     </main>
