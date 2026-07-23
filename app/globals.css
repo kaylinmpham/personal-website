@@ -37,7 +37,7 @@
   --color-white: #fdfdfd;        /* text/icons on always-dark filled surfaces (buttons, cursor) */
   --color-highlight: #f7f8ae; /* highlight chip background — marker/annotation emphasis */
   --color-highlight-fg: #335982; /* text inside highlight chips */
-  --color-paper: #faf9ee; /* page and section background */
+  --color-paper: #f8f5ef; /* page and section background */
   --color-ink: #141e2d; /* primary text, headings, high-contrast UI */
   --color-subtle: #335982; /* secondary text — labels, eyebrows, body supporting copy */
   --color-muted: #84a4bc; /* tertiary text — captions, timestamps, decorative labels */
