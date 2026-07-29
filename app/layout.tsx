@@ -1,4 +1,7 @@
 import "./globals.css";
+import "@fontsource/cedarville-cursive";
+import "@fontsource/geist-mono/400.css";
+import "@fontsource/geist-mono/500.css";
 import type { Metadata } from "next";
 import { Syne, Chivo_Mono } from "next/font/google";
 import Nav from "@/components/layout/Nav";

@@ -495,7 +495,7 @@ export default function Projects() {
               </div>
 
               <div className="overflow-x-auto">
-                <table className="w-full min-w-[680px] border-collapse">
+                <table className="w-full min-w-170 border-collapse">
                   <thead>
                     <tr className="border-b border-border">
                       <th className="text-left font-sans text-[10px] uppercase tracking-widest text-muted px-4 py-2.5">
