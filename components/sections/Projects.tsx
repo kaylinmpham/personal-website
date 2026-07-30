@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "motion/react";
+import { Button } from "../ui/Button";
 
 // ─── Data ──────────────────────────────────────────────────────────────────────
 
@@ -255,18 +256,32 @@ export default function Projects() {
               Mint Condition
             </h2>
           </div>
-          <div className="flex items-center gap-4">
-            <span className="font-sans text-xs px-3 py-1 border border-border text-subtle hidden sm:inline-block">
-              Chrome Extension
-            </span>
-            <a
-              href="https://github.com/kaylinmpham/eco-alternatives"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-sans text-xs text-accent hover:text-accent-hover transition-colors"
-            >
-              GitHub ↗
-            </a>
+          <div className="flex  items-end gap-2">
+            <Button variant="highlight" size="sm" asChild noMotion>
+              <a
+                href={CHROME_STORE_URL}
+                aria-label="Open Chrome Web Store page for Mint Condition"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Chrome Web Store
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M18 20.75H6A2.75 2.75 0 0 1 3.25 18V6A2.75 2.75 0 0 1 6 3.25h6a.75.75 0 0 1 0 1.5H6A1.25 1.25 0 0 0 4.75 6v12A1.25 1.25 0 0 0 6 19.25h12A1.25 1.25 0 0 0 19.25 18v-6a.75.75 0 0 1 1.5 0v6A2.75 2.75 0 0 1 18 20.75Zm2-12a.76.76 0 0 1-.75-.75V4.75H16a.75.75 0 0 1 0-1.5h4a.76.76 0 0 1 .75.75v4a.76.76 0 0 1-.75.75Z"
+                  />
+                  <path
+                    fill="currentColor"
+                    d="M13.5 11.25A.74.74 0 0 1 13 11a.75.75 0 0 1 0-1l6.5-6.5a.75.75 0 1 1 1.06 1.06L14 11a.74.74 0 0 1-.5.25Z"
+                  />
+                </svg>
+              </a>
+            </Button>
           </div>
         </div>
       </div>
@@ -495,7 +510,7 @@ export default function Projects() {
               </div>
 
               <div className="overflow-x-auto">
-                <table className="w-full min-w-[680px] border-collapse">
+                <table className="w-full min-w-170 border-collapse">
                   <thead>
                     <tr className="border-b border-border">
                       <th className="text-left font-sans text-[10px] uppercase tracking-widest text-muted px-4 py-2.5">
@@ -675,10 +690,10 @@ export default function Projects() {
 
           {/* ─ 08: Demo + Launch ─ */}
           <Panel label="08 — Demo">
-            <div className="grid grid-cols-2 gap-12 max-w-4xl">
+            <div className="grid grid-cols-4 gap-12 max-w-max">
               {/* Demo video */}
               <video
-                className="aspect-video w-full rounded-sm border border-border bg-border/5"
+                className="aspect-video col-span-3 w-6xl rounded-sm border border-border bg-border/5"
                 src="/Mint Demo.mov"
                 controls
                 playsInline
@@ -691,7 +706,7 @@ export default function Projects() {
                   <p className="font-sans text-xs uppercase tracking-widest text-subtle mb-3">
                     Status
                   </p>
-                  <p className="font-sans text-sm text-ink/80 leading-relaxed">
+                  <p className="font-sans text-xs text-ink/80 leading-relaxed">
                     Live on the Chrome Web Store.
                   </p>
                 </div>

@@ -90,7 +90,7 @@ export default function Contact() {
 
           {/* Email CTA */}
           <div className="flex items-center gap-3">
-            <Button variant="solid" size="sm" onClick={handleCopyEmail}>
+            <Button variant="accent" size="sm" onClick={handleCopyEmail}>
               <span className="grid">
                 <span
                   className="invisible col-start-1 row-start-1 justify-start"
@@ -198,7 +198,7 @@ export default function Contact() {
         transition={{ duration: 0.8, delay: 0.3 }}
       >
         <p className="font-sans text-xs text-muted">
-          © {new Date().getFullYear()} Kaylin Pham. Designed &amp; built by me.
+          © 2026 Kaylin Pham. Designed &amp; built by me.
         </p>
         <p className="font-sans text-xs text-muted">
           Next.js · Tailwind CSS · Motion · GSAP

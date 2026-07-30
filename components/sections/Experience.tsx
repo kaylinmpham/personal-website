@@ -124,7 +124,7 @@ export default function Experience() {
     >
       {/* Section header */}
       <motion.div
-        className="mb-16"
+        className="mb-6"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}

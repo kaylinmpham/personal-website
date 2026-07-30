@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import { useNowPlaying } from "@/hooks/useNowPlaying";
 import { useCurrentlyReading } from "@/hooks/useCurrentlyReading";
 import { useTopTracks } from "@/hooks/useTopTracks";
+import { useInstagramPosts } from "@/hooks/useInstagramPosts";
 
 // ─── Spotify Widget ───────────────────────────────────────────────────────────
 
@@ -189,6 +190,97 @@ function SpotifyWidget() {
   );
 }
 
+// ─── Instagram Widget ─────────────────────────────────────────────────────────
+function InstagramWidget() {
+  const { data, loading } = useInstagramPosts();
+  const posts = data?.posts?.slice(0, 6) ?? [];
+
+  return (
+    <motion.div
+      className="border border-border p-6 flex flex-col gap-4"
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{
+        duration: 0.6,
+        delay: 0.1,
+        ease: [0.25, 0.46, 0.45, 0.94],
+      }}
+    >
+      <div className="flex items-center gap-2">
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="text-accent shrink-0"
+        >
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <rect x="4" y="4" width="16" height="16" rx="4" />
+          <circle cx="12" cy="12" r="3" />
+          <line x1="16.5" y1="7.5" x2="16.5" y2="7.501" />
+        </svg>
+        <span className="font-sans text-xs uppercase tracking-widest text-mid">
+          Pottery on Instagram
+        </span>
+      </div>
+
+      {loading ? (
+        <div className="grid grid-cols-3 gap-2 animate-pulse">
+          {[0, 1, 2, 3, 4, 5].map((i) => (
+            <div key={i} className="aspect-square rounded bg-border" />
+          ))}
+        </div>
+      ) : posts.length > 0 ? (
+        <div className="grid grid-cols-3 gap-2">
+          {posts.map((post) => (
+            <a
+              key={post.id}
+              href={post.permalink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative aspect-square rounded overflow-hidden bg-border"
+            >
+              <Image
+                src={
+                  post.media_type === "VIDEO" && post.thumbnail_url
+                    ? post.thumbnail_url
+                    : post.media_url
+                }
+                alt={post.caption?.slice(0, 100) || "Instagram post"}
+                fill
+                sizes="(max-width: 640px) 33vw, 120px"
+                className="object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              {post.media_type === "VIDEO" && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/10">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="white"
+                    className="drop-shadow-lg"
+                  >
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+              )}
+            </a>
+          ))}
+        </div>
+      ) : (
+        <p className="font-sans text-xs text-dim italic">
+          No posts yet. Check back soon!
+        </p>
+      )}
+    </motion.div>
+  );
+}
+
 // ─── Reading Widget ───────────────────────────────────────────────────────────
 function ReadingWidget() {
   const { data, loading } = useCurrentlyReading();
@@ -312,14 +404,15 @@ export default function Now() {
         <h2 className="font-display font-bold text-3xl sm:text-4xl text-ink tracking-tight">
           What I&apos;m up to
         </h2>
-        <p className="font-sans text-sm text-mid mt-3 max-w-md">
-          A snapshot of what I&apos;m listening to and what I&apos;m reading.
+        <p className="font-sans text-sm text-mid mt-3 max-w-lg">
+          What I&apos;ve been making, listening to, and reading lately.
         </p>
       </motion.div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <SpotifyWidget />
         <ReadingWidget />
+        {/* <InstagramWidget /> */}
       </div>
     </section>
   );
