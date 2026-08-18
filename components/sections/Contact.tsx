@@ -80,12 +80,15 @@ export default function Contact() {
             Contact
           </p>
           <h2 className="font-display font-bold text-3xl sm:text-4xl text-ink tracking-tight leading-tight mb-6">
-            Let&apos;s make
+            Open to
             <br />
-            something <em className="not-italic text-accent">together.</em>
+            product design{" "}
+            <em className="not-italic text-accent">&amp; frontend</em>
+            <br />
+            opportunities.
           </h2>
           <p className="font-sans text-xs text-subtle leading-relaxed mb-8">
-            Open to full-time roles, freelance projects, &amp; coffee chats :)
+            Full-time, contract, and product-focused collaborations welcome.
           </p>
 
           {/* Email CTA */}

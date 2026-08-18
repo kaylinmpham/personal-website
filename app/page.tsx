@@ -5,16 +5,16 @@ import Now from "@/components/sections/Now";
 import Contact from "@/components/sections/Contact";
 
 const TICKER_ITEMS = [
-  "Design Engineer",
-  "Front-End",
-  "Motion",
+  "Product Design",
+  "Frontend",
   "TypeScript",
-  "Remix",
-  "Aria Accessibility",
+  "Next.js",
+  "Accessibility",
   "Systems Thinking",
-  "Component Libraries",
   "Design Systems",
-  "GSAP",
+  "UX Engineering",
+  "React",
+  "Product Thinking",
 ];
 
 const tickerText = TICKER_ITEMS.join(" · ") + " · ";

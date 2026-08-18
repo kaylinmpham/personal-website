@@ -24,6 +24,9 @@ export const metadata: Metadata = {
   title: "Kaylin Pham — Design Engineer",
   description:
     "Design engineer crafting thoughtful, animated interfaces. Front-end focused with a passion for motion, typography, and the space between design and code.",
+  icons: {
+    icon: "/icon.svg",
+  },
   openGraph: {
     title: "Kaylin Pham — Design Engineer",
     description:
@@ -47,9 +50,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body
-        className={`${syne.variable} ${chivoMono.variable} antialiased`}
-      >
+      <body className={`${syne.variable} ${chivoMono.variable} antialiased`}>
         <ThemeProvider>
           <div className="grain-overlay" aria-hidden="true" />
           <FluidCursor />

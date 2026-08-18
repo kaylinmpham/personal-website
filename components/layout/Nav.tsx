@@ -9,6 +9,7 @@ const navLinks = [
   { label: "About", href: "#about" },
   { label: "Experience", href: "#experience" },
   { label: "Projects", href: "#projects" },
+  { label: "Resume", href: "/resume.pdf" },
   { label: "Now", href: "#now" },
   { label: "Contact", href: "#contact" },
 ];
@@ -73,16 +74,31 @@ export default function Nav() {
                     transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
                 )}
-                <a
-                  href={link.href}
-                  className={cn(
-                    "text-xs font-sans transition-colors duration-300 relative group",
-                    isActive ? "text-ink" : "text-subtle hover:text-ink",
-                  )}
-                >
-                  {link.label}
-                  <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-accent transition-all duration-300 group-hover:w-full" />
-                </a>
+                {link.href.startsWith("/") ? (
+                  <a
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={cn(
+                      "text-xs font-sans transition-colors duration-300 relative group",
+                      "text-subtle hover:text-ink",
+                    )}
+                  >
+                    {link.label}
+                    <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-accent transition-all duration-300 group-hover:w-full" />
+                  </a>
+                ) : (
+                  <a
+                    href={link.href}
+                    className={cn(
+                      "text-xs font-sans transition-colors duration-300 relative group",
+                      isActive ? "text-ink" : "text-subtle hover:text-ink",
+                    )}
+                  >
+                    {link.label}
+                    <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-accent transition-all duration-300 group-hover:w-full" />
+                  </a>
+                )}
               </li>
             );
           })}
@@ -91,15 +107,18 @@ export default function Nav() {
         {/* Wordmark — secret theme toggle */}
         <motion.button
           onClick={toggle}
-          className="font-display font-bold text-base text-ink hover:text-accent transition-colors duration-300 cursor-pointer select-none"
+          className="text-xl text-ink hover:text-accent transition-colors duration-300 cursor-pointer select-none"
+          style={{ fontFamily: '"Cedarville Cursive", cursive' }}
           initial={{ opacity: 0, x: -16 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
           whileTap={{ scale: 0.88, rotate: theme === "light" ? -8 : 8 }}
-          title={theme === "light" ? "enter the darkroom" : "back to daylight"}
+          title={
+            theme === "light" ? "enter the darkroom" : "back to light mode"
+          }
           aria-label="Toggle theme"
         >
-          kp.
+          kp
         </motion.button>
 
         {/* Mobile hamburger */}
