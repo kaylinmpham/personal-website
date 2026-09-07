@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/components/ui/ThemeProvider";
 
@@ -15,10 +16,18 @@ const navLinks = [
 ];
 
 export default function Nav() {
+  const pathname = usePathname();
+  const isCaseStudyPage = pathname.includes("/case-studies/");
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("about");
   const { theme, toggle } = useTheme();
+  const resolvedActiveSection = isCaseStudyPage ? "projects" : activeSection;
+
+  const getLinkHref = (href: string) => {
+    if (isCaseStudyPage && href === "#projects") return "/#projects";
+    return href;
+  };
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
@@ -27,7 +36,34 @@ export default function Nav() {
   }, []);
 
   useEffect(() => {
+    const syncActiveFromUrl = () => {
+      if (isCaseStudyPage) {
+        setActiveSection("projects");
+        return true;
+      }
+
+      const hashSection = window.location.hash?.replace("#", "");
+      const validHashSection = navLinks
+        .filter((link) => link.href.startsWith("#"))
+        .map((link) => link.href.slice(1))
+        .find((section) => section === hashSection);
+
+      setActiveSection(validHashSection ?? "about");
+      return false;
+    };
+
+    const shouldSkipObservers = syncActiveFromUrl();
+    if (shouldSkipObservers) {
+      window.addEventListener("popstate", syncActiveFromUrl);
+      window.addEventListener("hashchange", syncActiveFromUrl);
+      return () => {
+        window.removeEventListener("popstate", syncActiveFromUrl);
+        window.removeEventListener("hashchange", syncActiveFromUrl);
+      };
+    }
+
     const observers = navLinks.map(({ href }) => {
+      if (!href.startsWith("#")) return null;
       const el = document.getElementById(href.slice(1));
       if (!el) return null;
       const observer = new IntersectionObserver(
@@ -39,8 +75,15 @@ export default function Nav() {
       observer.observe(el);
       return observer;
     });
-    return () => observers.forEach((o) => o?.disconnect());
-  }, []);
+    window.addEventListener("popstate", syncActiveFromUrl);
+    window.addEventListener("hashchange", syncActiveFromUrl);
+
+    return () => {
+      observers.forEach((o) => o?.disconnect());
+      window.removeEventListener("popstate", syncActiveFromUrl);
+      window.removeEventListener("hashchange", syncActiveFromUrl);
+    };
+  }, [isCaseStudyPage]);
 
   return (
     <header
@@ -64,7 +107,14 @@ export default function Nav() {
           }}
         >
           {navLinks.map((link) => {
-            const isActive = activeSection === link.href.slice(1);
+            const linkHref = getLinkHref(link.href);
+            const sectionKey =
+              link.href === "#projects"
+                ? "projects"
+                : link.href.startsWith("#")
+                  ? link.href.slice(1)
+                  : "";
+            const isActive = resolvedActiveSection === sectionKey;
             return (
               <li key={link.href} className="relative">
                 {isActive && (
@@ -74,9 +124,9 @@ export default function Nav() {
                     transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
                 )}
-                {link.href.startsWith("/") ? (
+                {linkHref === "/resume.pdf" ? (
                   <a
-                    href={link.href}
+                    href={linkHref}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={cn(
@@ -89,7 +139,7 @@ export default function Nav() {
                   </a>
                 ) : (
                   <a
-                    href={link.href}
+                    href={linkHref}
                     className={cn(
                       "text-xs font-sans transition-colors duration-300 relative group",
                       isActive ? "text-ink" : "text-subtle hover:text-ink",
@@ -160,22 +210,25 @@ export default function Nav() {
             className="md:hidden overflow-hidden bg-paper/95 backdrop-blur-md border-b border-border/60"
           >
             <ul className="flex flex-col px-6 py-4 gap-4">
-              {navLinks.map((link, i) => (
-                <motion.li
-                  key={link.href}
-                  initial={{ opacity: 0, x: -12 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.07, duration: 0.3 }}
-                >
-                  <a
-                    href={link.href}
-                    className="text-sm font-sans text-ink hover:text-accent transition-colors"
-                    onClick={() => setMenuOpen(false)}
+              {navLinks.map((link, i) => {
+                const linkHref = getLinkHref(link.href);
+                return (
+                  <motion.li
+                    key={link.href}
+                    initial={{ opacity: 0, x: -12 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.07, duration: 0.3 }}
                   >
-                    {link.label}
-                  </a>
-                </motion.li>
-              ))}
+                    <a
+                      href={linkHref}
+                      className="text-sm font-sans text-ink hover:text-accent transition-colors"
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      {link.label}
+                    </a>
+                  </motion.li>
+                );
+              })}
             </ul>
           </motion.div>
         )}
