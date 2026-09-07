@@ -405,7 +405,7 @@ export default function Now() {
           What I&apos;m up to
         </h2>
         <p className="font-sans text-sm text-mid mt-3 max-w-lg">
-          What I&apos;ve been making, listening to, and reading lately.
+          What I&apos;ve been enjoying lately.
         </p>
       </motion.div>
 

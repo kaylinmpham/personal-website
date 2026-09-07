@@ -52,7 +52,6 @@ export default function RootLayout({
       </head>
       <body className={`${syne.variable} ${chivoMono.variable} antialiased`}>
         <ThemeProvider>
-          <div className="grain-overlay" aria-hidden="true" />
           <FluidCursor />
           <Nav />
           {children}

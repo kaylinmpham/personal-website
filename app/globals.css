@@ -88,27 +88,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ─────────────────────────────────────────
-   Grain texture overlay
-───────────────────────────────────────── */
-
-.grain-overlay {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9999;
-  background-image: url("/Grain.webp");
-  background-repeat: repeat;
-  background-size: 256px 256px;
-  opacity: 0.25;
-  mix-blend-mode: multiply;
-}
-
-[data-theme="dark"] .grain-overlay {
-  opacity: 0.15;
-  mix-blend-mode: screen;
-}
-
 ::selection {
   background-color: var(--color-accent);
   color: var(--color-paper);

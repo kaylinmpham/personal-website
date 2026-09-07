@@ -76,7 +76,7 @@ export default function MintConditionCaseStudyPage() {
   }, []);
 
   return (
-    <main className="mx-auto max-w-[1200px] px-6 py-16 sm:py-20">
+    <main className="mx-auto max-w-300 px-6 py-16 sm:py-20">
       <div className="mb-10">
         <Link
           href="/"
@@ -87,44 +87,44 @@ export default function MintConditionCaseStudyPage() {
       </div>
 
       <section className="rounded-[28px] border border-border bg-[#f2f0ec] p-5 sm:p-7 lg:p-8">
-        <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
-          <div>
-            <p className="mb-4 font-sans text-xs uppercase tracking-[0.2em] text-subtle">
+        <div className="grid gap-5 lg:grid-cols-[minmax(0,1.5fr)_minmax(260px,0.6fr)] lg:items-center">
+          <div className="min-w-0">
+            <p className="mb-3 font-sans text-[11px] uppercase tracking-[0.19em] text-subtle">
               Featured work
             </p>
 
-            <h1 className="mb-4 font-sligoil text-[4.25rem] leading-[0.88] tracking-[-0.04em] text-ink sm:text-[5rem] lg:text-[7rem]">
+            <h1 className="mb-3 font-sligoil text-[2.5rem] leading-[0.92] tracking-[-0.035em] text-ink sm:text-[3.2rem] lg:text-[4.4rem] lg:whitespace-nowrap">
               Mint Condition
             </h1>
 
-            <p className="max-w-xl font-sans text-base leading-relaxed text-subtle sm:text-[1.08rem]">
+            <p className="font-sans text-[0.96rem] leading-relaxed text-subtle sm:text-[1rem]">
               A Chrome extension that helps shoppers discover secondhand
               alternatives while they&apos;re already browsing, turning
               sustainability into an in-context decision instead of an extra
               step.
             </p>
 
-            <div className="mt-5 flex flex-wrap gap-2.5">
-              <span className="rounded-full border border-border px-3 py-1.5 font-sans text-[10px] uppercase tracking-[0.12em] text-subtle">
+            <div className="mt-4 flex flex-wrap gap-2">
+              <span className="rounded-full border border-border px-3 py-1.5 font-sans text-[9px] uppercase tracking-[0.12em] text-subtle">
                 Chrome Extension
               </span>
-              <span className="rounded-full border border-border px-3 py-1.5 font-sans text-[10px] uppercase tracking-[0.12em] text-subtle">
+              <span className="rounded-full border border-border px-3 py-1.5 font-sans text-[9px] uppercase tracking-[0.12em] text-subtle">
                 Product Design
               </span>
-              <span className="rounded-full border border-border px-3 py-1.5 font-sans text-[10px] uppercase tracking-[0.12em] text-subtle">
+              <span className="rounded-full border border-border px-3 py-1.5 font-sans text-[9px] uppercase tracking-[0.12em] text-subtle">
                 Frontend
               </span>
-              <span className="rounded-full border border-border px-3 py-1.5 font-sans text-[10px] uppercase tracking-[0.12em] text-subtle">
+              <span className="rounded-full border border-border px-3 py-1.5 font-sans text-[9px] uppercase tracking-[0.12em] text-subtle">
                 UX Research
               </span>
             </div>
           </div>
 
-          <div className="flex h-[300px] w-full items-center justify-center overflow-hidden rounded-[20px] sm:h-[360px] lg:h-[420px]">
+          <div className="mx-auto aspect-square w-full max-w-64 overflow-hidden rounded-[20px] lg:max-w-56">
             <img
               src="/icons/mint-condition.PNG"
               alt="Mint Condition logo"
-              className="h-full w-full object-cover"
+              className="h-full w-full object-contain"
             />
           </div>
         </div>
@@ -141,7 +141,7 @@ export default function MintConditionCaseStudyPage() {
             </p>
           </div>
 
-          <div className="rounded-[16px] border border-border bg-white/10 p-4">
+          <div className="rounded-2xl border border-border bg-white/10 p-4">
             <span className="mb-2 block font-sans text-[10px] uppercase tracking-[0.14em] text-subtle">
               Solution
             </span>
@@ -154,7 +154,7 @@ export default function MintConditionCaseStudyPage() {
 
         <div className="mt-6 grid gap-4 md:grid-cols-3">
           <div className="rounded-2xl border border-border bg-white/10 p-4 sm:p-5">
-            <strong className="mb-2 block font-sans text-[10px] uppercase tracking-[0.15em] text-subtle">
+            <strong className="mb-2 block font-sans text-[8px] uppercase tracking-[0.16em] text-subtle">
               Role
             </strong>
             <p className="font-sans leading-relaxed text-subtle">
@@ -164,7 +164,7 @@ export default function MintConditionCaseStudyPage() {
           </div>
 
           <div className="rounded-2xl border border-border bg-white/10 p-4 sm:p-5">
-            <strong className="mb-2 block font-sans text-[10px] uppercase tracking-[0.15em] text-subtle">
+            <strong className="mb-2 block font-sans text-[8px] uppercase tracking-[0.16em] text-subtle">
               Tools
             </strong>
             <p className="font-sans leading-relaxed text-subtle">
@@ -173,7 +173,7 @@ export default function MintConditionCaseStudyPage() {
           </div>
 
           <div className="rounded-2xl border border-border bg-white/10 p-4 sm:p-5">
-            <strong className="mb-2 block font-sans text-[10px] uppercase tracking-[0.15em] text-subtle">
+            <strong className="mb-2 block font-sans text-[8px] uppercase tracking-[0.16em] text-subtle">
               Outcome
             </strong>
             <p className="font-sans leading-relaxed text-subtle">
@@ -237,14 +237,14 @@ export default function MintConditionCaseStudyPage() {
                   }`}
                 >
                   <h2
-                    className={`font-sligoil text-[2.1rem] leading-[1.05] sm:text-[2.8rem] transition-colors duration-300 ${
+                    className={`font-sligoil text-[1.55rem] leading-[1.1] sm:text-[1.95rem] transition-colors duration-300 ${
                       isActive ? "text-ink" : "text-ink/70"
                     }`}
                   >
                     {slide.title}
                   </h2>
                   <p
-                    className={`mt-4 max-w-3xl font-sans text-base leading-relaxed transition-colors duration-300 ${
+                    className={`mt-4 w-full font-sans text-base leading-relaxed transition-colors duration-300 ${
                       isActive ? "text-subtle" : "text-subtle/75"
                     }`}
                   >

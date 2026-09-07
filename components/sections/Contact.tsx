@@ -75,15 +75,15 @@ export default function Contact() {
         className="flex flex-col sm:flex-row sm:items-end justify-between gap-12"
       >
         {/* Left: headline + CTA */}
-        <div className="max-w-md">
+        <div className="max-w-xl">
           <p className="font-sans text-xs uppercase tracking-widest text-subtle mb-3">
             Contact
           </p>
           <h2 className="font-display font-bold text-3xl sm:text-4xl text-ink tracking-tight leading-tight mb-6">
             Open to
             <br />
-            product design{" "}
-            <em className="not-italic text-accent">&amp; frontend</em>
+            <em className="not-italic text-ink">frontend &amp; </em>
+            <em className="not-italic text-accent">product design </em>
             <br />
             opportunities.
           </h2>

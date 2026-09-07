@@ -4,7 +4,7 @@ import Image from "next/image";
 import { motion } from "motion/react";
 
 const INTRO =
-  "I design and build accessible product experiences that reduce friction, improve clarity, and make complex systems feel intuitive.";
+  "Design engineer obsessed with aesthetics, human-feel, and crisp micro-interactions. Turning solid code and imaginative ideas into thoughtful, accessible web pages.";
 
 type IconItem = {
   title: string;
@@ -15,8 +15,8 @@ type IconItem = {
 
 const ICON_ITEMS: IconItem[] = [
   {
-    title: "About",
-    subtitle: "My story",
+    title: "Me",
+    subtitle: "So you can put a face to the name",
     href: "#about",
     art: "headshot",
   },
@@ -60,7 +60,17 @@ function IconCircle({ art }: { art: IconItem["art"] }) {
     note: "/icons/flip-phone.PNG",
     headshot: "/icons/head-shot.PNG",
     books: "/icons/books.PNG",
-    pdf: "/icons/paper.png",
+    pdf: "/icons/resume-preview.png",
+  };
+
+  const offsetMap = {
+    headshot: "translate-x-[2px]",
+    folder: "translate-x-[-1px]",
+    window: "translate-x-[-5px]",
+    pdf: "translate-x-[5px]",
+    record: "translate-x-0",
+    note: "translate-x-[4px]",
+    books: "translate-x-0",
   };
 
   return (
@@ -69,7 +79,7 @@ function IconCircle({ art }: { art: IconItem["art"] }) {
       alt=""
       width={80}
       height={80}
-      className="h-20 w-20 object-contain"
+      className={`h-20 w-20 object-contain ${offsetMap[art]}`}
     />
   );
 }
@@ -99,32 +109,27 @@ export default function Hero() {
       >
         {/* Header */}
         <motion.div
-          className="mb-8"
+          className="mb-5"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1 }}
         >
           <h1
-            className="mb-3 px-4 text-[clamp(3.5rem,8vw,6.5rem)] leading-[1.3] py-2"
+            className="mb-4 px-4 py-2 text-[clamp(3.5rem,8vw,6.5rem)] leading-[1.3] text-ink"
             style={{
               fontFamily: '"Cedarville Cursive", cursive',
-              background:
-                "linear-gradient(135deg, #2d2d2d 0%, #666 50%, #2d2d2d 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
             }}
           >
             Kaylin Pham
           </h1>
-          <p className="mb-8 font-sans text-sm uppercase tracking-[0.15em] text-subtle">
-            Product designer + frontend engineer
+          <p className="mb-2 font-sans text-[0.72rem] lowercase tracking-[0.08em] text-muted">
+            product designer + frontend engineer
           </p>
         </motion.div>
 
         {/* Description */}
         <motion.p
-          className="mx-auto mb-12 max-w-xl text-base leading-relaxed text-subtle"
+          className="mx-auto mb-10 max-w-xl text-base leading-relaxed text-subtle"
           style={{ fontFamily: '"Geist Mono", monospace' }}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
