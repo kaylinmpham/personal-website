@@ -43,8 +43,11 @@ const slides = [
 export default function MintConditionCaseStudyPage() {
   const sectionRefs = useRef<Array<HTMLElement | null>>([]);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isEmbedded, setIsEmbedded] = useState(false);
 
   useEffect(() => {
+    setIsEmbedded(new URLSearchParams(window.location.search).has("embedded"));
+
     const updateActiveSection = () => {
       const viewportMidpoint = window.innerHeight * 0.45;
       let closestIndex = 0;
@@ -77,14 +80,16 @@ export default function MintConditionCaseStudyPage() {
 
   return (
     <main className="mx-auto max-w-300 px-6 py-16 sm:py-20">
-      <div className="mb-10">
-        <Link
-          href="/"
-          className="font-sans text-xs uppercase tracking-[0.2em] text-subtle hover:text-ink"
-        >
-          ← Back to portfolio
-        </Link>
-      </div>
+      {!isEmbedded && (
+        <div className="mb-10">
+          <Link
+            href="/"
+            className="font-sans text-xs uppercase tracking-[0.2em] text-subtle hover:text-ink"
+          >
+            ← Back to portfolio
+          </Link>
+        </div>
+      )}
 
       <section className="rounded-[28px] border border-border bg-[#f2f0ec] p-5 sm:p-7 lg:p-8">
         <div className="grid gap-5 lg:grid-cols-[minmax(0,1.5fr)_minmax(260px,0.6fr)] lg:items-center">
@@ -267,9 +272,11 @@ export default function MintConditionCaseStudyPage() {
             Open in Chrome Web Store
           </a>
         </Button>
-        <Button variant="outline" size="sm" asChild noMotion>
-          <Link href="/#projects">Back to home</Link>
-        </Button>
+        {!isEmbedded && (
+          <Button variant="outline" size="sm" asChild noMotion>
+            <Link href="/#projects">Back to home</Link>
+          </Button>
+        )}
       </div>
     </main>
   );

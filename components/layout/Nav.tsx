@@ -21,6 +21,7 @@ export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("about");
+  const [isEmbedded, setIsEmbedded] = useState(false);
   const { theme, toggle } = useTheme();
   const resolvedActiveSection = isCaseStudyPage ? "projects" : activeSection;
 
@@ -28,6 +29,10 @@ export default function Nav() {
     if (isCaseStudyPage && href === "#projects") return "/#projects";
     return href;
   };
+
+  useEffect(() => {
+    setIsEmbedded(window.self !== window.top);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
@@ -84,6 +89,8 @@ export default function Nav() {
       window.removeEventListener("hashchange", syncActiveFromUrl);
     };
   }, [isCaseStudyPage]);
+
+  if (pathname === "/" || isEmbedded) return null;
 
   return (
     <header

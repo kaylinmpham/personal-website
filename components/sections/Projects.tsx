@@ -8,7 +8,11 @@ const CHROME_STORE_URL =
 
 const tags = ["Chrome Extension", "Product Design", "Frontend", "UX Research"];
 
-export default function Projects() {
+export default function Projects({
+  onOpenCaseStudy,
+}: {
+  onOpenCaseStudy?: () => void;
+} = {}) {
   return (
     <section id="projects" className="mx-auto max-w-5xl px-6 py-section">
       <div className="mb-5 flex items-center justify-between gap-4">
@@ -18,7 +22,19 @@ export default function Projects() {
 
         <div className="flex flex-wrap items-center justify-end gap-3">
           <Button variant="outline" size="sm" asChild noMotion>
-            <a href="/case-studies/mint-condition">Read case study</a>
+            <a
+              href="/case-studies/mint-condition"
+              onClick={
+                onOpenCaseStudy
+                  ? (event) => {
+                      event.preventDefault();
+                      onOpenCaseStudy();
+                    }
+                  : undefined
+              }
+            >
+              Read case study
+            </a>
           </Button>
           <Button variant="highlight" size="sm" asChild noMotion>
             <a

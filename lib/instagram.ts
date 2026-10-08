@@ -5,7 +5,7 @@ const MEDIA_ENDPOINT = `https://graph.instagram.com/${USER_ID}/media`;
 
 /**
  * Fetches recent Instagram posts using the Instagram Basic Display API.
- * 
+ *
  * Setup instructions:
  * 1. Go to https://developers.facebook.com/apps
  * 2. Create a new app or select existing
@@ -13,7 +13,7 @@ const MEDIA_ENDPOINT = `https://graph.instagram.com/${USER_ID}/media`;
  * 4. Configure OAuth redirect URIs
  * 5. Generate a long-lived access token (valid for 60 days)
  * 6. Add INSTAGRAM_ACCESS_TOKEN and INSTAGRAM_USER_ID to .env.local
- * 
+ *
  * Note: Access tokens expire every 60 days and need manual refresh.
  * Consider setting up a cron job to refresh tokens automatically.
  */
@@ -27,12 +27,16 @@ export async function getInstagramPosts(limit = 6) {
     // Fetch media IDs
     const mediaRes = await fetch(
       `${MEDIA_ENDPOINT}?fields=id&limit=${limit}&access_token=${ACCESS_TOKEN}`,
-      { next: { revalidate: 3600 } } // Cache for 1 hour
+      { next: { revalidate: 3600 } }, // Cache for 1 hour
     );
 
     if (!mediaRes.ok) {
       const errorText = await mediaRes.text();
-      console.error("[Instagram] Failed to fetch media:", mediaRes.status, errorText);
+      console.error(
+        "[Instagram] Failed to fetch media:",
+        mediaRes.status,
+        errorText,
+      );
       return { posts: [] };
     }
 
@@ -48,16 +52,19 @@ export async function getInstagramPosts(limit = 6) {
       mediaIds.map(async (item: { id: string }) => {
         const detailRes = await fetch(
           `https://graph.instagram.com/${item.id}?fields=id,caption,media_type,media_url,permalink,timestamp,thumbnail_url&access_token=${ACCESS_TOKEN}`,
-          { next: { revalidate: 3600 } }
+          { next: { revalidate: 3600 } },
         );
 
         if (!detailRes.ok) {
-          console.error(`[Instagram] Failed to fetch post ${item.id}:`, detailRes.status);
+          console.error(
+            `[Instagram] Failed to fetch post ${item.id}:`,
+            detailRes.status,
+          );
           return null;
         }
 
         return detailRes.json();
-      })
+      }),
     );
 
     // Filter out failed requests

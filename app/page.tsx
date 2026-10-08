@@ -1,50 +1,5 @@
-import Hero from "@/components/sections/Hero";
-import Experience from "@/components/sections/Experience";
-import Projects from "@/components/sections/Projects";
-import Now from "@/components/sections/Now";
-import Contact from "@/components/sections/Contact";
-
-const TICKER_ITEMS = [
-  "Product Design",
-  "Frontend",
-  "TypeScript",
-  "Next.js",
-  "Accessibility",
-  "Systems Thinking",
-  "Design Systems",
-  "UX Engineering",
-  "React",
-  "Product Thinking",
-];
-
-const tickerText = TICKER_ITEMS.join(" · ") + " · ";
+import HomeGrid from "@/components/sections/HomeGrid";
 
 export default function Home() {
-  return (
-    <main>
-      <Hero />
-
-      {/* Marquee ticker strip */}
-      <div
-        className="w-full overflow-hidden border-y border-border py-3 select-none"
-        aria-hidden="true"
-      >
-        <div className="marquee-track">
-          {[tickerText, tickerText].map((chunk, i) => (
-            <span
-              key={i}
-              className="font-sans text-xs uppercase tracking-widest text-subtle whitespace-nowrap px-4"
-            >
-              {chunk}
-            </span>
-          ))}
-        </div>
-      </div>
-
-      <Experience />
-      <Projects />
-      <Now />
-      <Contact />
-    </main>
-  );
+  return <HomeGrid />;
 }

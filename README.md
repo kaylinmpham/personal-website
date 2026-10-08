@@ -37,27 +37,27 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 site/
 ├── app/
-│   ├── globals.css          — earthy design token system (Tailwind v4 @theme)
-│   ├── layout.tsx           — DM Serif Display + DM Sans fonts, Nav, FluidCursor
-│   ├── page.tsx             — composes all 4 sections
-│   └── api/
-│       ├── spotify/route.ts — server-side OAuth token refresh → now playing
-│       └── reads/route.ts   — Goodreads RSS proxy + parser
+│ ├── globals.css — earthy design token system (Tailwind v4 @theme)
+│ ├── layout.tsx — DM Serif Display + DM Sans fonts, Nav, FluidCursor
+│ ├── page.tsx — composes all 4 sections
+│ └── api/
+│ ├── spotify/route.ts — server-side OAuth token refresh → now playing
+│ └── reads/route.ts — Goodreads RSS proxy + parser
 ├── components/
-│   ├── layout/Nav.tsx       — fixed nav, scroll-aware glass, mobile hamburger
-│   ├── sections/
-│   │   ├── Hero.tsx         — full-viewport, Motion word stagger, parallax blobs
-│   │   ├── Experience.tsx   — GSAP ScrollTrigger entrance, Headless UI Disclosure
-│   │   ├── Now.tsx          — Spotify + reading widgets, soundbar CSS animation
-│   │   └── Contact.tsx      — copy-email CTA, Motion social links, footer
-│   └── ui/FluidCursor.tsx   — spring-physics custom cursor (pointer: fine only)
+│ ├── layout/Nav.tsx — fixed nav, scroll-aware glass, mobile hamburger
+│ ├── sections/
+│ │ ├── Hero.tsx — full-viewport, Motion word stagger, parallax blobs
+│ │ ├── Experience.tsx — GSAP ScrollTrigger entrance, Headless UI Disclosure
+│ │ ├── Now.tsx — Spotify + reading widgets, soundbar CSS animation
+│ │ └── Contact.tsx — copy-email CTA, Motion social links, footer
+│ └── ui/FluidCursor.tsx — spring-physics custom cursor (pointer: fine only)
 ├── hooks/
-│   ├── useNowPlaying.ts     — polls /api/spotify every 60s
-│   └── useCurrentlyReading.ts
+│ ├── useNowPlaying.ts — polls /api/spotify every 60s
+│ └── useCurrentlyReading.ts
 ├── lib/
-│   ├── spotify.ts           — token refresh + currently-playing/recently-played
-│   ├── goodreads.ts         — RSS parse via fast-xml-parser + Open Library fallback
-│   └── utils.ts             — cn() helper, formatDuration()
-├── types/index.ts           — NowPlayingResponse, Book, ExperienceItem
-├── next.config.ts           — image domains (Spotify CDN, Goodreads, Open Library)
-└── .env.local.example       — setup instructions for Spotify + Goodreads
+│ ├── spotify.ts — token refresh + currently-playing/recently-played
+│ ├── goodreads.ts — RSS parse via fast-xml-parser + Open Library fallback
+│ └── utils.ts — cn() helper, formatDuration()
+├── types/index.ts — NowPlayingResponse, Book, ExperienceItem
+├── next.config.ts — image domains (Spotify CDN, Goodreads, Open Library)
+└── .env.local.example — setup instructions for Spotify + Goodreads

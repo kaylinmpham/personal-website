@@ -3,6 +3,7 @@
 This guide walks you through setting up Instagram Graph API for your portfolio site.
 
 ## Prerequisites
+
 - An Instagram **Business** or **Creator** account (you'll convert your pottery account)
 - A Facebook Page connected to that Instagram account
 - A Facebook Developer account
@@ -75,6 +76,7 @@ curl -i -X GET "https://graph.facebook.com/v18.0/oauth/access_token?grant_type=f
 ```
 
 Replace:
+
 - `YOUR_APP_ID`: Found in **App Settings > Basic**
 - `YOUR_APP_SECRET`: Found in **App Settings > Basic** (click "Show")
 - `SHORT_LIVED_TOKEN`: The token from step 3
@@ -113,21 +115,25 @@ curl -i -X GET "https://graph.facebook.com/v18.0/oauth/access_token?grant_type=f
 ## Troubleshooting
 
 **"Missing ACCESS_TOKEN or USER_ID"**
+
 - Make sure `.env.local` has both variables set
 - Restart your dev server after adding env vars
 
 **No posts showing**
+
 - Check browser console for errors
 - Verify your Instagram account has public posts
 - Check that the test user is properly set up
 
 **"Invalid OAuth access token"**
+
 - Token may have expired
 - Generate a new long-lived token (see step 6)
 
 ## API Limits
 
 Instagram Basic Display API has these limits:
+
 - 200 requests per hour per user
 - Posts refresh every hour (cached)
 - Up to 25 most recent posts available
@@ -135,6 +141,7 @@ Instagram Basic Display API has these limits:
 ## Going to Production
 
 When deploying:
+
 1. Add your production URL to OAuth Redirect URIs in Facebook App
 2. Add the same environment variables to your hosting platform
 3. The app must use HTTPS (required by Instagram)
