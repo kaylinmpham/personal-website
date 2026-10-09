@@ -184,7 +184,7 @@ export default function HomeGrid() {
       <aside className="home-rail" aria-label="Profile and contact">
         <section className="home-tile home-tile-intro" id="about">
           <Image
-            src="/icons/head-shot.PNG"
+            src="/icons/head-shot.jpg"
             alt="Portrait of Kaylin Pham"
             fill
             priority
