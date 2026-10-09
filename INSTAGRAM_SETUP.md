@@ -1,152 +1,30 @@
-# Instagram Integration Setup (Graph API)
+# Instagram Setup (Behold)
 
-This guide walks you through setting up Instagram Graph API for your portfolio site.
+The "What I'm up to" page shows recent posts from [@kaylinsarchive](https://www.instagram.com/kaylinsarchive/) using a [Behold](https://behold.so) JSON feed. Behold connects to Instagram and refreshes the access token on its own, so the site never stores an Instagram token.
 
-## Prerequisites
+## Setup
 
-- An Instagram **Business** or **Creator** account (you'll convert your pottery account)
-- A Facebook Page connected to that Instagram account
-- A Facebook Developer account
+1. Make sure the Instagram account is a **Creator** or **Business** account (Instagram app → Settings → Account type and tools).
+2. Sign up at [behold.so](https://behold.so) and click **Connect Instagram**. Log in as `@kaylinsarchive`.
+3. Click **Add feed**, choose **JSON**, and pick the account as the source.
+4. Copy the feed ID, which is the last part of the feed URL: `https://feeds.behold.so/<FEED_ID>`.
+5. Add it to `.env.local`:
 
-## Step-by-Step Setup
+   ```env
+   BEHOLD_FEED_ID=your_feed_id
+   ```
 
-### 1. Convert Instagram to Business/Creator Account
+6. Add the same variable to the hosting provider's environment variables and redeploy.
 
-1. Open Instagram app on your phone
-2. Go to **Settings > Account > Switch to Professional Account**
-3. Choose **"Creator"** or **"Business"**
-4. Complete the setup
+## How it works
 
-### 2. Create/Connect Facebook Page
-
-1. Go to [Facebook](https://facebook.com)
-2. Create a new Facebook Page for your pottery (or use existing)
-3. In Instagram app: **Settings > Account > Linked accounts > Facebook**
-4. Connect your Facebook Page to your Instagram account
-
-### 3. Create a Facebook App
-
-1. Go to [Facebook Developers](https://developers.facebook.com/apps)
-2. Click **"Create App"**
-3. Choose **"Other"** as your use case
-4. Choose **"Business"** as app type
-5. Fill in app details:
-   - **App Name**: Your site name (e.g., "My Portfolio")
-   - **App Contact Email**: Your email
-
-### 4. Add Facebook Login Product
-
-1. In your app dashboard, click **"Add Product"** in left sidebar
-2. Find **"Facebook Login"** and click **"Set Up"**
-3. Choose **"Web"** platform
-4. Add your site URL: `https://yourdomain.com` (or `http://localhost:3000` for dev)
-5. Click **"Save"**
-
-### 5. Configure Facebook Login Settings
-
-1. Go to **Facebook Login > Settings** in left sidebar
-2. Under **"Valid OAuth Redirect URIs"**, add:
-   - `https://yourdomain.com/`
-   - `http://localhost:3000/` (for development)
-3. Click **"Save Changes"**
-
-### 6. Get Your Instagram Business Account ID
-
-You need to find your Instagram Business Account ID. Use the Graph API Explorer:
-
-1. Go to [Graph API Explorer](https://developers.facebook.com/tools/explorer/)
-2. Select your app from dropdown
-3. Click **"Generate Access Token"**
-4. Grant permissions: `instagram_basic`, `pages_show_list`, `pages_read_engagement`
-5. In the query field, enter: `me/accounts`
-6. Click **"Submit"**
-7. You'll see your Facebook Page(s). Copy the Page ID
-8. Now query: `{PAGE_ID}?fields=instagram_business_account`
-9. Copy the `instagram_business_account.id` - this is your Instagram User ID!
-
-### 7. Get Long-Lived Page Access Token
-
-1. In Graph API Explorer, with your app selected
-2. Click **"Generate Access Token"** and authorize
-3. Copy the short-lived token
-4. Use this curl command to exchange for long-lived token:
-
-```bash
-curl -i -X GET "https://graph.facebook.com/v18.0/oauth/access_token?grant_type=fb_exchange_token&client_id=YOUR_APP_ID&client_secret=YOUR_APP_SECRET&fb_exchange_token=SHORT_LIVED_TOKEN"
-```
-
-Replace:
-
-- `YOUR_APP_ID`: Found in **App Settings > Basic**
-- `YOUR_APP_SECRET`: Found in **App Settings > Basic** (click "Show")
-- `SHORT_LIVED_TOKEN`: The token from step 3
-
-5. This gives you a token valid for 60 days. To get a never-expiring token:
-
-```bash
-curl -i -X GET "https://graph.facebook.com/v18.0/{PAGE_ID}?fields=access_token&access_token=LONG_LIVED_TOKEN"
-```
-
-The returned token never expires (as long as the app remains active).
-
-### 8. Add Environment Variables
-
-Add these to your `.env.local` file:
-
-```env
-INSTAGRAM_ACCESS_TOKEN=YOUR_PAGE_ACCESS_TOKEN
-INSTAGRAM_BUSINESS_ACCOUNT_ID=YOUR_IG_BUSINESS_ACCOUNT_ID
-```
-
-### 9. Token Refresh (Optional)
-
-Page tokens can be set to never expire, but if you used a 60-day token, refresh it before expiry:
-
-```bash
-curl -i -X GET "https://graph.facebook.com/v18.0/oauth/access_token?grant_type=fb_exchange_token&client_id=YOUR_APP_ID&client_secret=YOUR_APP_SECRET&fb_exchange_token=CURRENT_TOKEN"
-```
-
-## Testing
-
-1. Start your dev server: `npm run dev`
-2. Navigate to the "Now" section
-3. You should see your pottery posts in a 3x2 grid
+- `lib/instagram.ts` fetches the feed and maps each post to `{ id, permalink, timestamp, mediaType, imageUrl, alt }`.
+- `/api/instagram` serves the six most recent posts, cached for an hour.
+- Images come from Behold's CDN (`behold.pictures`), which is allowed in `next.config.ts`.
+- Behold updates the feed on its own schedule. To pull new posts right away, use **Refresh** on the feed in the Behold dashboard.
 
 ## Troubleshooting
 
-**"Missing ACCESS_TOKEN or USER_ID"**
-
-- Make sure `.env.local` has both variables set
-- Restart your dev server after adding env vars
-
-**No posts showing**
-
-- Check browser console for errors
-- Verify your Instagram account has public posts
-- Check that the test user is properly set up
-
-**"Invalid OAuth access token"**
-
-- Token may have expired
-- Generate a new long-lived token (see step 6)
-
-## API Limits
-
-Instagram Basic Display API has these limits:
-
-- 200 requests per hour per user
-- Posts refresh every hour (cached)
-- Up to 25 most recent posts available
-
-## Going to Production
-
-When deploying:
-
-1. Add your production URL to OAuth Redirect URIs in Facebook App
-2. Add the same environment variables to your hosting platform
-3. The app must use HTTPS (required by Instagram)
-
-## Additional Resources
-
-- [Instagram Basic Display API Docs](https://developers.facebook.com/docs/instagram-basic-display-api)
-- [Access Token Refresh Guide](https://developers.facebook.com/docs/instagram-basic-display-api/guides/long-lived-access-tokens)
+- **"Missing BEHOLD_FEED_ID" in the server logs:** the variable isn't set. Restart the dev server after adding it.
+- **"Behold feed request failed (404)":** the feed ID is wrong or the feed was deleted.
+- **Posts look out of date:** refresh the feed in Behold, then wait up to an hour for the site cache.

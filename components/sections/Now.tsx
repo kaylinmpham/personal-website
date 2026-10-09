@@ -1,13 +1,110 @@
 "use client";
 
 import Image from "next/image";
+import type { ReactNode } from "react";
 import { motion } from "motion/react";
 import { useNowPlaying } from "@/hooks/useNowPlaying";
 import { useCurrentlyReading } from "@/hooks/useCurrentlyReading";
 import { useTopTracks } from "@/hooks/useTopTracks";
 import { useInstagramPosts } from "@/hooks/useInstagramPosts";
 
-// ─── Spotify Widget ───────────────────────────────────────────────────────────
+const INSTAGRAM_URL = "https://www.instagram.com/kaylinsarchive/";
+
+// ─── Shared pieces ────────────────────────────────────────────────────────────
+
+function NowBlock({
+  title,
+  link,
+  wide,
+  delay = 0,
+  children,
+}: {
+  title: string;
+  link?: { label: string; href: string };
+  wide?: boolean;
+  delay?: number;
+  children: ReactNode;
+}) {
+  return (
+    <motion.div
+      className={`now-block${wide ? " now-block-wide" : ""}`}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.6, delay, ease: [0.25, 0.46, 0.45, 0.94] }}
+    >
+      <div className="now-block-header">
+        <h2 className="home-heading">{title}</h2>
+        {link && (
+          <a
+            href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="home-tile-link now-link"
+          >
+            {link.label}
+          </a>
+        )}
+      </div>
+      {children}
+    </motion.div>
+  );
+}
+
+function NowItem({
+  href,
+  art,
+  artShape = "square",
+  label,
+  title,
+  subtitle,
+  trailing,
+}: {
+  href: string;
+  art?: { src: string; alt: string };
+  artShape?: "square" | "book";
+  label: string;
+  title: string;
+  subtitle?: string;
+  trailing?: ReactNode;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="now-item"
+    >
+      <span className={`now-item-art now-item-art-${artShape}`}>
+        {art && <Image src={art.src} alt={art.alt} fill sizes="64px" />}
+      </span>
+      <span className="now-item-text">
+        <span className="now-item-label">{label}</span>
+        <span className="now-item-title">{title}</span>
+        {subtitle && <span className="now-item-sub">{subtitle}</span>}
+      </span>
+      {trailing}
+    </a>
+  );
+}
+
+function SkeletonItems({ count }: { count: number }) {
+  return (
+    <div className="now-list" aria-hidden="true">
+      {Array.from({ length: count }, (_, i) => (
+        <div key={i} className="now-item now-skeleton-item">
+          <span className="now-item-art now-item-art-square now-skeleton" />
+          <span className="now-item-text">
+            <span className="now-skeleton now-skeleton-line" />
+            <span className="now-skeleton now-skeleton-line now-skeleton-short" />
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ─── Spotify ──────────────────────────────────────────────────────────────────
 
 function SoundBars() {
   return (
@@ -23,265 +120,69 @@ function SpotifyWidget() {
   const { data: nowPlaying, loading: nowLoading } = useNowPlaying();
   const { data: top, loading: topLoading } = useTopTracks();
 
+  const track = nowPlaying?.track;
   const topTrack = top?.tracks?.[0] ?? null;
   const topArtist = top?.artists?.[0] ?? null;
 
   return (
-    <motion.div
-      className="border border-border p-6 flex flex-col gap-4"
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-    >
-      <div className="flex items-center gap-2">
-        <svg
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="text-accent shrink-0"
-        >
-          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-          <path d="M4 15a2 2 0 0 1 2 -2h1a2 2 0 0 1 2 2v3a2 2 0 0 1 -2 2h-1a2 2 0 0 1 -2 -2l0 -3" />
-          <path d="M15 15a2 2 0 0 1 2 -2h1a2 2 0 0 1 2 2v3a2 2 0 0 1 -2 2h-1a2 2 0 0 1 -2 -2l0 -3" />
-          <path d="M4 15v-3a8 8 0 0 1 16 0v3" />
-        </svg>
-        <span className="font-sans text-xs uppercase tracking-widest text-mid">
-          Listening to
-        </span>
-      </div>
-
-      {nowLoading ? (
-        <div className="flex gap-4 animate-pulse">
-          <div className="w-14 h-14 rounded-lg bg-border shrink-0" />
-          <div className="flex-1 flex flex-col gap-2 justify-center">
-            <div className="h-3 bg-border rounded w-3/4" />
-            <div className="h-3 bg-border rounded w-1/2" />
-          </div>
-        </div>
-      ) : nowPlaying?.track ? (
-        <a
-          href={nowPlaying.track.external_urls.spotify}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex gap-4 items-center group"
-        >
-          {nowPlaying.track.album.images[0] && (
-            <div className="relative w-14 h-14 rounded-lg overflow-hidden shrink-0 shadow-sm">
-              <Image
-                src={nowPlaying.track.album.images[0].url}
-                alt={nowPlaying.track.album.name}
-                fill
-                sizes="56px"
-                className="object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-          )}
-          <div className="flex-1 min-w-0">
-            <p className="font-sans text-xs text-dim mb-0.5">
-              {nowPlaying.isPlaying ? "Now playing" : "Recently played"}
-            </p>
-            <p className="font-sans text-xs font-medium text-ink truncate group-hover:text-accent transition-colors">
-              {nowPlaying.track.name}
-            </p>
-            <p className="font-sans text-xs text-mid truncate">
-              {nowPlaying.track.artists.map((a) => a.name).join(", ")}
-            </p>
-          </div>
-          {nowPlaying?.isPlaying && <SoundBars />}
-        </a>
+    <NowBlock title="Playing">
+      {nowLoading || topLoading ? (
+        <SkeletonItems count={3} />
       ) : (
-        <p className="font-sans text-xs text-dim italic">
-          Nothing playing right now.
-        </p>
-      )}
-
-      <div className="border-t border-border" />
-
-      <div className="flex flex-col gap-3">
-        {topLoading ? (
-          <>
-            <div className="flex gap-3 animate-pulse">
-              <div className="w-10 h-10 rounded bg-border shrink-0" />
-              <div className="flex-1 flex flex-col gap-2 justify-center">
-                <div className="h-2.5 bg-border rounded w-3/4" />
-                <div className="h-2.5 bg-border rounded w-1/2" />
-              </div>
-            </div>
-            <div className="flex gap-3 animate-pulse">
-              <div className="w-10 h-10 rounded-full bg-border shrink-0" />
-              <div className="flex-1 flex flex-col gap-2 justify-center">
-                <div className="h-2.5 bg-border rounded w-2/4" />
-                <div className="h-2.5 bg-border rounded w-1/3" />
-              </div>
-            </div>
-          </>
-        ) : (
-          <>
-            {topTrack && (
-              <a
-                href={topTrack.external_urls.spotify}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex gap-3 items-center group"
-              >
-                <div className="relative w-10 h-10 rounded overflow-hidden shrink-0 shadow-sm">
-                  <Image
-                    src={topTrack.album.images[0].url}
-                    alt={topTrack.album.name}
-                    fill
-                    sizes="40px"
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="font-sans text-xs text-dim mb-0.5">
-                    Top song this month
-                  </p>
-                  <p className="font-sans text-xs font-medium text-ink truncate group-hover:text-accent transition-colors">
-                    {topTrack.name}
-                  </p>
-                  <p className="font-sans text-xs text-mid truncate">
-                    {topTrack.artists.map((a) => a.name).join(", ")}
-                  </p>
-                </div>
-              </a>
-            )}
-            {topArtist && (
-              <a
-                href={topArtist.external_urls.spotify}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex gap-3 items-center group"
-              >
-                <div className="relative w-10 h-10 rounded-full overflow-hidden shrink-0 shadow-sm">
-                  {topArtist.images[0] && (
-                    <Image
-                      src={topArtist.images[0].url}
-                      alt={topArtist.name}
-                      fill
-                      sizes="40px"
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  )}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="font-sans text-xs text-dim mb-0.5">
-                    Top artist this month
-                  </p>
-                  <p className="font-sans text-xs font-medium text-ink truncate group-hover:text-accent transition-colors">
-                    {topArtist.name}
-                  </p>
-                  <p className="font-sans text-xs text-mid truncate">
-                    {(topArtist.genres ?? []).slice(0, 2).join(", ")}
-                  </p>
-                </div>
-              </a>
-            )}
-          </>
-        )}
-      </div>
-    </motion.div>
-  );
-}
-
-// ─── Instagram Widget ─────────────────────────────────────────────────────────
-function InstagramWidget() {
-  const { data, loading } = useInstagramPosts();
-  const posts = data?.posts?.slice(0, 6) ?? [];
-
-  return (
-    <motion.div
-      className="border border-border p-6 flex flex-col gap-4"
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{
-        duration: 0.6,
-        delay: 0.1,
-        ease: [0.25, 0.46, 0.45, 0.94],
-      }}
-    >
-      <div className="flex items-center gap-2">
-        <svg
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="text-accent shrink-0"
-        >
-          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-          <rect x="4" y="4" width="16" height="16" rx="4" />
-          <circle cx="12" cy="12" r="3" />
-          <line x1="16.5" y1="7.5" x2="16.5" y2="7.501" />
-        </svg>
-        <span className="font-sans text-xs uppercase tracking-widest text-mid">
-          Pottery on Instagram
-        </span>
-      </div>
-
-      {loading ? (
-        <div className="grid grid-cols-3 gap-2 animate-pulse">
-          {[0, 1, 2, 3, 4, 5].map((i) => (
-            <div key={i} className="aspect-square rounded bg-border" />
-          ))}
-        </div>
-      ) : posts.length > 0 ? (
-        <div className="grid grid-cols-3 gap-2">
-          {posts.map((post) => (
-            <a
-              key={post.id}
-              href={post.permalink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group relative aspect-square rounded overflow-hidden bg-border"
-            >
-              <Image
-                src={
-                  post.media_type === "VIDEO" && post.thumbnail_url
-                    ? post.thumbnail_url
-                    : post.media_url
+        <div className="now-list">
+          {track ? (
+            <NowItem
+              href={track.external_urls.spotify}
+              art={
+                track.album.images[0] && {
+                  src: track.album.images[0].url,
+                  alt: track.album.name,
                 }
-                alt={post.caption?.slice(0, 100) || "Instagram post"}
-                fill
-                sizes="(max-width: 640px) 33vw, 120px"
-                className="object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              {post.media_type === "VIDEO" && (
-                <div className="absolute inset-0 flex items-center justify-center bg-black/10">
-                  <svg
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="white"
-                    className="drop-shadow-lg"
-                  >
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
-                </div>
-              )}
-            </a>
-          ))}
+              }
+              label={nowPlaying.isPlaying ? "Now playing" : "Recently played"}
+              title={track.name}
+              subtitle={track.artists.map((a) => a.name).join(", ")}
+              trailing={nowPlaying.isPlaying && <SoundBars />}
+            />
+          ) : (
+            <p className="now-empty">Nothing playing right now.</p>
+          )}
+          {topTrack && (
+            <NowItem
+              href={topTrack.external_urls.spotify}
+              art={
+                topTrack.album.images[0] && {
+                  src: topTrack.album.images[0].url,
+                  alt: topTrack.album.name,
+                }
+              }
+              label="Top song this month"
+              title={topTrack.name}
+              subtitle={topTrack.artists.map((a) => a.name).join(", ")}
+            />
+          )}
+          {topArtist && (
+            <NowItem
+              href={topArtist.external_urls.spotify}
+              art={
+                topArtist.images[0] && {
+                  src: topArtist.images[0].url,
+                  alt: topArtist.name,
+                }
+              }
+              label="Top artist this month"
+              title={topArtist.name}
+              subtitle={(topArtist.genres ?? []).slice(0, 2).join(", ")}
+            />
+          )}
         </div>
-      ) : (
-        <p className="font-sans text-xs text-dim italic">
-          No posts yet. Check back soon!
-        </p>
       )}
-    </motion.div>
+    </NowBlock>
   );
 }
 
-// ─── Reading Widget ───────────────────────────────────────────────────────────
+// ─── Reading ──────────────────────────────────────────────────────────────────
+
 function ReadingWidget() {
   const { data, loading } = useCurrentlyReading();
   const books = [
@@ -290,99 +191,91 @@ function ReadingWidget() {
   ].slice(0, 3);
 
   return (
-    <motion.div
-      className="border border-border p-6 flex flex-col gap-4"
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{
-        duration: 0.6,
-        delay: 0.15,
-        ease: [0.25, 0.46, 0.45, 0.94],
-      }}
-    >
-      <div className="flex items-center gap-2">
-        <svg
-          width="16"
-          height="16"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="text-accent shrink-0"
-        >
-          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-          <path d="M5 5a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -14" />
-          <path d="M9 5a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-2a1 1 0 0 1 -1 -1l0 -14" />
-          <path d="M5 8h4" />
-          <path d="M9 16h4" />
-          <path d="M13.803 4.56l2.184 -.53c.562 -.135 1.133 .19 1.282 .732l3.695 13.418a1.02 1.02 0 0 1 -.634 1.219l-.133 .041l-2.184 .53c-.562 .135 -1.133 -.19 -1.282 -.732l-3.695 -13.418a1.02 1.02 0 0 1 .634 -1.219l.133 -.041" />
-          <path d="M14 9l4 -1" />
-          <path d="M16 16l3.923 -.98" />
-        </svg>
-        <span className="font-sans text-xs uppercase tracking-widest text-mid">
-          Reading
-        </span>
-      </div>
-
+    <NowBlock title="Reading" delay={0.1}>
       {loading ? (
-        <div className="flex flex-col gap-3 animate-pulse">
-          {[0, 1, 2].map((i) => (
-            <div key={i} className="flex gap-3">
-              <div className="w-10 h-14 rounded bg-border shrink-0" />
-              <div className="flex-1 flex flex-col gap-2 justify-center">
-                <div className="h-3 bg-border rounded w-4/5" />
-                <div className="h-3 bg-border rounded w-2/4" />
-              </div>
-            </div>
+        <SkeletonItems count={3} />
+      ) : books.length > 0 ? (
+        <div className="now-list">
+          {books.map((book) => (
+            <NowItem
+              key={`${book.shelf}-${book.title}`}
+              href={book.link}
+              art={
+                book.coverUrl
+                  ? { src: book.coverUrl, alt: book.title }
+                  : undefined
+              }
+              artShape="book"
+              label={
+                book.shelf === "currently-reading"
+                  ? "Currently reading"
+                  : "Just finished"
+              }
+              title={book.title}
+              subtitle={book.author}
+            />
           ))}
         </div>
-      ) : books.length > 0 ? (
-        <ul className="flex flex-col gap-3">
-          {books.map((book, i) => (
-            <li key={i}>
-              <a
-                href={book.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex gap-3 items-center group"
-              >
-                <div className="relative w-10 h-14 rounded overflow-hidden shrink-0 shadow-sm bg-border">
-                  {book.coverUrl && (
-                    <Image
-                      src={book.coverUrl}
-                      alt={book.title}
-                      fill
-                      sizes="40px"
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  )}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="font-sans text-xs text-dim mb-0.5">
-                    {book.shelf === "currently-reading"
-                      ? "Currently reading"
-                      : "Just finished"}
-                  </p>
-                  <p className="font-sans text-xs font-medium text-ink truncate group-hover:text-accent transition-colors">
-                    {book.title}
-                  </p>
-                  <p className="font-sans text-xs text-mid truncate">
-                    {book.author}
-                  </p>
-                </div>
-              </a>
-            </li>
-          ))}
-        </ul>
       ) : (
-        <p className="font-sans text-sm text-dim italic">
-          Shelf is quiet right now.
-        </p>
+        <p className="now-empty">Shelf is quiet right now.</p>
       )}
-    </motion.div>
+    </NowBlock>
+  );
+}
+
+// ─── Pottery (Instagram) ──────────────────────────────────────────────────────
+
+function PotteryWidget() {
+  const { data, loading } = useInstagramPosts();
+  const posts = data?.posts?.slice(0, 6) ?? [];
+
+  return (
+    <NowBlock
+      title="Making"
+      link={{ label: "@kaylinsarchive ↗", href: INSTAGRAM_URL }}
+      wide
+      delay={0.15}
+    >
+      <p className="home-copy now-block-copy">
+        Pottery from the wheel, glaze results, and whatever came out of the kiln
+        recently.
+      </p>
+      {loading ? (
+        <div className="now-pottery-grid" aria-hidden="true">
+          {[0, 1, 2, 3, 4, 5].map((i) => (
+            <div key={i} className="now-pottery-tile now-skeleton" />
+          ))}
+        </div>
+      ) : posts.length > 0 ? (
+        <div className="now-pottery-grid">
+          {posts.map((post) => (
+            <a
+              key={post.id}
+              href={post.permalink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="now-pottery-tile"
+            >
+              <Image
+                src={post.imageUrl}
+                alt={post.alt}
+                fill
+                sizes="(max-width: 700px) 33vw, 20vw"
+              />
+              {post.mediaType === "VIDEO" && (
+                <span className="now-pottery-play" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </span>
+              )}
+            </a>
+          ))}
+        </div>
+      ) : (
+        <p className="now-empty">No posts yet. Check back soon!</p>
+      )}
+    </NowBlock>
   );
 }
 
@@ -390,29 +283,18 @@ function ReadingWidget() {
 
 export default function Now() {
   return (
-    <section id="now" className="py-section px-6 max-w-5xl mx-auto">
-      <motion.div
-        className="mb-16"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
-      >
-        <p className="font-sans text-xs uppercase tracking-widest text-mid mb-3">
-          Now
+    <section id="now" className="now-page">
+      <div className="work-intro">
+        <h1 className="home-heading">What I&apos;m up to</h1>
+        <p className="home-copy">
+          A running log of what I&apos;ve been into lately off the clock.
         </p>
-        <h2 className="font-display font-bold text-3xl sm:text-4xl text-ink tracking-tight">
-          What I&apos;m up to
-        </h2>
-        <p className="font-sans text-sm text-mid mt-3 max-w-lg">
-          What I&apos;ve been enjoying lately.
-        </p>
-      </motion.div>
+      </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="now-grid">
         <SpotifyWidget />
         <ReadingWidget />
-        {/* <InstagramWidget /> */}
+        <PotteryWidget />
       </div>
     </section>
   );

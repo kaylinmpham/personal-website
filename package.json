@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "spotify:auth": "node --env-file=.env.local scripts/spotify-auth.mjs"
   },
   "dependencies": {
     "@fontsource/cedarville-cursive": "^5.3.0",

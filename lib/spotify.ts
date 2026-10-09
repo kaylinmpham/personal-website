@@ -30,6 +30,12 @@ async function getAccessToken(): Promise<string> {
   });
 
   const data = await res.json();
+  if (!res.ok || !data.access_token) {
+    // "invalid_grant" means the refresh token was revoked: run `npm run spotify:auth`.
+    throw new Error(
+      `Spotify token refresh failed (${res.status}): ${data.error_description ?? data.error}`
+    );
+  }
   return data.access_token as string;
 }
 

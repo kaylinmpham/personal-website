@@ -1,269 +1,205 @@
 "use client";
 
-import { useRef } from "react";
 import {
   Disclosure,
   DisclosureButton,
   DisclosurePanel,
 } from "@headlessui/react";
 import { motion } from "motion/react";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { cn } from "@/lib/utils";
 import type { ExperienceItem } from "@/types";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const EXPERIENCE: ExperienceItem[] = [
   {
     company: "CoStar Group",
-    role: "Software Engineer I",
-    period: "July 2023 - February 2026",
-    location: "Washington, D.C.",
+    role: "Software Engineer",
+    period: "2023 – 2026",
+    scope: "Front-End / Full-Stack / Product Design",
+    team: "Sync",
+    tools:
+      "Figma, TypeScript, Remix, React, C#, .NET, AWS, Kafka, Azure, Datadog, ARIA/WCAG",
     bullets: [
-      "Led UI design initiatives via high-fidelity Figma mockups and prototypes; optimized design-to-dev workflows by translating designs into scalable React components.",
-      "Owned end-to-end features for the Sync Portal (TypeScript/Remix); built REST APIs and accessible interfaces (ARIA, keyboard nav) to enable real-time ETL data visualization.",
-      "Maintained CoStar Sync, a near-real-time ETL platform using C#, .NET, AWS, and Kafka, supporting billions of daily data mutations across the ecosystem.",
-      "Mentored and onboarded team members, conducting weekly intern code reviews and training new hires on Figma design workflows and technical implementation.",
+      "Owned end-to-end delivery of Sync Portal features (TypeScript, Remix), an internal app for querying, visualizing, and managing CoStar Sync data. Took Figma prototypes to ARIA compliant React components to production pages, streamlining the design-to-production pipeline.",
+      "Contributed to CoStar Sync (C#, .NET, AWS, Kafka), a near-real-time ETL platform processing billions of daily data mutations across CoStar's ecosystem, including Homes.com, Apartments.com, and LoopNet.",
+      "Designed and built a build log dashboard that auto-schedules models in optimal order, cutting a manual process to seconds, with Azure, Datadog, and ownership data in each job view.",
+      "Facilitated an intro to Figma workshop for a 30+ person backend engineering org.",
+      "Mentored and onboarded one new hire and one intern on Figma workflows and coding practices.",
     ],
-    tags: ["React", "TypeScript", "Tailwind CSS", "C#", ".NET", "AWS", "Kafka"],
     link: "https://www.costar.com",
   },
   {
     company: "Jacobs",
-    role: "Embedded Systems Software Engineering Intern",
-    period: "May - August 2022",
-    location: "Severn, MD",
+    role: "Software Engineering Intern",
+    period: "2022",
+    scope: "Embedded Systems / Backend",
+    team: "Aerospace Embedded Systems",
+    tools: "C++, Python, Git, Docker, Jenkins, CI/CD",
     bullets: [
-      "Maintained satellite software reliability by adapting C++ and Python patterns to support new functional requirements for system repositories.",
-      "Accelerated testing workflows by implementing unit and integration tests using Git, Docker, and Jenkins in an Agile environment.",
+      "Maintained satellite software reliability by adapting C++ and Python patterns to support new functional requirements.",
+      "Accelerated testing workflows by implementing unit and integration tests in a CI/CD pipeline using Git, Docker, and Jenkins in an Agile environment.",
     ],
-    tags: ["C++", "Python", "Git", "Docker", "Jenkins", "Agile"],
     link: "https://www.jacobs.com",
   },
   {
     company: "NASA",
-    role: "Software Engineer Intern",
-    period: "May - August 2019 & May - August 2020",
-    location: "Greenbelt, MD",
+    role: "Engineering Intern",
+    period: "2018 & 2019",
+    scope: "Database Design / Arduino / CAD",
+    team: "Electro-Mechanical Branch",
+    tools: "Arduino, CAD, Linux",
     bullets: [
-      "Maintained an internal database for the electro-mechanical branch to store flight projects and make it more user friendly, amongst a team of interns.",
-      "Built a miniature model of a CubeSat utilizing arduino coding and CAD software in a Linux environment.",
+      "Built an online database for NASA Goddard's Electro-Mechanical branch to store flight projects and make them easier to find.",
+      "Worked with two other interns to make the database more user friendly for branch staff.",
+      "Modeled a miniature CubeSat in CAD software and programmed it with Arduino on Linux.",
     ],
-    tags: ["Python", "Arduino", "CAD", "Linux"],
     link: "https://www.nasa.gov",
   },
 ];
 
-// ─── Skills grid data ─────────────────────────────────────────────────────────
-const SKILLS = [
-  "React",
-  "Next.js",
-  "TypeScript",
-  "Tailwind CSS",
-  "Motion",
-  "GSAP",
-  "Figma",
-  "Aria Accessibility",
-  "Design Systems",
-  "CSS / SVG Animation",
-  "Node.js",
-  "REST APIs",
+const SKILL_GROUPS = [
+  {
+    label: "Design",
+    skills: [
+      "Figma",
+      "Prototyping",
+      "Design Systems",
+      "Accessibility (ARIA/WCAG)",
+    ],
+  },
+  {
+    label: "Frontend",
+    skills: [
+      "React",
+      "Next.js",
+      "TypeScript",
+      "Remix",
+      "Tailwind CSS",
+      "Motion / GSAP",
+      "CSS / SVG Animation",
+    ],
+  },
+  {
+    label: "Backend & cloud",
+    skills: [
+      "Node.js",
+      "REST APIs",
+      "C#",
+      ".NET",
+      "AWS",
+      "Azure",
+      "Kafka",
+      "Datadog",
+    ],
+  },
 ];
 
 export default function Experience() {
-  const containerRef = useRef<HTMLElement>(null);
-
-  useGSAP(
-    () => {
-      // Stagger timeline items in from the left on scroll
-      gsap.fromTo(
-        ".exp-item",
-        { opacity: 0, x: -32 },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 0.7,
-          ease: "power3.out",
-          stagger: 0.15,
-          scrollTrigger: {
-            trigger: ".exp-list",
-            start: "top 80%",
-            end: "bottom 20%",
-            toggleActions: "play none none none",
-          },
-        },
-      );
-
-      // Skills chips fade in
-      gsap.fromTo(
-        ".skill-chip",
-        { opacity: 0 },
-        {
-          opacity: 1,
-          duration: 0.4,
-          ease: "power2.out",
-          stagger: 0.045,
-          scrollTrigger: {
-            trigger: ".skills-grid",
-            start: "top 85%",
-            toggleActions: "play none none none",
-          },
-        },
-      );
-    },
-    { scope: containerRef },
-  );
-
   return (
-    <section
-      id="experience"
-      ref={containerRef}
-      className="py-section px-6 max-w-5xl mx-auto"
-    >
-      {/* Section header */}
-      <motion.div
-        className="mb-6"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
-      >
-        <p className="font-sans text-xs uppercase tracking-widest text-subtle mb-3">
-          Work
-        </p>
-        <h2 className="font-display font-bold text-3xl sm:text-4xl text-ink tracking-tight">
-          Experience
-        </h2>
-      </motion.div>
+    <section id="experience" className="exp-page">
+      {EXPERIENCE.map((item, i) => (
+        <motion.div
+          key={item.company}
+          className="exp-entry"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{
+            duration: 0.6,
+            delay: i * 0.08,
+            ease: [0.25, 0.46, 0.45, 0.94],
+          }}
+        >
+          <Disclosure>
+            {({ open }) => (
+              <>
+                <DisclosureButton className="exp-header">
+                  <span className="exp-header-text">
+                    <span className="exp-period">
+                      {item.period}
+                      {!open && ` · ${item.company}`}
+                    </span>
+                    <span className="home-heading exp-role">{item.role}</span>
+                  </span>
+                  <span className="exp-toggle" aria-hidden="true">
+                    {open ? "[−]" : "[+]"}
+                  </span>
+                </DisclosureButton>
 
-      {/* Timeline */}
-      <div className="exp-list relative">
-        {/* Vertical line */}
-        <div className="absolute left-0 top-2 bottom-2 w-px bg-border hidden sm:block" />
-
-        <div className="flex flex-col gap-2">
-          {EXPERIENCE.map((item, i) => (
-            <div key={i} className="exp-item sm:pl-10 relative">
-              {/* Dot */}
-              <div className="absolute left-0 top-7 -translate-x-1/2 hidden sm:flex text-accent text-xs leading-none bg-paper pt-0.5 pb-1">
-                ꩜
-              </div>
-
-              <Disclosure>
-                {({ open }) => (
-                  <div
-                    className={cn(
-                      "border transition-all duration-300 rounded-sm",
-                      open
-                        ? "border-border bg-border/20"
-                        : "border-transparent hover:border-border/80 hover:bg-border/10",
-                    )}
+                <DisclosurePanel>
+                  <motion.div
+                    className="exp-body"
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      duration: 0.3,
+                      ease: [0.25, 0.46, 0.45, 0.94],
+                    }}
                   >
-                    <DisclosureButton className="w-full text-left px-6 py-5 flex items-start justify-between gap-4 group">
-                      <div className="flex-1 min-w-0">
-                        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-1">
-                          <h3 className="font-display font-semibold text-lg text-ink">
-                            {item.role}
-                          </h3>
-                          {item.link ? (
-                            <a
-                              href={item.link}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="font-sans text-xs text-accent hover:text-accent-hover transition-colors"
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              {item.company} ↗
-                            </a>
-                          ) : (
-                            <span className="font-sans text-xs text-accent">
-                              {item.company}
-                            </span>
-                          )}
+                    <dl className="exp-meta">
+                      {[
+                        { label: "Scope", value: item.scope },
+                        { label: "Team", value: item.team },
+                        { label: "Tools", value: item.tools },
+                      ].map((meta) => (
+                        <div key={meta.label}>
+                          <dt className="exp-label">{meta.label}</dt>
+                          <dd>{meta.value}</dd>
                         </div>
-                        <p className="font-sans text-xs text-muted">
-                          {item.period} · {item.location}
-                        </p>
-                      </div>
+                      ))}
+                    </dl>
 
-                      {/* Expand toggle */}
-                      <span
-                        className="font-mono text-sm text-subtle shrink-0 mt-1 select-none"
-                        aria-hidden="true"
-                      >
-                        {open ? "[-]" : "[+]"}
-                      </span>
-                    </DisclosureButton>
-
-                    <DisclosurePanel>
-                      <motion.div
-                        initial={{ opacity: 0, y: -8 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{
-                          duration: 0.3,
-                          ease: [0.25, 0.46, 0.45, 0.94],
-                        }}
-                        className="px-6 pb-6"
-                      >
-                        <ul className="space-y-2 mb-5">
-                          {item.bullets.map((bullet, j) => (
-                            <li
-                              key={j}
-                              className="font-sans text-xs text-ink/80 leading-relaxed flex gap-2"
-                            >
-                              <span className="text-accent mt-0.5 shrink-0 text-xs">
-                                ⤳
-                              </span>
-                              {bullet}
-                            </li>
+                    <div className="exp-detail">
+                      {item.link ? (
+                        <a
+                          href={item.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="exp-company"
+                        >
+                          {item.company} ↗
+                        </a>
+                      ) : (
+                        <span className="exp-company">{item.company}</span>
+                      )}
+                      <div>
+                        <p className="exp-label">Description</p>
+                        <ul className="exp-bullets">
+                          {item.bullets.map((bullet) => (
+                            <li key={bullet}>{bullet}</li>
                           ))}
                         </ul>
-                        <div className="flex flex-wrap gap-2">
-                          {item.tags.map((tag) => (
-                            <span
-                              key={tag}
-                              className="font-sans text-xs px-3 py-1 border border-border text-subtle"
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      </motion.div>
-                    </DisclosurePanel>
-                  </div>
-                )}
-              </Disclosure>
+                      </div>
+                    </div>
+                  </motion.div>
+                </DisclosurePanel>
+              </>
+            )}
+          </Disclosure>
+        </motion.div>
+      ))}
+
+      <motion.div
+        className="exp-entry exp-skills"
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-60px" }}
+        transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+      >
+        <h2 className="home-heading exp-skills-title">Tools &amp; skills</h2>
+        <div className="exp-skill-groups">
+          {SKILL_GROUPS.map((group) => (
+            <div key={group.label}>
+              <p className="exp-label">{group.label}</p>
+              <ul className="exp-skill-list">
+                {group.skills.map((skill) => (
+                  <li key={skill} className="exp-skill">
+                    {skill}
+                  </li>
+                ))}
+              </ul>
             </div>
           ))}
         </div>
-      </div>
-
-      {/* Skills */}
-      <div className="mt-20">
-        <motion.p
-          className="font-sans text-xs uppercase tracking-widest text-subtle mb-6"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          Tools & Skills
-        </motion.p>
-        <div className="skills-grid flex flex-wrap gap-3">
-          {SKILLS.map((skill) => (
-            <motion.span
-              key={skill}
-              className="skill-chip font-sans text-sm px-4 py-2 border border-border text-subtle hover:bg-border/30 hover:border-accent/50 hover:text-accent transition-all duration-300 cursor-default"
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 400, damping: 17 }}
-            >
-              {skill}
-            </motion.span>
-          ))}
-        </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

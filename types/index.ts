@@ -67,13 +67,12 @@ export interface Book {
 
 export interface InstagramPost {
   id: string;
-  caption: string;
-  media_type: "IMAGE" | "VIDEO" | "CAROUSEL_ALBUM";
-  media_url: string;
   permalink: string;
   timestamp: string;
-  /** Only present for VIDEO type */
-  thumbnail_url?: string;
+  mediaType: "IMAGE" | "VIDEO" | "CAROUSEL_ALBUM";
+  /** Still image to display (video posts use their cover frame) */
+  imageUrl: string;
+  alt: string;
 }
 
 export interface InstagramPostsResponse {
@@ -88,8 +87,9 @@ export interface ExperienceItem {
   company: string;
   role: string;
   period: string;
-  location: string;
+  scope: string;
+  team: string;
+  tools: string;
   bullets: string[];
-  tags: string[];
   link?: string;
 }

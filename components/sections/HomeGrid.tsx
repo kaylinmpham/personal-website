@@ -5,6 +5,8 @@ import Image from "next/image";
 import Experience from "@/components/sections/Experience";
 import Projects from "@/components/sections/Projects";
 import Now from "@/components/sections/Now";
+import DeepDive from "@/components/sections/DeepDive";
+import { CASE_STUDIES, type CaseStudyId } from "@/lib/caseStudies";
 
 const EMAIL = "kaylin.renee.pham@gmail.com";
 
@@ -31,7 +33,10 @@ const SECTIONS = [
     label: "Selected project",
     title: "My work",
     copy: "My work is out in the real world, from first sketch to shipped product.",
-    image: "/mockups/hero-context.webp",
+    images: [
+      { src: "/icons/dfa-ss.png", alt: "Dream Floral Art website" },
+      { src: "/icons/mint-ss.png", alt: "Mint Condition extension" },
+    ],
     className: "home-tile-work",
   },
   {
@@ -45,7 +50,7 @@ const SECTIONS = [
     id: "now",
     label: "What I'm up to",
     title: "A glimpse into my life outside of work.",
-    copy: "A running log of what I've been into lately, on and off the clock.",
+    copy: "A running log of what I've been into lately off the clock.",
     className: "home-tile-now",
   },
 ];
@@ -86,15 +91,19 @@ function SectionPicker({ onSelect }: { onSelect: (id: string) => void }) {
           aria-label={`Open ${section.label}`}
         >
           <span className="home-eyebrow">{section.label}</span>
-          {section.image && (
-            <span className="home-work-image-wrap">
-              <Image
-                src={section.image}
-                alt="Mint Condition shopping experience"
-                fill
-                sizes="(max-width: 700px) 100vw, 33vw"
-                className="home-work-image"
-              />
+          {section.images && (
+            <span className="home-work-images">
+              {section.images.map((image) => (
+                <span className="home-work-image-wrap" key={image.src}>
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    fill
+                    sizes="(max-width: 700px) 50vw, 17vw"
+                    className="home-work-image"
+                  />
+                </span>
+              ))}
             </span>
           )}
           <span className="home-tile-content">
@@ -107,7 +116,9 @@ function SectionPicker({ onSelect }: { onSelect: (id: string) => void }) {
             <span className="home-copy">{section.copy}</span>
 
             {section.id === "projects" && (
-              <span className="home-tile-link">Mint Condition ↗</span>
+              <span className="home-tile-link">
+                Dream Floral Art · Mint Condition ↗
+              </span>
             )}
           </span>
         </button>
@@ -119,32 +130,55 @@ function SectionPicker({ onSelect }: { onSelect: (id: string) => void }) {
 function SectionPage({
   id,
   onBack,
+  onClose,
   onOpenCaseStudy,
 }: {
   id: string;
   onBack: () => void;
-  onOpenCaseStudy: () => void;
+  onClose: () => void;
+  onOpenCaseStudy: (id: CaseStudyId) => void;
 }) {
   const section = SECTIONS.find((item) => item.id === id);
-  const pageTitle = id === "mint-condition" ? "Mint Condition" : section?.label;
+  const caseStudy = CASE_STUDIES[id as CaseStudyId];
+  const caseStudyTitle = caseStudy?.title;
+  const pageTitle =
+    caseStudyTitle ??
+    (id === "projects"
+      ? "My Work"
+      : id === "experience"
+        ? "Work Experience"
+        : section?.label);
 
   return (
-    <div className="home-page-view">
+    <div
+      className={`home-page-view home-page-${id}${
+        id === "projects" || caseStudy ? " home-page-fog" : ""
+      }`}
+    >
       <div className="home-page-toolbar">
-        <button type="button" className="home-back-button" onClick={onBack}>
-          <span aria-hidden="true">←</span> All sections
+        <button
+          type="button"
+          className="home-back-button"
+          onClick={onBack}
+          aria-label={
+            caseStudyTitle ? "Back to My Work" : "Back to all sections"
+          }
+        >
+          <img src="/icons/arrow-left.svg" alt="" width={24} height={24} />
+          {pageTitle}
         </button>
-        <span className="home-eyebrow">{pageTitle}</span>
+        <button
+          type="button"
+          className="home-close-button"
+          onClick={onClose}
+          aria-label="Close and return to all sections"
+        >
+          <img src="/icons/close.svg" alt="" width={24} height={24} />
+        </button>
       </div>
       {id === "experience" && <Experience />}
       {id === "projects" && <Projects onOpenCaseStudy={onOpenCaseStudy} />}
-      {id === "mint-condition" && (
-        <iframe
-          className="home-case-study-frame"
-          src="/case-studies/mint-condition?embedded=1"
-          title="Mint Condition case study"
-        />
-      )}
+      {caseStudy && <DeepDive study={caseStudy} />}
       {id === "now" && <Now />}
       {id === "about" && (
         <section className="home-about-page" aria-labelledby="about-page-title">
@@ -199,8 +233,13 @@ export default function HomeGrid() {
         {activeSection ? (
           <SectionPage
             id={activeSection}
-            onBack={() => setActiveSection(null)}
-            onOpenCaseStudy={() => setActiveSection("mint-condition")}
+            onBack={() =>
+              setActiveSection(
+                activeSection in CASE_STUDIES ? "projects" : null,
+              )
+            }
+            onClose={() => setActiveSection(null)}
+            onOpenCaseStudy={setActiveSection}
           />
         ) : (
           <SectionPicker onSelect={setActiveSection} />

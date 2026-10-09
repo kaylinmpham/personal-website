@@ -10,6 +10,9 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "*.gr-assets.com" },
       // Open Library covers
       { protocol: "https", hostname: "covers.openlibrary.org" },
+      // Instagram posts via Behold
+      { protocol: "https", hostname: "behold.pictures" },
+      { protocol: "https", hostname: "*.behold.pictures" },
     ],
   },
 };

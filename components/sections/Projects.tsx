@@ -1,151 +1,105 @@
 "use client";
 
-import { motion } from "motion/react";
-import { Button } from "../ui/Button";
+import type { MouseEvent } from "react";
+import Image from "next/image";
 
-const CHROME_STORE_URL =
-  "https://chromewebstore.google.com/detail/mint-condition/einkjpadmpkeaifhbbhiidohjmfdllip";
+import type { CaseStudyId } from "@/lib/caseStudies";
 
-const tags = ["Chrome Extension", "Product Design", "Frontend", "UX Research"];
+const caseStudies: {
+  id: CaseStudyId;
+  title: string;
+  summary: string;
+  bullets: string[];
+  image: string;
+  imageAlt: string;
+}[] = [
+  {
+    id: "dream-floral-art",
+    title: "Dream Floral Art",
+    summary:
+      "Freelance website design for a boutique floral studio specializing in Vietnamese weddings and tea ceremonies.",
+    bullets: [
+      "Designed and built a client website, including a contact page, testimonials, and about section.",
+      "Collaborated with the owner to translate her voice and cultural expertise into site copy and structure.",
+      "Built a visual layout system connecting imagery, content, and brand identity.",
+    ],
+    image: "/icons/dfa-ss.png",
+    imageAlt: "Dream Floral Art website homepage",
+  },
+  {
+    id: "mint-condition",
+    title: "Mint Condition",
+    summary:
+      "Chrome extension surfacing sustainability scores and secondhand eBay alternatives on retail product pages.",
+    bullets: [
+      "Built a Chrome extension surfacing sustainability scores and secondhand alternatives, using Cloudflare Workers, the eBay Browse API, and WikiRate data.",
+      "Owned interface design and decision logic, using Claude Code for implementation.",
+      "Searches over 1 billion eBay listings per query, returning 20 relevant results with load times under 2 seconds.",
+    ],
+    image: "/icons/mint-ss.png",
+    imageAlt: "Mint Condition extension running on a product page",
+  },
+];
 
 export default function Projects({
   onOpenCaseStudy,
 }: {
-  onOpenCaseStudy?: () => void;
+  onOpenCaseStudy?: (id: CaseStudyId) => void;
 } = {}) {
   return (
-    <section id="projects" className="mx-auto max-w-5xl px-6 py-section">
-      <div className="mb-5 flex items-center justify-between gap-4">
-        <p className="font-sans text-xs uppercase tracking-[0.2em] text-subtle">
-          Featured work
+    <section id="projects" className="work-page">
+      <div className="work-intro">
+        <h1 className="home-heading">Case studies / work</h1>
+        <p className="home-copy">
+          A deep-dive look at core product ships with architectural details.
         </p>
-
-        <div className="flex flex-wrap items-center justify-end gap-3">
-          <Button variant="outline" size="sm" asChild noMotion>
-            <a
-              href="/case-studies/mint-condition"
-              onClick={
-                onOpenCaseStudy
-                  ? (event) => {
-                      event.preventDefault();
-                      onOpenCaseStudy();
-                    }
-                  : undefined
-              }
-            >
-              Read case study
-            </a>
-          </Button>
-          <Button variant="highlight" size="sm" asChild noMotion>
-            <a
-              href={CHROME_STORE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Open Mint Condition on the Chrome Web Store"
-            >
-              Chrome Web Store ↗
-            </a>
-          </Button>
-        </div>
       </div>
 
-      <div className="rounded-[26px] border border-border bg-[#f2f0ec] p-4 sm:p-5 lg:p-6">
-        <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_11rem] lg:items-start">
-          <div className="w-full min-w-0 pr-1 lg:flex lg:min-h-44 lg:flex-col lg:justify-between">
-            <div className="space-y-4">
-              <h2 className="font-sligoil whitespace-nowrap text-[clamp(3.1rem,4vw,5.4rem)] leading-[0.72] tracking-[-0.04em] text-ink">
-                Mint Condition
-              </h2>
+      {caseStudies.map((study, index) => {
+        const openStudy = onOpenCaseStudy
+          ? (event: MouseEvent) => {
+              event.preventDefault();
+              onOpenCaseStudy(study.id);
+            }
+          : undefined;
 
-              <p className="max-w-none font-sans text-sm leading-relaxed text-subtle sm:text-[0.88rem] lg:text-[0.96rem]">
-                A Chrome extension that helps shoppers discover secondhand
-                alternatives while they&apos;re already browsing, turning
-                sustainability into an in-context decision instead of an extra
-                step.
-              </p>
+        return (
+          <article
+            key={study.id}
+            className={`work-study${index % 2 ? " work-study-reverse" : ""}`}
+          >
+            <a
+              href={`/case-studies/${study.id}`}
+              className="work-study-image"
+              onClick={openStudy}
+              aria-label={`Read the ${study.title} case study`}
+            >
+              <Image
+                src={study.image}
+                alt={study.imageAlt}
+                fill
+                sizes="(max-width: 900px) 100vw, 320px"
+              />
+            </a>
+            <div className="work-study-text">
+              <h2 className="home-heading">{study.title}</h2>
+              <p className="work-study-summary">{study.summary}</p>
             </div>
-
-            <div className="mt-4 flex flex-wrap gap-2 lg:mt-0">
-              {tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="rounded-full border border-border px-2.5 py-1 font-sans text-[9px] uppercase tracking-[0.12em] text-subtle"
-                >
-                  {tag}
-                </span>
+            <ul className="work-study-bullets">
+              {study.bullets.map((bullet) => (
+                <li key={bullet}>{bullet}</li>
               ))}
-            </div>
-          </div>
-
-          <div className="relative mx-auto h-64 w-64 overflow-hidden rounded-[14px] sm:h-80 sm:w-80 lg:mx-0 lg:h-44 lg:w-44 lg:justify-self-end">
-            <img
-              src="/icons/mint-condition.PNG"
-              alt="Mint Condition app icon"
-              className="h-full w-full max-w-full object-contain object-center"
-            />
-          </div>
-        </div>
-
-        <div className="mt-5 grid gap-3 sm:grid-cols-2">
-          <div className="rounded-[14px] border border-border bg-white/10 p-3">
-            <span className="mb-1.5 block font-sans text-[9px] uppercase tracking-[0.14em] text-subtle">
-              Problem
-            </span>
-            <p className="font-sans text-[0.86rem] leading-relaxed text-ink">
-              Sustainable shopping often requires leaving the page and doing
-              extra research, which breaks the flow at the exact moment someone
-              decides.
-            </p>
-          </div>
-
-          <div className="rounded-[14px] border border-border bg-white/10 p-3">
-            <span className="mb-1.5 block font-sans text-[9px] uppercase tracking-[0.14em] text-subtle">
-              Solution
-            </span>
-            <p className="font-sans text-[0.86rem] leading-relaxed text-ink">
-              Mint Condition surfaces secondhand alternatives directly in the
-              shopping experience, making better options feel quick and obvious.
-            </p>
-          </div>
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="mt-5 grid gap-3 md:grid-cols-3"
-        >
-          <div className="rounded-[14px] border border-border bg-white/10 p-3 sm:p-4">
-            <strong className="mb-1.5 block font-sans text-[9px] uppercase tracking-[0.15em] text-subtle">
-              Role
-            </strong>
-            <p className="font-sans text-[0.8rem] leading-relaxed text-subtle">
-              Product design and frontend implementation, from concept to
-              production.
-            </p>
-          </div>
-
-          <div className="rounded-[14px] border border-border bg-white/10 p-3 sm:p-4">
-            <strong className="mb-1.5 block font-sans text-[9px] uppercase tracking-[0.15em] text-subtle">
-              Tools
-            </strong>
-            <p className="font-sans text-[0.8rem] leading-relaxed text-subtle">
-              Chrome APIs, JavaScript, Cloudflare Workers, product prototyping.
-            </p>
-          </div>
-
-          <div className="rounded-[14px] border border-border bg-white/10 p-3 sm:p-4">
-            <strong className="mb-1.5 block font-sans text-[9px] uppercase tracking-[0.15em] text-subtle">
-              Outcome
-            </strong>
-            <p className="font-sans text-[0.8rem] leading-relaxed text-subtle">
-              Built and launched an in-context shopping experience for better
-              secondhand discovery.
-            </p>
-          </div>
-        </motion.div>
-      </div>
+            </ul>
+            <a
+              href={`/case-studies/${study.id}`}
+              className="home-tile-link work-study-link"
+              onClick={openStudy}
+            >
+              Read case study ↗
+            </a>
+          </article>
+        );
+      })}
     </section>
   );
 }
