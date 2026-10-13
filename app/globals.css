@@ -253,23 +253,44 @@ body {
 }
 
 .home-close-button {
+  position: relative;
   display: inline-flex;
-  width: 32px;
-  height: 32px;
+  width: 44px;
+  height: 44px;
+  margin-right: -8px;
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  border: 1px solid #000;
-  border-radius: 48px;
+  border: 0;
+  border-radius: 50%;
   padding: 0;
   background: transparent;
   cursor: pointer;
 }
 
-.home-back-button img,
-.home-close-button img {
+.home-close-button::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 26px;
+  height: 26px;
+  transform: translate(-50%, -50%);
+  border: 1px solid #000;
+  border-radius: 50%;
+  content: "";
+  pointer-events: none;
+}
+
+.home-back-button img {
   width: 24px;
   height: 24px;
+  transition: transform 160ms ease;
+}
+
+.home-close-button img {
+  position: relative;
+  width: 20px;
+  height: 20px;
   transition: transform 160ms ease;
 }
 
@@ -915,22 +936,106 @@ a.exp-company:hover {
 .home-page-view > .home-about-page {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 24px;
-  padding: clamp(40px, 5vw, 64px) clamp(24px, 7vw, 100px) 100px;
+  align-items: stretch;
+  gap: clamp(36px, 4vw, 52px);
+  padding: clamp(36px, 4vw, 56px) clamp(24px, 7vw, 100px) 64px;
   background: var(--color-panel-about);
 }
 
-.home-about-page .home-heading {
-  max-width: 16ch;
-  font-size: clamp(36px, 5vw, 72px);
+.home-about-intro,
+.home-about-practice {
+  display: grid;
+  gap: clamp(24px, 4vw, 64px);
+}
+
+.home-about-intro {
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: 20px;
+}
+
+.home-about-intro-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.home-about-title {
+  max-width: 34ch;
+  margin: 0;
+  color: var(--color-ink);
+  font-family: var(--font-chivo-mono), monospace;
+  font-size: clamp(24px, 2vw, 28px);
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.home-about-story {
+  display: flex;
+  max-width: none;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.home-about-practice {
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  row-gap: 16px;
+}
+
+.home-about-section-title,
+.home-about-note-title {
+  max-width: 22ch;
+  margin: 0;
+  color: var(--color-ink);
+  font-family: var(--font-chivo-mono), monospace;
+  font-size: clamp(20px, 1.8vw, 22px);
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.home-about-section-title {
+  font-size: clamp(20px, 1.8vw, 22px);
+}
+
+.home-about-principles {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid rgb(53 19 29 / 0.32);
+}
+
+.home-about-principle {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.7fr) minmax(0, 1.3fr);
+  align-items: baseline;
+  min-width: 0;
+  gap: clamp(18px, 4vw, 56px);
+  border-bottom: 1px solid rgb(53 19 29 / 0.32);
+  padding: 16px 0;
+}
+
+.home-about-principle h3 {
+  margin: 0;
+  color: var(--color-ink);
+  font:
+    800 14px/1.4 var(--font-chivo-mono),
+    monospace;
+}
+
+.home-about-principle p {
+  margin: 0;
+  color: var(--color-subtle);
+  font:
+    400 14px/1.7 var(--font-chivo-mono),
+    monospace;
 }
 
 .home-about-copy {
-  max-width: 54ch;
   margin: 0;
   color: var(--color-subtle);
-  font: 400 14px/1.75 var(--font-sans);
+  font:
+    400 14px/1.7 var(--font-chivo-mono),
+    monospace;
 }
 
 .home-tile {
@@ -1059,8 +1164,7 @@ a.exp-company:hover {
 }
 
 .home-contact-links a:hover,
-.home-now-item:hover strong,
-.home-tile-work:hover .home-tile-link {
+.home-now-item:hover strong {
   color: var(--color-accent);
 }
 
@@ -1076,6 +1180,19 @@ a.exp-company:hover {
   }
   .home-contact-links {
     gap: 12px;
+  }
+  .home-about-intro,
+  .home-about-practice {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .home-about-principles {
+    gap: 0;
+  }
+  .home-about-principle {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+    padding: 14px 0;
   }
 }
 
@@ -1151,6 +1268,10 @@ a.exp-company:hover {
   }
   .home-page-view > section {
     padding: 28px 20px;
+  }
+  .home-page-view > .home-about-page {
+    gap: 36px;
+    padding: 32px 20px 48px;
   }
   .home-contact-links {
     gap: 8px;

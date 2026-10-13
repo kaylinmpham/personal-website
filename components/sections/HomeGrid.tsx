@@ -25,7 +25,7 @@ const SECTIONS = [
     id: "experience",
     label: "Experience",
     title: "From Figma to production.",
-    copy: "Three years between design and production, turning thoughtful Figma work into accessible interfaces and the systems behind them.",
+    copy: "With three years in UX, product design, and full-stack engineering, I’ve built accessible interfaces and maintained design systems. I enjoy bringing design and engineering closer to make thoughtful products easier to bring to life.",
     className: "home-tile-experience",
   },
   {
@@ -107,17 +107,17 @@ function SectionPicker({ onSelect }: { onSelect: (id: string) => void }) {
             </span>
           )}
           <span className="home-tile-content">
+            <span className="home-heading">{section.title}</span>
+            <span className="home-copy">{section.copy}</span>
+
             {section.id === "experience" && (
               <span className="home-tile-link">
                 CoStar Group · Jacobs · NASA
               </span>
             )}
-            <span className="home-heading">{section.title}</span>
-            <span className="home-copy">{section.copy}</span>
-
             {section.id === "projects" && (
               <span className="home-tile-link">
-                Dream Floral Art · Mint Condition ↗
+                Dream Floral Art · Mint Condition
               </span>
             )}
           </span>
@@ -182,25 +182,66 @@ function SectionPage({
       {id === "now" && <Now />}
       {id === "about" && (
         <section className="home-about-page" aria-labelledby="about-page-title">
-          <p className="home-eyebrow">About me</p>
-          <h1 className="home-heading" id="about-page-title">
-            I&apos;m Kaylin, a SWE turned design engineer.
-          </h1>
-          <p className="home-about-copy">
-            I&apos;m drawn to the details that make the web feel human:
-            thoughtful interactions, accessible interfaces, and spaces where
-            design and engineering meet. I work across product design and
-            frontend engineering, turning clear ideas into useful, carefully
-            crafted experiences.
-          </p>
-          <a
-            className="home-tile-link"
-            href="/resume.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
+          <header className="home-about-intro">
+            <div className="home-about-intro-heading">
+              <h1 className="home-about-title" id="about-page-title">
+                I bring creative ideas to life through design and code.
+              </h1>
+            </div>
+            <div className="home-about-story">
+              <p className="home-about-copy">
+                I&apos;ve always loved having a creative outlet. Design
+                engineering lets me carry an idea from the first sketch through
+                the code that brings it to life.
+              </p>
+              <p className="home-about-copy">
+                I care about accessible, user-centered experiences and the small
+                details that make them feel clear and human. I also enjoy
+                bringing design and engineering closer, so the work gets better
+                as it moves from idea to implementation.
+              </p>
+            </div>
+          </header>
+
+          <section
+            className="home-about-practice"
+            aria-labelledby="about-practice-title"
           >
-            View resume ↗
-          </a>
+            <div className="home-about-section-heading">
+              <h2
+                className="home-about-section-title"
+                id="about-practice-title"
+              >
+                How I work
+              </h2>
+            </div>
+            <div className="home-about-principles">
+              <article className="home-about-principle">
+                <h3>Start with people</h3>
+                <p>
+                  I translate user needs into clear, accessible experiences and
+                  let that understanding guide product decisions.
+                </p>
+              </article>
+              <article className="home-about-principle">
+                <h3>Own the full journey</h3>
+                <p>
+                  I move ideas from first sketch to production, using feedback
+                  to sharpen the work. On Dream Floral Art, rounds of feedback
+                  and iteration helped me refine the site to let the
+                  studio&apos;s floral work shine.
+                </p>
+              </article>
+              <article className="home-about-principle">
+                <h3>Care about the details</h3>
+                <p>
+                  Thoughtful interactions, accessible interfaces, and reusable
+                  patterns keep the experience cohesive from first click to
+                  last.
+                </p>
+              </article>
+            </div>
+          </section>
         </section>
       )}
     </div>
