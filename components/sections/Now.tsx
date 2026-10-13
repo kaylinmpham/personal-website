@@ -292,8 +292,8 @@ export default function Now() {
       </div>
 
       <div className="now-grid">
-        <SpotifyWidget />
         <ReadingWidget />
+        <SpotifyWidget />
         <PotteryWidget />
       </div>
     </section>
