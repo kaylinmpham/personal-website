@@ -13,6 +13,12 @@ const TOP_ARTISTS_ENDPOINT =
   "https://api.spotify.com/v1/me/top/artists?time_range=short_term&limit=5";
 
 async function getAccessToken(): Promise<string> {
+  if (!CLIENT_ID || !CLIENT_SECRET || !REFRESH_TOKEN) {
+    throw new Error(
+      "Missing SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, or SPOTIFY_REFRESH_TOKEN"
+    );
+  }
+
   const basicAuth = Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString(
     "base64"
   );
