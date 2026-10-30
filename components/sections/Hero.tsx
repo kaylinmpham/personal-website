@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { Sparkles } from "lucide-react";
 import { motion } from "motion/react";
 
 const INTRO =
@@ -92,13 +93,13 @@ export default function Hero() {
     >
       {/* Floating accent marks */}
       <div className="pointer-events-none absolute left-[10%] top-[20%] rotate-[-15deg] font-cursive text-2xl text-muted opacity-15">
-        ✦
+        <Sparkles size={24} aria-hidden="true" />
       </div>
       <div className="pointer-events-none absolute right-[12%] top-[30%] rotate-12 font-cursive text-2xl text-muted opacity-15">
-        ✦
+        <Sparkles size={24} aria-hidden="true" />
       </div>
       <div className="pointer-events-none absolute bottom-[15%] left-[15%] rotate-[8deg] font-cursive text-2xl text-muted opacity-15">
-        ✦
+        <Sparkles size={24} aria-hidden="true" />
       </div>
 
       <motion.div

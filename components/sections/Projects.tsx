@@ -2,6 +2,7 @@
 
 import type { MouseEvent } from "react";
 import Image from "next/image";
+import { ArrowUpRight } from "lucide-react";
 
 import type { CaseStudyId } from "@/lib/caseStudies";
 
@@ -49,9 +50,9 @@ export default function Projects({
   return (
     <section id="projects" className="work-page">
       <div className="work-intro">
-        <h1 className="home-heading">Case studies / work</h1>
+        <h1 className="home-heading">Case studies</h1>
         <p className="home-copy">
-          A deep-dive look at core product ships with architectural details.
+          A deeper look at work I've shipped with architectural details.
         </p>
       </div>
 
@@ -82,7 +83,15 @@ export default function Projects({
               />
             </a>
             <div className="work-study-text">
-              <h2 className="home-heading">{study.title}</h2>
+              <h2 className="home-heading">
+                <a
+                  href={`/case-studies/${study.id}`}
+                  className="work-study-title-link"
+                  onClick={openStudy}
+                >
+                  {study.title}
+                </a>
+              </h2>
               <p className="work-study-summary">{study.summary}</p>
             </div>
             <ul className="work-study-bullets">
@@ -95,7 +104,7 @@ export default function Projects({
               className="home-tile-link work-study-link"
               onClick={openStudy}
             >
-              Read case study ↗
+              Read case study <ArrowUpRight size={14} aria-hidden="true" />
             </a>
           </article>
         );

@@ -36,7 +36,7 @@ export const CASE_STUDIES: Record<CaseStudyId, CaseStudy> = {
     intro:
       "Dream Floral Art is a boutique floral studio specializing in luxury Vietnamese wedding tea ceremony florals and design in the D.C. area. I redesigned and built its website to match the quality of the work.",
     link: {
-      label: "Visit dreamfloralart.com ↗",
+      label: "Visit dreamfloralart.com",
       href: "https://dreamfloralart.com/",
     },
     overview: [
@@ -100,7 +100,7 @@ export const CASE_STUDIES: Record<CaseStudyId, CaseStudy> = {
     intro:
       "Mint Condition puts the ethics check and the secondhand search where you are already shopping.",
     link: {
-      label: "Open in Chrome Web Store ↗",
+      label: "Open in Chrome Web Store",
       href: "https://chromewebstore.google.com/detail/mint-condition/einkjpadmpkeaifhbbhiidohjmfdllip",
     },
     overview: [

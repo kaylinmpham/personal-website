@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { ArrowUpRight } from "lucide-react";
 import LoopingVideo from "@/components/ui/LoopingVideo";
 import type { CaseStudy } from "@/lib/caseStudies";
 
@@ -26,6 +27,7 @@ export default function DeepDive({ study }: { study: CaseStudy }) {
           rel="noopener noreferrer"
         >
           {study.link.label}
+          <ArrowUpRight size={14} aria-hidden="true" />
         </a>
       </div>
 

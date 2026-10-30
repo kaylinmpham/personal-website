@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import type { ReactNode } from "react";
+import { ArrowUpRight, Play } from "lucide-react";
 import { motion } from "motion/react";
 import { useNowPlaying } from "@/hooks/useNowPlaying";
 import { useCurrentlyReading } from "@/hooks/useCurrentlyReading";
@@ -43,6 +44,7 @@ function NowBlock({
             className="home-tile-link now-link"
           >
             {link.label}
+            <ArrowUpRight size={14} aria-hidden="true" />
           </a>
         )}
       </div>
@@ -232,7 +234,7 @@ function PotteryWidget() {
   return (
     <NowBlock
       title="Making"
-      link={{ label: "@kaylinsarchive ↗", href: INSTAGRAM_URL }}
+      link={{ label: "@kaylinsarchive", href: INSTAGRAM_URL }}
       wide
       delay={0.15}
     >
@@ -264,9 +266,7 @@ function PotteryWidget() {
               />
               {post.mediaType === "VIDEO" && (
                 <span className="now-pottery-play" aria-hidden="true">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
+                  <Play size={20} fill="currentColor" aria-hidden="true" />
                 </span>
               )}
             </a>

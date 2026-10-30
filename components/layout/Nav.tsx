@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/components/ui/ThemeProvider";
@@ -180,29 +181,16 @@ export default function Nav() {
 
         {/* Mobile hamburger */}
         <button
-          className="md:hidden flex flex-col gap-1.5 p-1"
+          className="md:hidden p-1 text-ink"
           onClick={() => setMenuOpen((o) => !o)}
-          aria-label="Toggle menu"
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
           aria-expanded={menuOpen}
         >
-          <span
-            className={cn(
-              "w-6 h-0.5 bg-ink transition-all duration-300 origin-center",
-              menuOpen && "rotate-45 translate-y-2",
-            )}
-          />
-          <span
-            className={cn(
-              "w-6 h-0.5 bg-ink transition-all duration-300",
-              menuOpen && "opacity-0",
-            )}
-          />
-          <span
-            className={cn(
-              "w-6 h-0.5 bg-ink transition-all duration-300 origin-center",
-              menuOpen && "-rotate-45 -translate-y-2",
-            )}
-          />
+          {menuOpen ? (
+            <X size={24} aria-hidden="true" />
+          ) : (
+            <Menu size={24} aria-hidden="true" />
+          )}
         </button>
       </nav>
 

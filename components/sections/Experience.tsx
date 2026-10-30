@@ -5,6 +5,7 @@ import {
   DisclosureButton,
   DisclosurePanel,
 } from "@headlessui/react";
+import { ArrowUpRight, Minus, Plus } from "lucide-react";
 import { motion } from "motion/react";
 import type { ExperienceItem } from "@/types";
 
@@ -120,7 +121,11 @@ export default function Experience() {
                     <span className="home-heading exp-role">{item.role}</span>
                   </span>
                   <span className="exp-toggle" aria-hidden="true">
-                    {open ? "[−]" : "[+]"}
+                    {open ? (
+                      <Minus size={18} aria-hidden="true" />
+                    ) : (
+                      <Plus size={18} aria-hidden="true" />
+                    )}
                   </span>
                 </DisclosureButton>
 
@@ -155,7 +160,8 @@ export default function Experience() {
                           rel="noopener noreferrer"
                           className="exp-company"
                         >
-                          {item.company} ↗
+                          {item.company}{" "}
+                          <ArrowUpRight size={14} aria-hidden="true" />
                         </a>
                       ) : (
                         <span className="exp-company">{item.company}</span>

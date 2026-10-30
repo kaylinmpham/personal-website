@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { ArrowLeft, X } from "lucide-react";
 import Experience from "@/components/sections/Experience";
 import Projects from "@/components/sections/Projects";
 import Now from "@/components/sections/Now";
@@ -30,9 +31,9 @@ const SECTIONS = [
   },
   {
     id: "projects",
-    label: "Selected project",
+    label: "Selected projects",
     title: "My work",
-    copy: "My work is out in the real world, from first sketch to shipped product.",
+    copy: "My work is out in the real world, take a peak at the process from first sketch to shipped product.",
     images: [
       { src: "/icons/dfa-ss.png", alt: "Dream Floral Art website" },
       { src: "/icons/mint-ss.png", alt: "Mint Condition extension" },
@@ -164,7 +165,7 @@ function SectionPage({
             caseStudyTitle ? "Back to My Work" : "Back to all sections"
           }
         >
-          <img src="/icons/arrow-left.svg" alt="" width={24} height={24} />
+          <ArrowLeft size={24} aria-hidden="true" />
           {pageTitle}
         </button>
         <button
@@ -173,7 +174,7 @@ function SectionPage({
           onClick={onClose}
           aria-label="Close and return to all sections"
         >
-          <img src="/icons/close.svg" alt="" width={24} height={24} />
+          <X size={20} aria-hidden="true" />
         </button>
       </div>
       {id === "experience" && <Experience />}

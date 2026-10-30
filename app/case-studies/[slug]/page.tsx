@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
 import DeepDive from "@/components/sections/DeepDive";
 import { CASE_STUDIES, type CaseStudyId } from "@/lib/caseStudies";
 
@@ -20,9 +21,10 @@ export default async function CaseStudyPage({
     <main className="deep-dive-page">
       <Link
         href="/"
-        className="font-sans text-xs uppercase tracking-[0.2em] text-subtle hover:text-ink"
+        className="inline-flex items-center gap-2 font-sans text-xs uppercase tracking-[0.2em] text-subtle hover:text-ink"
       >
-        ← Back to portfolio
+        <ArrowLeft size={14} aria-hidden="true" />
+        Back to portfolio
       </Link>
       <DeepDive study={study} />
     </main>
