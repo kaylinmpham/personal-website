@@ -60,6 +60,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+img {
+  border-radius: 2px;
+}
+
 ::selection {
   background-color: var(--color-accent);
   color: var(--color-paper);
@@ -270,22 +274,9 @@ body {
   cursor: pointer;
 }
 
-.home-close-button::before {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 26px;
-  height: 26px;
-  transform: translate(-50%, -50%);
-  border: 1px solid var(--color-ink);
-  border-radius: 50%;
-  content: "";
-  pointer-events: none;
-}
-
 .home-back-button svg {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   transition: transform 160ms ease;
 }
 
@@ -356,7 +347,7 @@ body {
   width: 100%;
   aspect-ratio: 3024 / 1508;
   overflow: hidden;
-  border-radius: 8px;
+  border-radius: 2px;
   background: var(--color-paper);
 }
 
@@ -462,7 +453,7 @@ body {
   position: relative;
   width: 100%;
   overflow: hidden;
-  border-radius: 8px;
+  border-radius: 2px;
 }
 
 .deep-dive-hero img {
@@ -473,7 +464,7 @@ body {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 8px;
+  border-radius: 2px;
   background: var(--color-paper);
 }
 
@@ -704,6 +695,12 @@ a.exp-company:hover {
   line-height: 1.6;
 }
 
+@media (max-width: 1024px) {
+  .exp-body {
+    grid-template-columns: 200px minmax(0, 1fr);
+  }
+}
+
 @media (max-width: 900px) {
   .exp-body,
   .exp-skill-groups {
@@ -793,7 +790,7 @@ a.exp-company:hover {
   height: 56px;
   flex-shrink: 0;
   overflow: hidden;
-  border-radius: 6px;
+  border-radius: 2px;
   background: rgb(53 19 29 / 0.12);
 }
 
@@ -804,8 +801,13 @@ a.exp-company:hover {
 
 .now-item-art-book {
   width: 40px;
+  height: 60px;
   margin-inline: 8px;
-  border-radius: 3px;
+  border-radius: 2px;
+}
+
+.now-item-art-book img {
+  object-fit: contain;
 }
 
 .now-item:hover .now-item-art img {
@@ -870,7 +872,7 @@ a.exp-company:hover {
   position: relative;
   aspect-ratio: 1;
   overflow: hidden;
-  border-radius: 8px;
+  border-radius: 2px;
   background: rgb(53 19 29 / 0.12);
 }
 
@@ -1166,7 +1168,7 @@ a.exp-company:hover {
   width: 100%;
   aspect-ratio: 3024 / 1508;
   overflow: hidden;
-  border-radius: 6px;
+  border-radius: 2px;
   background: var(--color-paper);
 }
 
