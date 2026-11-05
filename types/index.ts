@@ -59,6 +59,8 @@ export interface Book {
   rating: number;
   /** "currently-reading" | "read" | "to-read" */
   shelf: string;
+  /** Optional label overriding the default shelf label, e.g. "Latest 5-star read" */
+  highlight?: string;
 }
 
 // ─────────────────────────────────────────

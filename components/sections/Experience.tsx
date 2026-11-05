@@ -15,7 +15,7 @@ const EXPERIENCE: ExperienceItem[] = [
     role: "Software Engineer",
     period: "2023 – 2026",
     scope: "Front-End / Full-Stack / Product Design",
-    team: "Sync",
+    team: "Sync Team",
     tools:
       "Figma, TypeScript, Remix, React, C#, .NET, AWS, Kafka, Azure, Datadog, ARIA/WCAG",
     bullets: [

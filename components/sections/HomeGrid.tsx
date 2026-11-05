@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { ArrowLeft, X } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, X } from "lucide-react";
 import Experience from "@/components/sections/Experience";
 import Projects from "@/components/sections/Projects";
 import Now from "@/components/sections/Now";
@@ -11,28 +11,45 @@ import { CASE_STUDIES, type CaseStudyId } from "@/lib/caseStudies";
 
 const EMAIL = "kaylin.renee.pham@gmail.com";
 
-const SOCIAL_LINKS = [
+const CONTACT_LINKS = [
+  {
+    label: "Contact",
+    href: `mailto:${EMAIL}`,
+    external: false,
+    hint: "Get in touch via email",
+  },
   {
     label: "LinkedIn",
     href: "https://linkedin.com/in/kaylinpham",
     external: true,
+    hint: "Connect with me on LinkedIn",
   },
-  { label: "GitHub", href: "https://github.com/kaylinmpham", external: true },
-  { label: "Resume.cv", href: "/resume.pdf", external: false },
+  {
+    label: "GitHub",
+    href: "https://github.com/kaylinmpham",
+    external: true,
+    hint: "Explore my code on GitHub",
+  },
+  {
+    label: "Resume.cv",
+    href: "/resume.pdf",
+    external: false,
+    hint: "View my resume as a PDF",
+  },
 ];
 
 const SECTIONS = [
   {
     id: "experience",
-    label: "Experience",
+    label: "Professional Experience",
     title: "From Figma to production.",
     copy: "With three years in UX, product design, and full-stack engineering, I’ve built accessible interfaces and maintained design systems. I enjoy bringing design and engineering closer to make thoughtful products easier to bring to life.",
     className: "home-tile-experience",
   },
   {
     id: "projects",
-    label: "Selected projects",
-    title: "My work",
+    label: "My Work",
+    title: "Projects & process",
     copy: "My work is out in the real world, take a peak at the process from first sketch to shipped product.",
     images: [
       { src: "/icons/dfa-ss.png", alt: "Dream Floral Art website" },
@@ -61,20 +78,26 @@ function ContactTile() {
     <section className="home-tile home-tile-contact" aria-label="Let's connect">
       <p className="home-eyebrow">Let&apos;s connect</p>
       <div className="home-contact-links">
-        <a href={`mailto:${EMAIL}`} className="home-heading">
-          Contact
-        </a>
-        {SOCIAL_LINKS.map((link) => (
-          <a
-            key={link.label}
-            href={link.href}
-            className="home-heading"
-            target={link.external ? "_blank" : undefined}
-            rel={link.external ? "noopener noreferrer" : undefined}
-          >
-            {link.label}
-          </a>
-        ))}
+        {CONTACT_LINKS.map((link) => {
+          const hintId = `contact-hint-${link.label.toLowerCase()}`;
+          return (
+            <div key={link.label} className="home-contact-item">
+              <a
+                href={link.href}
+                className="home-heading"
+                aria-describedby={hintId}
+                target={link.external ? "_blank" : undefined}
+                rel={link.external ? "noopener noreferrer" : undefined}
+              >
+                {link.label}
+                <ArrowUpRight size="0.6em" aria-hidden="true" />
+              </a>
+              <span id={hintId} className="home-contact-hint">
+                {link.hint}
+              </span>
+            </div>
+          );
+        })}
       </div>
     </section>
   );
@@ -147,7 +170,7 @@ function SectionPage({
     (id === "projects"
       ? "My Work"
       : id === "experience"
-        ? "Work Experience"
+        ? "Professional Experience"
         : section?.label);
 
   return (
@@ -165,7 +188,7 @@ function SectionPage({
             caseStudyTitle ? "Back to My Work" : "Back to all sections"
           }
         >
-          <ArrowLeft size={24} aria-hidden="true" />
+          <ArrowLeft size={20} aria-hidden="true" />
           {pageTitle}
         </button>
         <button

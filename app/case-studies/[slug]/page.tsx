@@ -23,7 +23,7 @@ export default async function CaseStudyPage({
         href="/"
         className="inline-flex items-center gap-2 font-sans text-xs uppercase tracking-[0.2em] text-subtle hover:text-ink"
       >
-        <ArrowLeft size={14} aria-hidden="true" />
+        <ArrowLeft size={20} aria-hidden="true" />
         Back to portfolio
       </Link>
       <DeepDive study={study} />

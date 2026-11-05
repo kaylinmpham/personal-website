@@ -319,7 +319,9 @@ img {
 }
 
 .work-intro .home-copy {
-  font-size: 13px;
+  max-width: 56ch;
+  font-size: 15px;
+  line-height: 1.6;
 }
 
 .work-study {
@@ -351,13 +353,30 @@ img {
   background: var(--color-paper);
 }
 
-.work-study-image img {
-  object-fit: contain;
-  transition: transform 300ms ease;
+.work-study-label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 6px 10px;
+  background: var(--color-ink);
+  color: var(--color-white);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 280ms ease;
 }
 
-.work-study-image:hover img {
-  transform: scale(1.03);
+.work-study-image:hover .work-study-label,
+.work-study-image:focus-visible .work-study-label {
+  clip-path: inset(0 0 0 0);
+}
+
+.work-study-image img {
+  object-fit: contain;
 }
 
 .work-study-text {
@@ -810,8 +829,12 @@ a.exp-company:hover {
   object-fit: contain;
 }
 
+.now-item-art img {
+  transition: filter 200ms ease;
+}
+
 .now-item:hover .now-item-art img {
-  transform: scale(1.05);
+  filter: brightness(1.08) saturate(1.1);
 }
 
 .now-item-text {
@@ -876,19 +899,42 @@ a.exp-company:hover {
   background: rgb(53 19 29 / 0.12);
 }
 
-.now-pottery-tile img {
-  object-fit: cover;
-  transition: transform 300ms ease;
+.now-pottery-tile {
+  transition: opacity 240ms ease;
 }
 
-.now-pottery-tile:hover img {
-  transform: scale(1.03);
+.now-pottery-tile img {
+  object-fit: cover;
+}
+
+.now-pottery-grid:hover .now-pottery-tile:not(:hover, :focus-visible) {
+  opacity: 0.55;
+}
+
+.now-pottery-arrow {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  color: var(--color-white);
+  filter: drop-shadow(0 1px 3px rgb(0 0 0 / 0.5));
+  opacity: 0;
+  transform: translate(-4px, 4px);
+  transition:
+    opacity 200ms ease,
+    transform 200ms ease;
+}
+
+.now-pottery-tile:hover .now-pottery-arrow,
+.now-pottery-tile:focus-visible .now-pottery-arrow {
+  opacity: 1;
+  transform: none;
 }
 
 .now-pottery-play {
   position: absolute;
   top: 12px;
-  right: 12px;
+  left: 12px;
   display: flex;
   width: 32px;
   height: 32px;
@@ -1187,6 +1233,9 @@ a.exp-company:hover {
 }
 
 .home-contact-links a {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.2em;
   font-size: clamp(20px, 1.8vw, 28px);
   transition: color 160ms ease;
 }
@@ -1194,6 +1243,45 @@ a.exp-company:hover {
 .home-contact-links a:hover,
 .home-now-item:hover strong {
   color: var(--color-accent);
+}
+
+.home-contact-item {
+  position: relative;
+}
+
+.home-contact-links a svg {
+  opacity: 0;
+  transform: translate(-4px, 4px);
+  transition:
+    opacity 200ms ease,
+    transform 200ms ease;
+}
+
+.home-contact-item:hover a svg,
+.home-contact-item:focus-within a svg {
+  opacity: 1;
+  transform: none;
+}
+
+.home-contact-hint {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 2px;
+  color: var(--color-ink);
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  opacity: 0.6;
+  pointer-events: none;
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 280ms ease;
+}
+
+.home-contact-item:hover .home-contact-hint,
+.home-contact-item:focus-within .home-contact-hint {
+  clip-path: inset(0 0 0 0);
 }
 
 @media (max-width: 900px) {
@@ -1315,20 +1403,40 @@ a.exp-company:hover {
   }
 }
 
+@media (hover: none) {
+  .work-study-label {
+    clip-path: inset(0 0 0 0);
+  }
+  .home-contact-links a svg,
+  .now-pottery-arrow {
+    opacity: 1;
+    transform: none;
+  }
+  .home-contact-hint {
+    position: static;
+    display: block;
+    margin-top: 4px;
+    clip-path: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .now-skeleton {
     animation: none;
   }
   .home-contact-links a,
+  .home-contact-links a svg,
+  .home-contact-hint,
   .home-tile-contact,
   .exp-toggle,
   .exp-role,
   .home-section-choice,
   .home-back-button svg,
   .home-close-button svg,
-  .work-study-image img,
+  .work-study-label,
   .now-item-art img,
-  .now-pottery-tile img {
+  .now-pottery-tile,
+  .now-pottery-arrow {
     transition: none;
   }
 }

@@ -188,7 +188,7 @@ function SpotifyWidget() {
 function ReadingWidget() {
   const { data, loading } = useCurrentlyReading();
   const books = [
-    ...data.currentlyReading.slice(0, 2),
+    ...data.currentlyReading.slice(0, 1),
     ...data.recentReads,
   ].slice(0, 3);
 
@@ -209,9 +209,10 @@ function ReadingWidget() {
               }
               artShape="book"
               label={
-                book.shelf === "currently-reading"
+                book.highlight ??
+                (book.shelf === "currently-reading"
                   ? "Currently reading"
-                  : "Just finished"
+                  : "Just finished")
               }
               title={book.title}
               subtitle={book.author}
@@ -264,6 +265,9 @@ function PotteryWidget() {
                 fill
                 sizes="(max-width: 700px) 33vw, 20vw"
               />
+              <span className="now-pottery-arrow" aria-hidden="true">
+                <ArrowUpRight size={18} aria-hidden="true" />
+              </span>
               {post.mediaType === "VIDEO" && (
                 <span className="now-pottery-play" aria-hidden="true">
                   <Play size={20} fill="currentColor" aria-hidden="true" />
@@ -285,9 +289,9 @@ export default function Now() {
   return (
     <section id="now" className="now-page">
       <div className="work-intro">
-        <h1 className="home-heading">What I&apos;m up to</h1>
         <p className="home-copy">
-          A running log of what I&apos;ve been into lately off the clock.
+          A running log of what I&apos;ve been reading, listening to, and
+          making lately, off the clock.
         </p>
       </div>
 
